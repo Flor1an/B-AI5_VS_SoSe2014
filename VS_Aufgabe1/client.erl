@@ -12,40 +12,19 @@
 
 
 %% API
--export([con/1,start/0]).
+-export([con/1,redakteur/0,leser/0]).
 
 con(Servername)->
   net_adm:ping(Servername).
 
-start()-> %%REDAKTEUR!!
+%%REDAKTEUR!######################################################
+redakteur()->
   Number = getNum(),%Nummer organisieren
   %TODO: TIMER required
   send(Number). %Nahricht mit der Nummer schicken
 
 
-% Anfrage der Clients
-%rpc(Req) ->
-% Nachschlagen der Prozessid des Servers
-%  Server = global:whereis_name(theserver),
-% Kontrollausgabe
-%  io:format("Server PID ~p~n", [Server]),
-% request versenden
-%  Server ! {self(),{request,Req}},
-% Antwort emfangen und ausgeben
-%  receive {theserver,{reply,Rep}} ->
-%      io:format("Reply ~w~n", [Rep]);
-%    Any ->
-%      io:format("Illegal Response ~w~n", [Any])
-%  end.
 
-getAll() ->
-  Server = global:whereis_name(theserver),
-  io:format("Server PID ~p~n", [Server]),
-
-  Server ! { query_messages, self()},
-  receive { message, Number,Nachricht,Terminated} ->
-      io:format("~w : ~s : ~w~n", [Number,Nachricht,Terminated])
-  end.
 
 getNum() ->
   Server = global:whereis_name(theserver),
@@ -66,16 +45,15 @@ send(Number) ->
     _ ->
       %Senden
       Server = global:whereis_name(theserver),
-
-      EigenenNamen="client",
-      RechnerName="@FloUB",
+      EigenenNamen="bla",
+      RechnerName=net_adm:localhost(),
       ProzessNummer=io_lib:format("~p", [Server]),
       PraktikumsGruppe="02",
       TeamNummer="03",
       AktuelleSystemzeit=werkzeug:timeMilliSecond(),
 
 
-      Nachricht=string:join([EigenenNamen,RechnerName,ProzessNummer,PraktikumsGruppe,TeamNummer,AktuelleSystemzeit],"-"),
+      Nachricht=string:join([EigenenNamen,"@",RechnerName,ProzessNummer,PraktikumsGruppe,TeamNummer,AktuelleSystemzeit],"-"),
       io:format("SENDING: ~p ~s~n", [Number, Nachricht]),
 
 
@@ -83,6 +61,28 @@ send(Number) ->
       io:format(ok)
 end.
 
+
+%%LESER!##################################################
+leser() ->
+  getNext().
+
+
+
+getNext() ->
+  Server = global:whereis_name(theserver),
+  io:format("Server PID ~p~n", [Server]),
+
+  Server ! { query_messages, self()},
+  receive
+
+    { message, Number,Nachricht,true} -> %%Keine weiteren Nachrichten auf Server
+      io:format("ALLER LETZTE NACHTICHT: ~w : ~s : ~w~n", [Number,Nachricht,true]);
+
+    { message, Number,Nachricht,false} -> %% NOCH weitere NAchrichten auf Server
+      io:format("WEITERE NACHRICHTEN VORHANDEN: ~w : ~s : ~w~n", [Number,Nachricht,false]),
+      getNext() %%TODO: zurzeit endlosscheleife
+
+  end.
 
 
 

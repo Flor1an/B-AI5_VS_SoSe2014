@@ -38,7 +38,7 @@ start() ->
 server(Status) ->
   receive
 
-    {query_messages, From} -> %Abfragen aller Nachrichten
+    {query_messages, From} -> %Abfragen aller Nachrichten (Nacheinander)
       Return = query_messages(),
 
       {MsgId,Nachricht,Terminated} = Return, %Aufsplitten
