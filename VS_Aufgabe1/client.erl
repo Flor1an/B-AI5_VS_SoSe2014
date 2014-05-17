@@ -9,7 +9,6 @@
 -module(client).
 -author("Florian").
 
--import(werkzeug, [timeMilliSecond/0]).
 
 
 %% API
@@ -59,21 +58,31 @@ getNum() ->
   end.
 
 send(Number) ->
-  Server = global:whereis_name(theserver),
-  io:format("Number ~w to Server PID ~p~n", [Number,Server]),
+  %Drop one out of six
+  case Number rem 5 of
+    0 ->
+      %Vergessen
+      io:format("NO MESSAGE SEND DUE TO RESTRICTION BY MISSION!~n");
+    _ ->
+      %Senden
+      Server = global:whereis_name(theserver),
 
-  EigenenNamen="client",
-  RechnerName="@FloUB",
-  ProzessNummer="23456",
-  PraktikumsGruppe="02",
-  TeamNummer="03",
-  AktuelleSystemzeit=timeMilliSecond(),
+      EigenenNamen="client",
+      RechnerName="@FloUB",
+      ProzessNummer=io_lib:format("~p", [Server]),
+      PraktikumsGruppe="02",
+      TeamNummer="03",
+      AktuelleSystemzeit=werkzeug:timeMilliSecond(),
 
 
-  Nachricht=string:join([EigenenNamen,RechnerName,ProzessNummer,PraktikumsGruppe,TeamNummer,AktuelleSystemzeit],"-"),
-  %TODO: Drop one out of six
-  Server ! {new_message, {Nachricht, Number}},
-  io:format(ok).
+      Nachricht=string:join([EigenenNamen,RechnerName,ProzessNummer,PraktikumsGruppe,TeamNummer,AktuelleSystemzeit],"-"),
+      io:format("SENDING: ~p ~s~n", [Number, Nachricht]),
+
+
+      Server ! {new_message, {Nachricht, Number}},
+      io:format(ok)
+end.
+
 
 
 
