@@ -46,8 +46,8 @@ server(Status) ->
       From ! {message, MsgId,Nachricht,Terminated},% SIGNATURE: message,Number,Nachricht,Terminated
       server(Status);
 
-    {new_message, From} -> %Senden einer Nachricht
-      new_message(),
+    {new_message, {Nachricht,Number}} -> %Senden einer Nachricht
+      new_message({Nachricht,Number}),
       %NO REPLY REQUIRED
       server(Status);
 
@@ -66,8 +66,8 @@ query_messages() ->
   FakeBool = true,
   {FakeID,FakeMessage,FakeBool}.
 
-new_message() ->
-  io:format("new_message METHODE~n").
+new_message({Nachricht,Number}) ->
+  io:format("new_message METHODE with: (~w) ~s ~n",[Number,Nachricht]).
 
 query_msgid(State) ->
   io:format("query_msgid METHODE~n"),

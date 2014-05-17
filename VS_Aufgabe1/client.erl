@@ -9,11 +9,19 @@
 -module(client).
 -author("Florian").
 
+-import(werkzeug, [timeMilliSecond/0]).
+
+
 %% API
--export([con/1,getAll/0,send/0,getNum/0]).
+-export([con/1,start/0]).
 
 con(Servername)->
   net_adm:ping(Servername).
+
+start()-> %%REDAKTEUR!!
+  Number = getNum(),%Nummer organisieren
+  %TODO: TIMER required
+  send(Number). %Nahricht mit der Nummer schicken
 
 
 % Anfrage der Clients
@@ -40,24 +48,35 @@ getAll() ->
       io:format("~w : ~s : ~w~n", [Number,Nachricht,Terminated])
   end.
 
-send() ->
-  Server = global:whereis_name(theserver),
-  io:format("Server PID ~p~n", [Server]),
-
-  Nachricht="Test Nachricht",
-Number =0000,%TEMP
-
-  Server ! {new_message, {Nachricht, Number}},
-  io:format(ok).
-
-
 getNum() ->
   Server = global:whereis_name(theserver),
   io:format("Server PID ~p~n", [Server]),
   Server ! { query_msgid, self()},
   receive
     { msgid, Number} ->
-      io:format("Got Number ~w from Server~n", [Number])
+      io:format("Got Number ~w from Server~n", [Number]),
+      Number %Returnvalue
   end.
+
+send(Number) ->
+  Server = global:whereis_name(theserver),
+  io:format("Number ~w to Server PID ~p~n", [Number,Server]),
+
+  EigenenNamen="client",
+  RechnerName="@FloUB",
+  ProzessNummer="23456",
+  PraktikumsGruppe="02",
+  TeamNummer="03",
+  AktuelleSystemzeit=timeMilliSecond(),
+
+
+  Nachricht=string:join([EigenenNamen,RechnerName,ProzessNummer,PraktikumsGruppe,TeamNummer,AktuelleSystemzeit],"-"),
+  %TODO: Drop one out of six
+  Server ! {new_message, {Nachricht, Number}},
+  io:format(ok).
+
+
+
+
 
 
