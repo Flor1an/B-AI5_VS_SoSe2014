@@ -13,9 +13,14 @@
 -export([start/0,server/1,fn/3]).
 
 -record(status, {
-  current_msg_id  = 0
+  current_msg_id  = 0,
+  hbq =orddict:new(),
+  clients=orddict:new()
 }).
 
+-record(client, {
+  id=0
+}).
 
 % Server starten und unter Namen "theserver" global registrieren
 % Alternative: Servername aus config Datei lesen
@@ -26,7 +31,7 @@ start() ->
 % Datei = lists:concat(["NServer@",HostName,".log"]),
 
 
-  State = #status{ current_msg_id = 0},
+  State = #status{current_msg_id = 0},
 
   Pid = spawn(myserver,server,[State]),
   global:register_name(theserver,Pid).
@@ -39,7 +44,7 @@ server(Status) ->
   receive
 
     {query_messages, From} -> %Abfragen aller Nachrichten (Nacheinander)
-      Return = query_messages(),
+      Return = query_messages(Status),
 
       {MsgId,Nachricht,Terminated} = Return, %Aufsplitten
 
@@ -47,30 +52,39 @@ server(Status) ->
       server(Status);
 
     {new_message, {Nachricht,Number}} -> %Senden einer Nachricht
-      new_message({Nachricht,Number}),
+      Return = new_message(Status,{Nachricht,Number}),
       %NO REPLY REQUIRED
-      server(Status);
+      server(Return);
 
     {query_msgid, From} -> %Request current number for message
       Return = query_msgid(Status),
       Number = Return#status.current_msg_id,
       From ! {msgid,Number}, %SIGNATURE:  msgid, Number
+      io:format("Returning ~w~n", [Number]),
       server(Return)
 
   end.
 
-query_messages() ->
-  io:format("query_messages METHODE~n"),
-  FakeID = 1,
-  FakeMessage = "Blabla Das ist eine NAchricht",
+query_messages(State) ->
+  io:format("[query_messages METHODE]~n"),
+  FakeID = 3,
+  %[Head|_ ] = State#status.hbq,
+  FakeMessage = orddict:fetch(FakeID,State#status.hbq), %Head, %"Blabla Das ist eine NAchricht",
   FakeBool = true,
   {FakeID,FakeMessage,FakeBool}.
 
-new_message({Nachricht,Number}) ->
-  io:format("new_message METHODE with: (~w) ~s ~n",[Number,Nachricht]).
+new_message(State,{Nachricht,Number}) ->
+  io:format("[new_message METHODE]~n"),
+  io:format("Recived: (~w) ~s ~n",[Number,Nachricht]),
+  NewState = State#status{hbq =  orddict:store(Number,Nachricht,State#status.hbq)},
+  %NewState = State#status{hbq = lists:append(State#status.hbq, {Nachricht})},
+  io:format("[NEW LIST]~p~n",[orddict:to_list(NewState#status.hbq)]),
+  NewState.
+
+
 
 query_msgid(State) ->
-  io:format("query_msgid METHODE~n"),
+  io:format("[query_msgid METHODE]~n"),
   NewState = State#status{current_msg_id = State#status.current_msg_id + 1},
   NewState.
 
