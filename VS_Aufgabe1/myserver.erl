@@ -18,9 +18,6 @@
   clients=orddict:new()
 }).
 
--record(client, {
-  id=0
-}).
 
 % Server starten und unter Namen "theserver" global registrieren
 % Alternative: Servername aus config Datei lesen
@@ -44,12 +41,15 @@ server(Status) ->
   receive
 
     {query_messages, From} -> %Abfragen aller Nachrichten (Nacheinander)
-      Return = query_messages(Status),
 
-      {MsgId,Nachricht,Terminated} = Return, %Aufsplitten
+      %TempStatus= Status#status{clients = orddict:store(From,1,Status#status.clients)},
+      io:format("[Clients]: ~p~n",[Status#status.clients]),
+      Return = query_messages(Status,From),
+
+      {NewStatus,{MsgId,Nachricht,Terminated}} = Return, %Aufsplitten
 
       From ! {message, MsgId,Nachricht,Terminated},% SIGNATURE: message,Number,Nachricht,Terminated
-      server(Status);
+      server(NewStatus);
 
     {new_message, {Nachricht,Number}} -> %Senden einer Nachricht
       Return = new_message(Status,{Nachricht,Number}),
@@ -65,13 +65,31 @@ server(Status) ->
 
   end.
 
-query_messages(State) ->
+query_messages(State,Client) ->
   io:format("[query_messages METHODE]~n"),
-  FakeID = 3,
-  %[Head|_ ] = State#status.hbq,
-  FakeMessage = orddict:fetch(FakeID,State#status.hbq), %Head, %"Blabla Das ist eine NAchricht",
-  FakeBool = true,
-  {FakeID,FakeMessage,FakeBool}.
+
+  case orddict:find(Client, State#status.clients) of
+
+    {ok,_} -> %Client in Liste vorhanden
+      io:format("[CLIENT VORHANDEN (getting next id)] ~n"),
+      {_,FakeID} = orddict:find(Client, State#status.clients),
+      io:format("[FakeID]~p ~n",[FakeID]),
+
+      FakeMessage = orddict:fetch(FakeID,State#status.hbq),
+      FakeBool = true,
+      io:format("[thru... hochzählen] ~n"),
+      %hochzählen
+      TempStatus= State#status{clients = orddict:update_counter(Client,1,State#status.clients)},
+      io:format("[Clients]: ~p~n",[TempStatus#status.clients]),
+      %Return
+      {TempStatus,{FakeID,FakeMessage,FakeBool}};
+
+    _ -> %Nicht vorhanden? Initial anlegen
+      io:format("[CLIENT NOCH NCIHT VORHANDEN (wird angelegt)] ~n"),
+      TempStatus= State#status{clients = orddict:store(Client,1,State#status.clients)},
+      query_messages(TempStatus,Client)
+
+  end.
 
 new_message(State,{Nachricht,Number}) ->
   io:format("[new_message METHODE]~n"),
