@@ -67,7 +67,6 @@ leser() ->
   getNext().
 
 
-
 getNext() ->
   Server = global:whereis_name(theserver),
   io:format("Server PID ~p~n", [Server]),
@@ -76,12 +75,11 @@ getNext() ->
   receive
 
     { message, Number,Nachricht,true} -> %%Keine weiteren Nachrichten auf Server
-      io:format("ALLER LETZTE NACHTICHT: ~w : ~s : ~w~n", [Number,Nachricht,true]);
+      io:format(": ~w : ~s : ~w~n", [Number,Nachricht,true]);
 
     { message, Number,Nachricht,false} -> %% NOCH weitere NAchrichten auf Server
-      io:format("WEITERE NACHRICHTEN VORHANDEN: ~w : ~s : ~w~n", [Number,Nachricht,false]),
-      getNext() %%TODO:
-
+      io:format(": ~w : ~s : ~w~n", [Number,Nachricht,false]),
+      getNext()
   end.
 
 

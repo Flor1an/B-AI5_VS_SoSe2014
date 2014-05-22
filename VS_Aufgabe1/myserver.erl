@@ -82,14 +82,37 @@ query_messages(State,Client) ->
       io:format("[FakeID] ~p ~n",[IDToTransfer]),
       io:format("[DQ] ~p ~n",[NewState#status.dq]),
 
-      MessageToTransfer = orddict:fetch(IDToTransfer,NewState#status.dq),
-      BoolToTransfer = case IDToTransfer > orddict:size(NewState#status.dq)-1  of
+
+
+      {TempStatus,MessageToTransfer} = case orddict:find(IDToTransfer,NewState#status.dq) of
+                            {ok, _} -> %ID vorhanden
+                              T0 = orddict:fetch(IDToTransfer,NewState#status.dq), %Get Message
+                              {T1,T2} = case T0 of
+                                {Message,F,T} -> %Gap Message
+                                  T22 = Message,
+                                  T11 =NewState#status{clients = orddict:update_counter(Client,T-F+1,NewState#status.clients)}, % increment counter with gap space
+                                  {T11,T22};
+                                Message -> %Normal Message
+                                  T22 = Message,
+                                  T11 =NewState#status{clients = orddict:update_counter(Client,1,NewState#status.clients)}, % increment counter
+                                  {T11,T22}
+                              end,
+
+                              {T1,T2};
+
+                            _ -> %nicht vorhanden also dummy sendne
+                              T2 = "DUMMY MESSAGE (keine neuen NAchrichten vorhanden)",
+                              T1 = NewState,
+                              {T1,T2}
+                          end,
+      io:format("[getHighestIDinDQ((TempStatus#status.dq))] ~p~n",[getHighestIDinDQ(TempStatus)]),
+      BoolToTransfer = case IDToTransfer >= getHighestIDinDQ(TempStatus)  of
                          true -> true;
                          false -> false
                        end,
       io:format("[thru... hochzählen] ~n"),
-      %hochzählen
-      TempStatus= NewState#status{clients = orddict:update_counter(Client,1,NewState#status.clients)},
+
+
       io:format("[Clients]: ~p~n",[TempStatus#status.clients]),
       %Return
       {TempStatus,{IDToTransfer,MessageToTransfer,BoolToTransfer}};
@@ -123,27 +146,49 @@ query_msgid(State) ->
 
 moveMessagesFromHbqToDq(State) ->
   io:format("~n~n[moveMessagesFromHbqToDq]~n~n"),
-  NewState = case orddict:size(State#status.dq) < 3 of %TODO: Use Value from Config
+  NewState = case orddict:size(State#status.dq) < 10 of %TODO: Use Value from Config CASE HIER: in der DQ maximal 10
     true ->
       io:format("[dq]~p~n",[orddict:size(State#status.dq)]),
       case orddict:size(State#status.hbq) >0 of
         true ->
           io:format("[hbq]~p~n",[orddict:size(State#status.hbq)]),
-          KeyToMove = lists:min(orddict:fetch_keys(State#status.hbq)),
-          io:format("[KeyToMove from HBQ to DQ]~p~n",[KeyToMove]),
-          TempMessage = orddict:fetch(KeyToMove,State#status.hbq),%Aus der HBQ...
-          MessageAndTimestamp = string:concat(TempMessage,werkzeug:timeMilliSecond()),
-         % io:format("~n[TempMessage]~s~n",[TempMessage]),
-          TempState =State#status{dq = orddict:store(KeyToMove,MessageAndTimestamp,State#status.dq)}, %...In die DQ
-         % io:format("~n[TempState]~p~n",[TempState]),
-          Temp2State =TempState#status{hbq = orddict:erase(KeyToMove,TempState#status.hbq)},
+          LowestIDInHBQ = getLowestIDInHBQ(State),
+          io:format("[KeyToMove from HBQ to DQ (if present)] ~p~n",[LowestIDInHBQ]),
+
+          HighestIDinDQ = getHighestIDinDQ(State),
+          io:format("[HighestIDinDQ] ~p~n",[HighestIDinDQ]),
+
+
+
+          Temp3State = case LowestIDInHBQ > HighestIDinDQ+1 of %wenn lücke (min 1 elem)
+            true ->
+              io:format("[ID is not present in HBQ]~n"),
+              MessageAndTimestamp ={string:join(["Fehlernachricht fuer Nachricht", werkzeug:to_String(HighestIDinDQ+1),"bis", werkzeug:to_String(LowestIDInHBQ-1),"um ", werkzeug:timeMilliSecond()]," "),HighestIDinDQ+1,LowestIDInHBQ-1},
+              io:format("[] ~p~n",[MessageAndTimestamp]),
+              TempState =State#status{dq = orddict:store(HighestIDinDQ+1,MessageAndTimestamp,State#status.dq)}, %...In die DQ
+              TempState;
+
+            false -> %also alles gut
+              io:format("[ID >is< present in HBQ (all good)]~n"),
+              TempMessage = orddict:fetch(LowestIDInHBQ,State#status.hbq),%Aus der HBQ...
+              MessageAndTimestamp = string:concat(TempMessage,werkzeug:timeMilliSecond()),
+              % io:format("~n[TempMessage]~s~n",[TempMessage]),
+              TempState =State#status{dq = orddict:store(LowestIDInHBQ,MessageAndTimestamp,State#status.dq)}, %...In die DQ
+              % io:format("~n[TempState]~p~n",[TempState]),
+              Temp2State =TempState#status{hbq = orddict:erase(LowestIDInHBQ,TempState#status.hbq)},
+              Temp2State
+
+          end,
+
+
+
          % io:format("~n[Temp2State]~p~n",[Temp2State]),
          % io:format("[HBQ]~p~n",[Temp2State#status.hbq]),
          % io:format("[DQ]~p~n",[Temp2State#status.dq]),
           io:format("[Message moved]~n"),
-          io:format("[NEW dq]~p~n",[orddict:size(Temp2State#status.dq)]),
-          io:format("[NEW hbq]~p~n",[orddict:size(Temp2State#status.hbq)]),
-          moveMessagesFromHbqToDq(Temp2State);
+          io:format("[NEW dq]~p~n",[orddict:size(Temp3State#status.dq)]),
+          io:format("[NEW hbq]~p~n",[orddict:size(Temp3State#status.hbq)]),
+          moveMessagesFromHbqToDq(Temp3State);
       _ ->
         State
       end;
@@ -154,3 +199,17 @@ moveMessagesFromHbqToDq(State) ->
   io:format("[REturn State dq]~p~n",[orddict:size(NewState#status.dq)]),
   %NewState=State,
   NewState.
+
+
+
+getLowestIDInHBQ(State) ->
+  lists:min(orddict:fetch_keys(State#status.hbq)).
+
+getHighestIDinDQ(State) ->
+  T = case orddict:fetch_keys(State#status.dq) of
+    [] ->
+      1;
+    _ ->
+      lists:max(orddict:fetch_keys(State#status.dq))
+  end,
+  T.
