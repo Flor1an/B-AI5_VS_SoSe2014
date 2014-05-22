@@ -80,7 +80,7 @@ getNext() ->
 
     { message, Number,Nachricht,false} -> %% NOCH weitere NAchrichten auf Server
       io:format("WEITERE NACHRICHTEN VORHANDEN: ~w : ~s : ~w~n", [Number,Nachricht,false]),
-      getNext() %%TODO: zurzeit endlosscheleife
+      getNext() %%TODO:
 
   end.
 
