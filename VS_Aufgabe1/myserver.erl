@@ -10,11 +10,12 @@
 -author("Florian").
 
 %% API
--export([start/0,server/1,fn/3]).
+-export([start/0,server/1]).
 
 -record(status, {
   current_msg_id  = 0,
   hbq =orddict:new(),
+  dq = orddict:new(),
   clients=orddict:new()
 }).
 
@@ -66,27 +67,35 @@ server(Status) ->
   end.
 
 query_messages(State,Client) ->
-  io:format("[query_messages METHODE]~n"),
+  io:format("~n~n[query_messages METHODE]~n~n"),
 
-  case orddict:find(Client, State#status.clients) of
+  NewState = moveMessagesFromHbqToDq(State),
+  io:format("~n~n[back in query_messages METHODE]~n~n"),
+  io:format("[DQ] ~p~n",[orddict:size(NewState#status.dq)]),
+  io:format("[HBQ] ~p~n",[orddict:size(NewState#status.hbq)]),
+
+  case orddict:find(Client, NewState#status.clients) of
 
     {ok,_} -> %Client in Liste vorhanden
       io:format("[CLIENT VORHANDEN (getting next id)] ~n"),
-      {_,FakeID} = orddict:find(Client, State#status.clients),
-      io:format("[FakeID]~p ~n",[FakeID]),
+      {_,FakeID} = orddict:find(Client, NewState#status.clients),
+      io:format("[FakeID] ~p ~n",[FakeID]),
+      io:format("[DQ] ~p ~n",[NewState#status.dq]),
 
-      FakeMessage = orddict:fetch(FakeID,State#status.hbq),
+      FakeMessage = orddict:fetch(FakeID,NewState#status.dq),
       FakeBool = true,
       io:format("[thru... hochzählen] ~n"),
       %hochzählen
-      TempStatus= State#status{clients = orddict:update_counter(Client,1,State#status.clients)},
+      TempStatus= NewState#status{clients = orddict:update_counter(Client,1,NewState#status.clients)},
       io:format("[Clients]: ~p~n",[TempStatus#status.clients]),
       %Return
       {TempStatus,{FakeID,FakeMessage,FakeBool}};
 
     _ -> %Nicht vorhanden? Initial anlegen
       io:format("[CLIENT NOCH NCIHT VORHANDEN (wird angelegt)] ~n"),
-      TempStatus= State#status{clients = orddict:store(Client,1,State#status.clients)},
+      %io:format("[dq] ~p~n",[NewState#status.dq]),
+      TempStatus= NewState#status{clients = orddict:store(Client,1,NewState#status.clients)},
+      io:format("[ClientList]: ~p~n",[TempStatus#status.clients]),
       query_messages(TempStatus,Client)
 
   end.
@@ -108,12 +117,35 @@ query_msgid(State) ->
 
 
 
+moveMessagesFromHbqToDq(State) ->
+  io:format("~n~n[moveMessagesFromHbqToDq]~n~n"),
+  NewState = case orddict:size(State#status.dq) < 3 of
+    true ->
+      io:format("[dq]~p~n",[orddict:size(State#status.dq)]),
+      case orddict:size(State#status.hbq) >0 of
+        true ->
+          io:format("[hbq]~p~n",[orddict:size(State#status.hbq)]),
+          KeyToMove = lists:min(orddict:fetch_keys(State#status.hbq)),
+          io:format("[KeyToMove from HBQ to DQ]~p~n",[KeyToMove]),
+          TempMessage = orddict:fetch(KeyToMove,State#status.hbq),%Aus der HBQ...
+         % io:format("~n[TempMessage]~s~n",[TempMessage]),
+          TempState =State#status{dq = orddict:store(KeyToMove,TempMessage,State#status.dq)}, %...In die DQ
+         % io:format("~n[TempState]~p~n",[TempState]),
+          Temp2State =TempState#status{hbq = orddict:erase(KeyToMove,TempState#status.hbq)},
+         % io:format("~n[Temp2State]~p~n",[Temp2State]),
+         % io:format("[HBQ]~p~n",[Temp2State#status.hbq]),
+         % io:format("[DQ]~p~n",[Temp2State#status.dq]),
+          io:format("[Message moved]~n"),
+          io:format("[NEW dq]~p~n",[orddict:size(Temp2State#status.dq)]),
+          io:format("[NEW hbq]~p~n",[orddict:size(Temp2State#status.hbq)]),
+          moveMessagesFromHbqToDq(Temp2State);
+      _ ->
+        State
+      end;
+    _ ->
+      State
+  end,
 
-
-fn(From,X,Data) ->
-% Gibt den Inhalt von Data als Paare Prozessid Datum aus
-  Data1 = [[From,X]|Data],
-  io:format("~p~n",
-    [lists:flatten([io_lib:format("~p:~w ",Tupel ) || Tupel <- Data1])]),
-% Ergebnis
-  {[X,X],Data1}.
+  io:format("[REturn State dq]~p~n",[orddict:size(NewState#status.dq)]),
+  %NewState=State,
+  NewState.
