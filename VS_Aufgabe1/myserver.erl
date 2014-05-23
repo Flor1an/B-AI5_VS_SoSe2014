@@ -14,9 +14,9 @@
 
 -record(status, {
   current_msg_id  = 0,
-  hbq =orddict:new(),
-  dq = orddict:new(),
-  clients=orddict:new()
+  hbq =werkzeug:emptySL(),
+  dq = werkzeug:emptySL(),
+  clients=werkzeug:emptySL()
 }).
 
 
@@ -50,7 +50,7 @@ server(Status) ->
       server(NewStatus);
 
     {new_message, {Nachricht,Number}} -> %Empfangen einer Nachricht
-      Return = new_message(Status,{Nachricht,Number}),
+      Return = new_message(Status,Number,Nachricht),
       %NO REPLY REQUIRED
       server(Return);
 
@@ -62,73 +62,73 @@ server(Status) ->
 
   end.
 
-query_messages(State,Client) ->
+query_messages(State,ClientPID) ->
   io:format("~n~n[query_messages METHODE]~n~n"),
 
   NewState = moveMessagesFromHbqToDq(State),
   io:format("~n~n[back in query_messages METHODE]~n~n"),
-  io:format("[DQ] ~p~n",[orddict:size(NewState#status.dq)]),
-  io:format("[HBQ] ~p~n",[orddict:size(NewState#status.hbq)]),
+  io:format("[DQ] ~p~n",[werkzeug:lengthSL(NewState#status.dq)]),
+  io:format("[HBQ] ~p~n",[werkzeug:lengthSL(NewState#status.hbq)]),
 
-  case orddict:find(Client, NewState#status.clients) of
+  io:format("[werkzeug:findSL(NewState#status.clients,ClientPID)] ~p~n",[werkzeug:findSL(NewState#status.clients,ClientPID)]),
 
-    {ok,_} -> %Client in Liste vorhanden
+
+  case werkzeug:findSL(NewState#status.clients,ClientPID) of
+
+    {-1,nok} -> %Nicht vorhanden? Initial anlegen
+      io:format("[CLIENT NOCH NCIHT VORHANDEN (wird angelegt)] ~n"),
+      %io:format("[dq] ~p~n",[NewState#status.dq]),
+      NewClientTupel = {ClientPID,1}, %Initialisiert mit 1
+      TempStatus= NewState#status{clients = werkzeug:pushSL(NewState#status.clients,NewClientTupel)},
+      io:format("[83ClientList]: ~p~n",[TempStatus#status.clients]),
+      query_messages(TempStatus,ClientPID);
+
+    {_,RequestedIDFromClient} -> %Client in Liste vorhanden
       io:format("[CLIENT VORHANDEN (getting next id)] ~n"),
-      {_,IDToTransfer} = orddict:find(Client, NewState#status.clients),
-      io:format("[FakeID] ~p ~n",[IDToTransfer]),
+      io:format("[Client will ID] ~p ~n",[RequestedIDFromClient]),
       io:format("[DQ] ~p ~n",[NewState#status.dq]),
 
 
 
-      {TempStatus,MessageToTransfer} = case orddict:find(IDToTransfer,NewState#status.dq) of
-                            {ok, _} -> %ID vorhanden
-                              T0 = orddict:fetch(IDToTransfer,NewState#status.dq), %Get Message
-                              {T1,T2} = case T0 of
-                                {Message,F,T} -> %Gap Message
-                                  T22 = Message,
-                                  T11 =NewState#status{clients = orddict:update_counter(Client,T-F+1,NewState#status.clients)}, % increment counter with gap space
-                                  {T11,T22};
-                                Message -> %Normal Message
-                                  T22 = Message,
-                                  T11 =NewState#status{clients = orddict:update_counter(Client,1,NewState#status.clients)}, % increment counter
-                                  {T11,T22}
-                              end,
+      {TempStatus,RealIDToTransfer,RealMessageToTransfer} = case werkzeug:findneSL(NewState#status.dq,RequestedIDFromClient) of
+                                         {-1,nok} -> % ID nicht vorhanden also dummy sendne
+                                           T2 = "DUMMY MESSAGE (keine neuen Nachrichten vorhanden)",
+                                           T1 = NewState,
+                                           {T1,RequestedIDFromClient,T2}; %Return
 
-                              {T1,T2};
+                                         {IDToTransfer, MessageToTransfer} -> %ID vorhanden IDToTransfer ggf. <= RequestedIDFromClient
+                                           {T1,T2,T3} = case MessageToTransfer of
+                                                      {Message,_,_} -> %Gap Message
+                                                        T22 = Message,
+                                                        T11 =changeClientNextMessageIdTo(IDToTransfer+1,ClientPID,NewState),  % increment counter
+                                                        {T11,IDToTransfer,T22};
+                                                      Message -> %Normal Message
+                                                        T22 = Message,
+                                                        T11 =changeClientNextMessageIdTo(IDToTransfer+1,ClientPID,NewState),% increment counter
+                                                        {T11,IDToTransfer,T22}
+                                            end,
 
-                            _ -> %nicht vorhanden also dummy sendne
-                              T2 = "DUMMY MESSAGE (keine neuen NAchrichten vorhanden)",
-                              T1 = NewState,
-                              {T1,T2}
-                          end,
-      io:format("[getHighestIDinDQ((TempStatus#status.dq))] ~p~n",[getHighestIDinDQ(TempStatus)]),
-      BoolToTransfer = case IDToTransfer >= getHighestIDinDQ(TempStatus)  of
+                                            {T1,T2,T3}%Return
+                                       end,
+
+      RealBoolToTransfer = case RealIDToTransfer >= werkzeug:maxNrSL(TempStatus#status.dq) of
                          true -> true;
-                         false -> false
+                         false -> false %auf True setzten für einzeln abfragen
                        end,
-      io:format("[thru... hochzählen] ~n"),
 
-
-      io:format("[Clients]: ~p~n",[TempStatus#status.clients]),
       %Return
-      {TempStatus,{IDToTransfer,MessageToTransfer,BoolToTransfer}};
-
-    _ -> %Nicht vorhanden? Initial anlegen
-      io:format("[CLIENT NOCH NCIHT VORHANDEN (wird angelegt)] ~n"),
-      %io:format("[dq] ~p~n",[NewState#status.dq]),
-      TempStatus= NewState#status{clients = orddict:store(Client,1,NewState#status.clients)},
-      io:format("[ClientList]: ~p~n",[TempStatus#status.clients]),
-      query_messages(TempStatus,Client)
+      {TempStatus,{RealIDToTransfer,RealMessageToTransfer,RealBoolToTransfer}}
 
   end.
 
-new_message(State,{Nachricht,Number}) ->
+new_message(State,Number,Nachricht) ->
   io:format("[new_message METHODE]~n"),
   io:format("Recived: (~w) ~s ~n",[Number,Nachricht]),
   NachrichtAndTimeStamp = string:concat(Nachricht,werkzeug:timeMilliSecond()),
-  NewState = State#status{hbq =  orddict:store(Number,NachrichtAndTimeStamp,State#status.hbq)},
+
+  NewState = State#status{hbq = werkzeug:pushSL(State#status.hbq,{Number,NachrichtAndTimeStamp})},
   %NewState = State#status{hbq = lists:append(State#status.hbq, {Nachricht})},
-  io:format("[NEW LIST]~p~n",[orddict:to_list(NewState#status.hbq)]),
+  io:format("[NEW LIST]~p~n",[NewState#status.hbq]),
   NewState.
 
 
@@ -139,40 +139,61 @@ query_msgid(State) ->
   NewState.
 
 
+maxNrSLHelper(Liste,State)->
+  case werkzeug:maxNrSL(Liste) of
+    -1 -> 0; %Bei Leerer Liste
+    _ ->
+
+      T = werkzeug:maxNrSL(Liste),
+      Return = case werkzeug:findSL(State#status.dq,T) of
+        {_,{_,_,To}} -> %Wenn hoechster = Lueckenfueller
+          %io:format("[Lueckenfueller detected] between ~p and ~p (during number: ~p)~n",[Fr,To,T]),
+          To;
+        _ ->
+          T
+      end,
+      Return
+  end.
+
 %% Uebertraegt Nachrichten von der Holdbackqueue in die Deliveryqueue.
 %% Fuellt Luecken mit einer Fehlernachricht.
 moveMessagesFromHbqToDq(State) ->
   io:format("~n~n[moveMessagesFromHbqToDq]~n~n"),
-  NewState = case orddict:size(State#status.dq) < 10 of %TODO: Use Value from Config CASE HIER: in der DQ maximal 10
+  NewState = case werkzeug:maxNrSL(State#status.dq) < 10 of %TODO: Use Value from Config CASE HIER: in der DQ maximal 10
     true -> %In der Deliveryqueue sind noch Plaetze frei:
 
-      case orddict:size(State#status.hbq) >0 of
+      case werkzeug:lengthSL(State#status.hbq) >0 of
         true -> %Es sind noch Nachrichten in der Holdbackqueue (die in die Deleiveryqueue uebertragen werden koennen)
-          LowestIDInHBQ = getLowestIDInHBQ(State),
-          %io:format("[KeyToMove from HBQ to DQ] ~p~n",[LowestIDInHBQ]),
-          HighestIDinDQ = getHighestIDinDQ(State),
-          %io:format("[HighestIDinDQ] ~p~n",[HighestIDinDQ]),
+          LowestIDInHBQ = werkzeug:minNrSL(State#status.hbq),
+          io:format("[KeyToMove from HBQ to DQ (LowestIDInHBQ)] ~p~n",[LowestIDInHBQ]),
+          HighestIDinDQ = maxNrSLHelper(State#status.dq, State),
+          io:format("[HighestIDinDQ] ~p~n",[HighestIDinDQ]),
 
 
 
           Temp3State = case LowestIDInHBQ > HighestIDinDQ+1 of %wenn lücke (min 1 elem)
             true -> %Der naechste Eintrag in der Holdbackqueue ist groesser, als der letzte in der Deliveryqueue; Also eine Luecke die gefuellt werden muss!
-              %io:format("[ID is NOT present in HBQ]~n"),
-              MessageAndTimestamp ={string:join(["****Fehlernachricht fuer Nachricht", werkzeug:to_String(HighestIDinDQ+1),"bis", werkzeug:to_String(LowestIDInHBQ-1),"um ", werkzeug:timeMilliSecond()]," "),HighestIDinDQ+1,LowestIDInHBQ-1},
-              TempState =State#status{dq = orddict:store(HighestIDinDQ+1,MessageAndTimestamp,State#status.dq)}, %Speicher PlainText Nachricht + Lueckenstart + Lueckenende Werte in der Deliveryqueue
+              io:format("[ID is NOT present in HBQ]~n"),
+              MessageAndTimestamp ={string:join(["****Fehlernachricht (Lueckenfueller) fuer Nachricht", werkzeug:to_String(HighestIDinDQ+1),"bis", werkzeug:to_String(LowestIDInHBQ-1),"um ", werkzeug:timeMilliSecond()]," "),HighestIDinDQ+1,LowestIDInHBQ-1},
+
+              TempState =State#status{dq = werkzeug:pushSL(State#status.dq, {HighestIDinDQ+1,MessageAndTimestamp})}, %Speicher PlainText Nachricht + Lueckenstart + Lueckenende Werte in der Deliveryqueue
               TempState;
 
+
             false -> %Der naechste Eintrag in der Holdbackqueue hat die MessageID, die in der Deliveryqueue erwarted wird (keine Lücke erkannt)
-              %io:format("[ID is present in HBQ (all good)]~n"),
-              TempMessage = orddict:fetch(LowestIDInHBQ,State#status.hbq),%Kopier naechste Nachricht aus der Holdbackqueue in Variable
+              io:format("[Id is in Row / ID is present in HBQ (all good)]~n"),
+              {_,TempMessage} = werkzeug:findSL(State#status.hbq, LowestIDInHBQ),%Kopier naechste Nachricht aus der Holdbackqueue in Variable
               MessageAndTimestamp = string:concat(TempMessage,werkzeug:timeMilliSecond()),
-              TempState =State#status{dq = orddict:store(LowestIDInHBQ,MessageAndTimestamp,State#status.dq)}, %Speicher die Nachricht in der Deliveryqueue
-              Temp2State =TempState#status{hbq = orddict:erase(LowestIDInHBQ,TempState#status.hbq)}, %Entferne die (jetzt alte) Nachricht aus der Holdbackqueue
+
+              TempState =State#status{dq = werkzeug:pushSL(State#status.dq, {LowestIDInHBQ,MessageAndTimestamp})}, %Speicher die Nachricht in der Deliveryqueue
+              Temp2State =TempState#status{hbq = werkzeug:popSL(TempState#status.hbq)}, %Entferne die (jetzt alte) Nachricht aus der Holdbackqueue popSL=kleinste nummer
               Temp2State
 
           end,
 
 
+          io:format("State#status.dq: ~p~n", [Temp3State#status.dq]),
+          io:format("State#status.hbq: ~p~n", [Temp3State#status.hbq]),
           moveMessagesFromHbqToDq(Temp3State); %Recusiver Aufruf, bis Deliveryqueue maximal gefuellt (oder keine Nachrichten mehr in der Holdbackqueue zum verschieben vorhanden)
 
 
@@ -185,28 +206,10 @@ moveMessagesFromHbqToDq(State) ->
   NewState.
 
 
+changeClientNextMessageIdTo(NewValue,ClientPID,State)->
+  {ClientPID,CurrentValue} = werkzeug:findSL(State#status.clients,ClientPID),
 
-%% Liefert die kleinste vorhandene MessageID der Holdbackqueue
-getLowestIDInHBQ(State) ->
-  lists:min(orddict:fetch_keys(State#status.hbq)).
-
-
-%% Liefert die groesste vorhandene MessageID der Deliveryeueue
-%% Falls eine Luecke gefüllt wurde wird der Lueckenbereich als belegt interpretiert.
-getHighestIDinDQ(State) ->
-  T = case orddict:fetch_keys(State#status.dq) of
-    [] -> %Keine Eintraege vorhanden
-      0;
-    _ ->
-      MaxID = lists:max(orddict:fetch_keys(State#status.dq)) ,
-
-      Return = case orddict:fetch(MaxID,State#status.dq) of
-        {_,_,To} ->
-          To; %Luecke vorhanden! Nehme die ID des Luecken Ende
-        _ ->
-          MaxID
-      end,
-      Return
-
-  end,
-  T.
+  NewState =State#status{clients = lists:delete({ClientPID,CurrentValue},State#status.clients)}, %Altes Value loeschen
+  Return = NewState#status{clients = werkzeug:pushSL(NewState#status.clients,{ClientPID,NewValue})}, %Return State mit neuem Value für Client
+  io:format("[changeClientNextMessageIdTo() return]~p~n",[Return]),
+  Return.

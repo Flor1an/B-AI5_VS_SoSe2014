@@ -21,7 +21,7 @@ con(Servername)->
 redakteur()->
   Number = getNum(),%Nummer organisieren
   %TODO: TIMER required
-  timer:sleep(10000),
+  timer:sleep(1000),
   send(Number). %Nahricht mit der Nummer schicken
 
 
