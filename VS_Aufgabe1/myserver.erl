@@ -41,27 +41,23 @@ start() ->
 server(Status) ->
   receive
 
-    {query_messages, From} -> %Abfragen aller Nachrichten (Nacheinander)
-
-      %TempStatus= Status#status{clients = orddict:store(From,1,Status#status.clients)},
-      io:format("[Clients]: ~p~n",[Status#status.clients]),
+    {query_messages, From} -> %Abfragen aller Nachrichten (d.h. pro Client höchste, noch nicht übermittelte Nachricht)
       Return = query_messages(Status,From),
 
       {NewStatus,{MsgId,Nachricht,Terminated}} = Return, %Aufsplitten
 
-      From ! {message, MsgId,Nachricht,Terminated},% SIGNATURE: message,Number,Nachricht,Terminated
+      From ! {message, MsgId,Nachricht,Terminated},% SIGNATUR: {keyword message,Number,Nachricht,TerminatedFlag}
       server(NewStatus);
 
-    {new_message, {Nachricht,Number}} -> %Senden einer Nachricht
+    {new_message, {Nachricht,Number}} -> %Empfangen einer Nachricht
       Return = new_message(Status,{Nachricht,Number}),
       %NO REPLY REQUIRED
       server(Return);
 
-    {query_msgid, From} -> %Request current number for message
+    {query_msgid, From} -> %Abfragen nach neuer (höchste vergebene +1) MessageID
       Return = query_msgid(Status),
       Number = Return#status.current_msg_id,
-      From ! {msgid,Number}, %SIGNATURE:  msgid, Number
-      io:format("Returning ~w~n", [Number]),
+      From ! {msgid,Number}, %SIGNATUR:  {keyword msgid, Number}
       server(Return)
 
   end.
@@ -143,73 +139,74 @@ query_msgid(State) ->
   NewState.
 
 
-
+%% Uebertraegt Nachrichten von der Holdbackqueue in die Deliveryqueue.
+%% Fuellt Luecken mit einer Fehlernachricht.
 moveMessagesFromHbqToDq(State) ->
   io:format("~n~n[moveMessagesFromHbqToDq]~n~n"),
   NewState = case orddict:size(State#status.dq) < 10 of %TODO: Use Value from Config CASE HIER: in der DQ maximal 10
-    true ->
-      io:format("[dq]~p~n",[orddict:size(State#status.dq)]),
-      case orddict:size(State#status.hbq) >0 of
-        true ->
-          io:format("[hbq]~p~n",[orddict:size(State#status.hbq)]),
-          LowestIDInHBQ = getLowestIDInHBQ(State),
-          io:format("[KeyToMove from HBQ to DQ (if present)] ~p~n",[LowestIDInHBQ]),
+    true -> %In der Deliveryqueue sind noch Plaetze frei:
 
+      case orddict:size(State#status.hbq) >0 of
+        true -> %Es sind noch Nachrichten in der Holdbackqueue (die in die Deleiveryqueue uebertragen werden koennen)
+          LowestIDInHBQ = getLowestIDInHBQ(State),
+          %io:format("[KeyToMove from HBQ to DQ] ~p~n",[LowestIDInHBQ]),
           HighestIDinDQ = getHighestIDinDQ(State),
-          io:format("[HighestIDinDQ] ~p~n",[HighestIDinDQ]),
+          %io:format("[HighestIDinDQ] ~p~n",[HighestIDinDQ]),
 
 
 
           Temp3State = case LowestIDInHBQ > HighestIDinDQ+1 of %wenn lücke (min 1 elem)
-            true ->
-              io:format("[ID is not present in HBQ]~n"),
-              MessageAndTimestamp ={string:join(["Fehlernachricht fuer Nachricht", werkzeug:to_String(HighestIDinDQ+1),"bis", werkzeug:to_String(LowestIDInHBQ-1),"um ", werkzeug:timeMilliSecond()]," "),HighestIDinDQ+1,LowestIDInHBQ-1},
-              io:format("[] ~p~n",[MessageAndTimestamp]),
-              TempState =State#status{dq = orddict:store(HighestIDinDQ+1,MessageAndTimestamp,State#status.dq)}, %...In die DQ
+            true -> %Der naechste Eintrag in der Holdbackqueue ist groesser, als der letzte in der Deliveryqueue; Also eine Luecke die gefuellt werden muss!
+              %io:format("[ID is NOT present in HBQ]~n"),
+              MessageAndTimestamp ={string:join(["****Fehlernachricht fuer Nachricht", werkzeug:to_String(HighestIDinDQ+1),"bis", werkzeug:to_String(LowestIDInHBQ-1),"um ", werkzeug:timeMilliSecond()]," "),HighestIDinDQ+1,LowestIDInHBQ-1},
+              TempState =State#status{dq = orddict:store(HighestIDinDQ+1,MessageAndTimestamp,State#status.dq)}, %Speicher PlainText Nachricht + Lueckenstart + Lueckenende Werte in der Deliveryqueue
               TempState;
 
-            false -> %also alles gut
-              io:format("[ID >is< present in HBQ (all good)]~n"),
-              TempMessage = orddict:fetch(LowestIDInHBQ,State#status.hbq),%Aus der HBQ...
+            false -> %Der naechste Eintrag in der Holdbackqueue hat die MessageID, die in der Deliveryqueue erwarted wird (keine Lücke erkannt)
+              %io:format("[ID is present in HBQ (all good)]~n"),
+              TempMessage = orddict:fetch(LowestIDInHBQ,State#status.hbq),%Kopier naechste Nachricht aus der Holdbackqueue in Variable
               MessageAndTimestamp = string:concat(TempMessage,werkzeug:timeMilliSecond()),
-              % io:format("~n[TempMessage]~s~n",[TempMessage]),
-              TempState =State#status{dq = orddict:store(LowestIDInHBQ,MessageAndTimestamp,State#status.dq)}, %...In die DQ
-              % io:format("~n[TempState]~p~n",[TempState]),
-              Temp2State =TempState#status{hbq = orddict:erase(LowestIDInHBQ,TempState#status.hbq)},
+              TempState =State#status{dq = orddict:store(LowestIDInHBQ,MessageAndTimestamp,State#status.dq)}, %Speicher die Nachricht in der Deliveryqueue
+              Temp2State =TempState#status{hbq = orddict:erase(LowestIDInHBQ,TempState#status.hbq)}, %Entferne die (jetzt alte) Nachricht aus der Holdbackqueue
               Temp2State
 
           end,
 
 
+          moveMessagesFromHbqToDq(Temp3State); %Recusiver Aufruf, bis Deliveryqueue maximal gefuellt (oder keine Nachrichten mehr in der Holdbackqueue zum verschieben vorhanden)
 
-         % io:format("~n[Temp2State]~p~n",[Temp2State]),
-         % io:format("[HBQ]~p~n",[Temp2State#status.hbq]),
-         % io:format("[DQ]~p~n",[Temp2State#status.dq]),
-          io:format("[Message moved]~n"),
-          io:format("[NEW dq]~p~n",[orddict:size(Temp3State#status.dq)]),
-          io:format("[NEW hbq]~p~n",[orddict:size(Temp3State#status.hbq)]),
-          moveMessagesFromHbqToDq(Temp3State);
-      _ ->
+
+      _ -> %Die Holdbackqueue hat (z.Zt.) keine Nachrichten mehr.
         State
       end;
-    _ ->
+    _ -> %In der Deliveryeue sind alle Plaetze belegt: d.h. nichts kopieren.
       State
   end,
-
-  io:format("[REturn State dq]~p~n",[orddict:size(NewState#status.dq)]),
-  %NewState=State,
   NewState.
 
 
 
+%% Liefert die kleinste vorhandene MessageID der Holdbackqueue
 getLowestIDInHBQ(State) ->
   lists:min(orddict:fetch_keys(State#status.hbq)).
 
+
+%% Liefert die groesste vorhandene MessageID der Deliveryeueue
+%% Falls eine Luecke gefüllt wurde wird der Lueckenbereich als belegt interpretiert.
 getHighestIDinDQ(State) ->
   T = case orddict:fetch_keys(State#status.dq) of
-    [] ->
-      1;
+    [] -> %Keine Eintraege vorhanden
+      0;
     _ ->
-      lists:max(orddict:fetch_keys(State#status.dq))
+      MaxID = lists:max(orddict:fetch_keys(State#status.dq)) ,
+
+      Return = case orddict:fetch(MaxID,State#status.dq) of
+        {_,_,To} ->
+          To; %Luecke vorhanden! Nehme die ID des Luecken Ende
+        _ ->
+          MaxID
+      end,
+      Return
+
   end,
   T.

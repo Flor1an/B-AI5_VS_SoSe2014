@@ -12,7 +12,7 @@
 
 
 %% API
--export([con/1,redakteur/0,leser/0]).
+-export([con/1,redakteur/0,leser/0,getNum/0]).
 
 con(Servername)->
   net_adm:ping(Servername).
@@ -21,6 +21,7 @@ con(Servername)->
 redakteur()->
   Number = getNum(),%Nummer organisieren
   %TODO: TIMER required
+  timer:sleep(10000),
   send(Number). %Nahricht mit der Nummer schicken
 
 
