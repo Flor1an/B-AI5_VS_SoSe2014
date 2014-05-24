@@ -10,8 +10,7 @@
 -author("Florian").
 
 -record(status, {
-  ids =werkzeug:emptySL(),
-  config
+  ids =[]
 }).
 
 
@@ -37,6 +36,9 @@ load_config() ->
 start(ServerNode) ->
   net_adm:ping(ServerNode),
   Config = load_config(),
+  Status = #status{},
+  io:format("~n~n[Status:] ~p~n",[Status]),
+  io:format("[Config:] ~p~n~n~n",[Config]),
   Servername = Config#config.servername,
   ServerPID = {Servername,ServerNode},
   log("Client","Servername ~s has Pid: ~p", [Servername, ServerPID]),
@@ -45,20 +47,22 @@ start(ServerNode) ->
   NumClients = Config#config.clients,
   %io:format("NumClients: ~p~n",[NumClients]),
   Clients = lists:map(fun(_ClientID) ->
-							ClientPID = spawn(fun() -> redakteur(ServerPID, Config,1) end),
+							ClientPID = spawn(fun() -> redakteur(ServerPID,1,Status,Config) end),
 							log("Client","Client Startzeit: ~p mit PID ~p",[werkzeug:timeMilliSecond(), ClientPID]),
 							timer:exit_after(timer:seconds(Lifetime), ClientPID, "Ende Gelaende")
 						end, lists:seq(1, NumClients)), %TODO:Testing
   Clients.
 
 %%REDAKTEUR!######################################################
-redakteur(ServerPid,Config,MaxNumbers)->
+redakteur(ServerPid,MaxNumbers,Status,Config)->
   io:format("~n~n"),
-  Number = getNum(ServerPid),%Nummer organisieren
-  io:format("Warte fuer ~p sekunden...~n",[Config#config.sendeintervall]),
-  timer:sleep(timer:seconds(Config#config.sendeintervall)),
-  NewConfig = send(ServerPid,Number,MaxNumbers,Config),%Nahricht mit der Nummer schicken
-  redakteur(ServerPid,NewConfig,MaxNumbers+1). %Endlosschleife starten
+  MessageID = getNum(ServerPid),%Nummer organisieren
+  
+  UpdatedStatus = Status#status{ids = Status#status.ids ++ [MessageID]},
+  io:format("~n~n~n~n+++++++UpdatedStatus ~p~n~n~n~n",[UpdatedStatus]),
+  io:format("Warte fuer ~p sekunden...~n",[Config#config.sendeintervall]),timer:sleep(timer:seconds(Config#config.sendeintervall)),
+  {NewStatus,NewConfig} = send(ServerPid,MessageID,MaxNumbers,UpdatedStatus,Config),%Nahricht mit der Nummer schicken
+  redakteur(ServerPid,MaxNumbers+1,NewStatus,NewConfig). %Endlosschleife starten
 
 
 
@@ -73,16 +77,16 @@ getNum(Server) ->
       Number %Returnvalue
   end.
 
-send(ServerPid,Number,MaxNumbers,Config) ->
+send(ServerPid,MessageID,MaxNumbers,Status,Config) ->
   %Drop one out of six
   case MaxNumbers rem 5 of
     0 ->
       %Vergessen
       log("Client","NO MESSAGE SEND DUE TO RESTRICTION BY MISSION!",[]),
       %Lese Client Starten
-      leser(ServerPid),
+      leser(ServerPid,Status),
       %Wartezeit neu Setzten
-      setNewWaitingTime(Config);
+      {Status,setNewWaitingTime(Config)};
 
     _ ->
       %Senden
@@ -95,12 +99,12 @@ send(ServerPid,Number,MaxNumbers,Config) ->
 
 
       Nachricht=string:join([EigenenNamen,"@",RechnerName,ProzessNummer,PraktikumsGruppe,TeamNummer,AktuelleSystemzeit],"-"),
-      log("Client","SENDE: ~p ~s", [Number, Nachricht]),
+      log("Client","SENDE: ~p ~s", [MessageID, Nachricht]),
 
 
-      ServerPid ! {new_message, {Nachricht, Number}},
+      ServerPid ! {new_message, {Nachricht, MessageID}},
       io:format(ok),
-      Config %Unveränderte Config
+      {Status,Config} %Unveränderte Config
 
 end.
 
@@ -125,26 +129,38 @@ setNewWaitingTime(Config)->
 
 
 %%LESER!################################################################################################################
-leser(ServerPid) ->
+leser(ServerPid,Status) ->
   log("Client","LESER GESTARTET ~p~n", [ServerPid]),
 
-  getNext(ServerPid).
+  getNext(ServerPid,Status).
 
 
-getNext(ServerPid) ->
+getNext(ServerPid,Status) ->
   io:format("Server PID ~p | My PID ~p ~n", [ServerPid, self()]),
 
   ServerPid ! { query_messages, self()},
   receive
 
     { message, Number,Nachricht,true} -> %%Keine weiteren Nachrichten auf Server
-      log("Client"," ~w : ~s : ~w", [Number,Nachricht,true]);
-
+      case lists:member(Number,Status#status.ids) of
+        true ->
+          log("Client"," ~w : ~s : ~w *****************~n", [Number,Nachricht,true]);
+        false ->
+          log("Client"," ~w : ~s : ~w n", [Number,Nachricht,true])
+      end;
     { message, Number,Nachricht,false} -> %% NOCH weitere NAchrichten auf Server
-      log("Client"," ~w : ~s : ~w", [Number,Nachricht,false]),
-      getNext(ServerPid)
+      case lists:member(Number,Status#status.ids) of
+			true ->
+				log("Client"," ~w : ~s : ~w *****************~n", [Number,Nachricht,true]);
+			false ->
+				log("Client"," ~w : ~s : ~w n", [Number,Nachricht,true])
+		  end,
+      getNext(ServerPid,Status)
   end.
 
+  
+%%Helper###################################################################################################################
+  
 log(File, Message, Data) ->
   werkzeug:logging(fileDesc(File), io_lib:format("[~s] (~p) "++Message++"~n",[werkzeug:timeMilliSecond(),self()]++Data)).
 
