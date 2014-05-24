@@ -42,15 +42,13 @@ start(ServerNode) ->
   Servername = Config#config.servername,
   ServerPID = {Servername,ServerNode},
   log("Client","Servername ~s has Pid: ~p", [Servername, ServerPID]),
-  Lifetime = Config#config.lifetime,
-  %io:format("Lifetime: ~p~n",[Lifetime]),
-  NumClients = Config#config.clients,
-  %io:format("NumClients: ~p~n",[NumClients]),
+
+
   Clients = lists:map(fun(_ClientID) ->
-							ClientPID = spawn(fun() -> redakteur(ServerPID,1,Status,Config) end),
+							ClientPID = spawn_link(fun() -> redakteur(ServerPID,1,Status,Config) end),
 							log("Client","Client Startzeit: ~p mit PID ~p",[werkzeug:timeMilliSecond(), ClientPID]),
-							timer:exit_after(timer:seconds(Lifetime), ClientPID, "Ende Gelaende")
-						end, lists:seq(1, NumClients)), %TODO:Testing
+							timer:exit_after(timer:seconds(Config#config.lifetime), ClientPID, "Ende Gelaende")
+						end, lists:seq(1, Config#config.clients)), %TODO:Testing
   Clients.
 
 %%REDAKTEUR!######################################################
@@ -59,7 +57,7 @@ redakteur(ServerPid,MaxNumbers,Status,Config)->
   MessageID = getNum(ServerPid),%Nummer organisieren
   
   UpdatedStatus = Status#status{ids = Status#status.ids ++ [MessageID]},
-  io:format("~n~n~n~n+++++++UpdatedStatus ~p~n~n~n~n",[UpdatedStatus]),
+  %io:format("~n~n~n~n+++++++UpdatedStatus ~p~n~n~n~n",[UpdatedStatus]),
   io:format("Warte fuer ~p sekunden...~n",[Config#config.sendeintervall]),timer:sleep(timer:seconds(Config#config.sendeintervall)),
   {NewStatus,NewConfig} = send(ServerPid,MessageID,MaxNumbers,UpdatedStatus,Config),%Nahricht mit der Nummer schicken
   redakteur(ServerPid,MaxNumbers+1,NewStatus,NewConfig). %Endlosschleife starten
