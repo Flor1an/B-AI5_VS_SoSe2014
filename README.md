@@ -1,7 +1,7 @@
 VS_SoSe2014
 ===========
 
-##Aufgabe 1
+##Aufgabe 1 (Message of the Day)
 
 ###### Server Terminal Starten: `erl -sname s -setcookie bob`
 
@@ -14,7 +14,7 @@ VS_SoSe2014
 - Client starten: `client:start(s@workstation).`    *s@workstation = Nodename*
 
 
-##Aufgabe 2
+##Aufgabe 2 (GGT/GCD)
 
 ###### Nameservice Terminal Starten `erl -sname ns -setcookie bob`
 
