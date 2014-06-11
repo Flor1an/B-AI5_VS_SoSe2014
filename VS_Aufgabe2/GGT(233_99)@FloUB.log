@@ -1,0 +1,42 @@
+
+
+GGT(233_99)@FloUB 11.06 23:47:02,237| ######################## 233_99 Status: SETUP ########################
+
+
+GGT(233_99)@FloUB 11.06 23:47:02,237| ######################## 233_99 Status: INITIAL ########################
+GGT(233_99)@FloUB 11.06 23:47:02,237| REBIND
+GGT(233_99)@FloUB 11.06 23:47:02,237| CHECK_IN
+GGT(233_99)@FloUB 11.06 23:47:15,159| Nachbarn wurden mitgeteilt {L: '231_99' | R: '232_99'}
+
+
+GGT(233_99)@FloUB 11.06 23:47:15,159| ######################## 233_99 Status: PRE_PROCESS ########################
+GGT(233_99)@FloUB 11.06 23:47:17,643| Initial Mi wurde mitgeteilt. Mi:4680500
+
+
+GGT(233_99)@FloUB 11.06 23:47:17,643| ######################## 233_99 Status: PROCESS ########################
+GGT(233_99)@FloUB 11.06 23:47:17,643| Send erhalten Y:3727102500
+GGT(233_99)@FloUB 11.06 23:47:17,643| ALGO: ((4680500 -1) mod 3727102500) +1     --    (TTW: 5 Sekunden)
+GGT(233_99)@FloUB 11.06 23:47:22,659| Mi NICHT geaendert! (ist und bleibt: 4680500)
+GGT(233_99)@FloUB 11.06 23:47:22,659| Send erhalten Y:2100
+GGT(233_99)@FloUB 11.06 23:47:22,659| ALGO: ((4680500 -1) mod 2100) +1     --    (TTW: 5 Sekunden)
+GGT(233_99)@FloUB 11.06 23:47:27,675| informiere (brief_mi) Koordinator coo ueber neuen Mi:1700
+GGT(233_99)@FloUB 11.06 23:47:27,675| Sende (send) Nachbarn '231_99' und '232_99' neuen Mi:1700
+GGT(233_99)@FloUB 11.06 23:47:27,675| Send erhalten Y:600
+GGT(233_99)@FloUB 11.06 23:47:27,675| ALGO: ((1700 -1) mod 600) +1     --    (TTW: 5 Sekunden)
+GGT(233_99)@FloUB 11.06 23:47:32,690| informiere (brief_mi) Koordinator coo ueber neuen Mi:500
+GGT(233_99)@FloUB 11.06 23:47:32,690| Sende (send) Nachbarn '231_99' und '232_99' neuen Mi:500
+GGT(233_99)@FloUB 11.06 23:47:32,706| Send erhalten Y:400
+GGT(233_99)@FloUB 11.06 23:47:32,706| ALGO: ((500 -1) mod 400) +1     --    (TTW: 5 Sekunden)
+GGT(233_99)@FloUB 11.06 23:47:37,722| informiere (brief_mi) Koordinator coo ueber neuen Mi:100
+GGT(233_99)@FloUB 11.06 23:47:37,722| Sende (send) Nachbarn '231_99' und '232_99' neuen Mi:100
+GGT(233_99)@FloUB 11.06 23:47:37,722| Send erhalten Y:200
+GGT(233_99)@FloUB 11.06 23:47:37,722| ALGO: ((100 -1) mod 200) +1     --    (TTW: 5 Sekunden)
+GGT(233_99)@FloUB 11.06 23:47:42,737| Mi NICHT geaendert! (ist und bleibt: 100)
+GGT(233_99)@FloUB 11.06 23:47:47,753| Send erhalten Y:100
+GGT(233_99)@FloUB 11.06 23:47:47,753| ALGO: ((100 -1) mod 100) +1     --    (TTW: 5 Sekunden)
+GGT(233_99)@FloUB 11.06 23:47:52,768| Mi NICHT geaendert! (ist und bleibt: 100)
+GGT(233_99)@FloUB 11.06 23:47:52,768| Send erhalten Y:100
+GGT(233_99)@FloUB 11.06 23:47:52,768| ALGO: ((100 -1) mod 100) +1     --    (TTW: 5 Sekunden)
+GGT(233_99)@FloUB 11.06 23:47:57,784| Mi NICHT geaendert! (ist und bleibt: 100)
+GGT(233_99)@FloUB 11.06 23:48:07,800| °°° vote erhalten! Ich = '233_99'  Initiator = '232_99') °°°
+GGT(233_99)@FloUB 11.06 23:48:07,800| Leite Anfrage (vote) an den Linken Nachbarn '231_99' weiter (implizites Zustimmen)

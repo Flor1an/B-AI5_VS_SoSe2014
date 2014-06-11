@@ -6,7 +6,6 @@
 				smallesMi
                }).
 -record(gcd_client, { name
-                    , servicepid
                     , left_neighbor
                     , right_neighbor
                     }).
@@ -342,17 +341,14 @@ get15Percent(List) ->
 		_ -> 
 			round((length(List)/100) * 15)
 	end,
+	
+	get15Elemtnts(werkzeug:shuffle(List), RemainingElementsToSelect, []).
 
-	selectPercentageOfElementsFromList(List, RemainingElementsToSelect, []).
-
-selectPercentageOfElementsFromList(_List, 0, Accu) ->
+get15Elemtnts(_List, 0, Accu) ->
 	Accu;
-
-selectPercentageOfElementsFromList(List, RemainingElementsToSelect, Accu) ->
-	[Head | Tail] = werkzeug:shuffle(List),
-	selectPercentageOfElementsFromList(Tail, RemainingElementsToSelect - 1, [Head | Accu]).
-
-
+get15Elemtnts(List, RemainingElementsToSelect, Accu) ->
+	[Head | Tail] = List,
+	get15Elemtnts(Tail, RemainingElementsToSelect - 1, [Head | Accu]).
 
 
 	

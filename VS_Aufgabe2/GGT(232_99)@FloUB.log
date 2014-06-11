@@ -1,0 +1,40 @@
+
+
+GGT(232_99)@FloUB 11.06 23:47:01,222| ######################## 232_99 Status: SETUP ########################
+
+
+GGT(232_99)@FloUB 11.06 23:47:01,222| ######################## 232_99 Status: INITIAL ########################
+GGT(232_99)@FloUB 11.06 23:47:01,222| REBIND
+GGT(232_99)@FloUB 11.06 23:47:01,222| CHECK_IN
+GGT(232_99)@FloUB 11.06 23:47:15,159| Nachbarn wurden mitgeteilt {L: '233_99' | R: '231_99'}
+
+
+GGT(232_99)@FloUB 11.06 23:47:15,159| ######################## 232_99 Status: PRE_PROCESS ########################
+GGT(232_99)@FloUB 11.06 23:47:17,628| Initial Mi wurde mitgeteilt. Mi:1875900
+
+
+GGT(232_99)@FloUB 11.06 23:47:17,643| ######################## 232_99 Status: PROCESS ########################
+GGT(232_99)@FloUB 11.06 23:47:22,659| Send erhalten Y:2100
+GGT(232_99)@FloUB 11.06 23:47:22,659| ALGO: ((1875900 -1) mod 2100) +1     --    (TTW: 5 Sekunden)
+GGT(232_99)@FloUB 11.06 23:47:27,675| informiere (brief_mi) Koordinator coo ueber neuen Mi:600
+GGT(232_99)@FloUB 11.06 23:47:27,675| Sende (send) Nachbarn '233_99' und '231_99' neuen Mi:600
+GGT(232_99)@FloUB 11.06 23:47:27,675| Send erhalten Y:1700
+GGT(232_99)@FloUB 11.06 23:47:27,675| ALGO: ((600 -1) mod 1700) +1     --    (TTW: 5 Sekunden)
+GGT(232_99)@FloUB 11.06 23:47:32,690| Mi NICHT geaendert! (ist und bleibt: 600)
+GGT(232_99)@FloUB 11.06 23:47:32,706| Send erhalten Y:400
+GGT(232_99)@FloUB 11.06 23:47:32,706| ALGO: ((600 -1) mod 400) +1     --    (TTW: 5 Sekunden)
+GGT(232_99)@FloUB 11.06 23:47:37,722| informiere (brief_mi) Koordinator coo ueber neuen Mi:200
+GGT(232_99)@FloUB 11.06 23:47:37,722| Sende (send) Nachbarn '233_99' und '231_99' neuen Mi:200
+GGT(232_99)@FloUB 11.06 23:47:37,722| Send erhalten Y:500
+GGT(232_99)@FloUB 11.06 23:47:37,722| ALGO: ((200 -1) mod 500) +1     --    (TTW: 5 Sekunden)
+GGT(232_99)@FloUB 11.06 23:47:42,753| Mi NICHT geaendert! (ist und bleibt: 200)
+GGT(232_99)@FloUB 11.06 23:47:42,753| Send erhalten Y:100
+GGT(232_99)@FloUB 11.06 23:47:42,753| ALGO: ((200 -1) mod 100) +1     --    (TTW: 5 Sekunden)
+GGT(232_99)@FloUB 11.06 23:47:47,768| informiere (brief_mi) Koordinator coo ueber neuen Mi:100
+GGT(232_99)@FloUB 11.06 23:47:47,768| Sende (send) Nachbarn '233_99' und '231_99' neuen Mi:100
+GGT(232_99)@FloUB 11.06 23:47:47,768| Send erhalten Y:100
+GGT(232_99)@FloUB 11.06 23:47:47,768| ALGO: ((100 -1) mod 100) +1     --    (TTW: 5 Sekunden)
+GGT(232_99)@FloUB 11.06 23:47:52,784| Mi NICHT geaendert! (ist und bleibt: 100)
+GGT(232_99)@FloUB 11.06 23:48:07,800| TTT Timer ist abgelaufen. Informiere meine linken Nachbarn ('233_99') ueber vote
+GGT(232_99)@FloUB 11.06 23:48:07,800| °°° vote erhalten! Ich = '232_99'  Initiator = '232_99') °°°
+GGT(232_99)@FloUB 11.06 23:48:07,800| Abstimmung erfolgreich! informiere (brief_term) Koordinator coo ueber errechneten GGT:100

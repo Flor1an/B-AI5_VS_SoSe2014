@@ -12,8 +12,8 @@
 		ggtName,
 		linkerName,
 		rechterName,
-		logfile,
-		letzterEmpfangEinerZahl}).
+		letzterEmpfangEinerZahl,
+		tttTimer}).
 -include("messages.hrl").
 -include("constants.hrl").
 
@@ -28,8 +28,7 @@ start(KoordinatorName, TTW, TTT, ProzessNR, StarterNR, NameservicePID, Praktikum
 					nameservicePID=NameservicePID, 
 					praktikumsgruppe=Praktikumsgruppe, 
 					teamID=TeamID,
-					ggtName=GGTName,
-					logfile="GGTP_" ++ "@" ++ net_adm:localhost() ++ ".log"
+					ggtName=GGTName
 					},
 
 	logH(Config,"SETUP"),	
@@ -76,7 +75,9 @@ pre_process(Config) ->
 		{set_pmi,Mi} -> 
 			log(Config,"Initial Mi wurde mitgeteilt. Mi:~p",[Mi]),
 			% 5.3.1 
-			NewConfig=Config#config{letzterEmpfangEinerZahl=now()},
+			%NewConfig=Config#config{letzterEmpfangEinerZahl=now()},
+			{ok, Timer} = timer:send_after(timer:seconds(Config#config.ttt), votehelper),
+			NewConfig = Config#config{tttTimer=Timer, letzterEmpfangEinerZahl=now()},
 			%3.1.2 Wechsel in den Zustand process.
 			processEntryPoint(NewConfig,Mi)
 	end.
@@ -89,24 +90,25 @@ processEntryPoint(Config,Mi)->
 % AUFGABE (4+) 5
 process(Config,Mi)->
 	
-	% 5.3 Der ggT-Prozess beobachtet die Zeit seit dem letzten Empfang einer Zahl (send oder set_pmi). 
-	% 	  Hat diese <ttt> Sekunden überschritten, startet er eine Terminierungsanfrage / Abstimmung (vote). 
-	%	  Es wird (von ihm) nur genau eine Terminierungsanfrage gestartet.
-	Temp=timer:now_diff(now(), Config#config.letzterEmpfangEinerZahl),
-	case Temp > timer:seconds(Config#config.ttt) of 
-		true -> 
-			log(Config,"TTT wurde ueberschritten. Sende vote an linken Nachbarn ~p",[Config#config.linkerName]), 
-			% AP seinen linken Nachbarn, ob dieser bereit ist, zu terminieren (vote).
-			lookup(Config,Config#config.linkerName) ! {vote,Config#config.ggtName};
-		_ -> foo
-	end,
+
 	
 	receive 
+	
+		% 5.3 Der ggT-Prozess beobachtet die Zeit seit dem letzten Empfang einer Zahl (send oder set_pmi). 
+		% 	  Hat diese <ttt> Sekunden überschritten, startet er eine Terminierungsanfrage / Abstimmung (vote). 
+		%	  Es wird (von ihm) nur genau eine Terminierungsanfrage gestartet.
+		votehelper ->
+			log(Config,"TTT Timer ist abgelaufen. Informiere meine linken Nachbarn (~p) ueber vote",[Config#config.linkerName]),
+			lookup(Config,Config#config.linkerName) ! {vote,Config#config.ggtName},
+			process(Config,Mi);
 		
 		% 4. Der ggT-Prozess kann zu jeder Zeit zu einer neuen Berechnung aufgefordert werden! (copy n' paste von pre_process)
 		{set_pmi,Mi} -> 
 			log(Config,"Neuer Mi wurde mitgeteilt (Neue berechnung). Mi:~p",[Mi]),
-			NewConfig=Config#config{letzterEmpfangEinerZahl=now()},
+			%NewConfig=Config#config{letzterEmpfangEinerZahl=now()},
+			timer:cancel(Config#config.tttTimer),
+			{ok, Timer} = timer:send_after(timer:seconds(Config#config.ttt), votehelper),
+			NewConfig = Config#config{tttTimer=Timer, letzterEmpfangEinerZahl=now()},
 			process(NewConfig,Mi);
 
 		% 5.1.1 Wenn er eine Zahl erhält (send) führt er den ggT-Algorithmus aus.
@@ -114,8 +116,10 @@ process(Config,Mi)->
 			log(Config,"Send erhalten Y:~p",[Y]),
 			Mi2=algo(Mi, Y, Config),
 			%io:format("Mi: ~p Mi2: ~p", [Mi, Mi2]),
-			NewConfig = Config#config{letzterEmpfangEinerZahl=now()},
-				
+			%NewConfig = Config#config{letzterEmpfangEinerZahl=now()},
+			timer:cancel(Config#config.tttTimer),
+			{ok, Timer} = timer:send_after(timer:seconds(Config#config.ttt), votehelper),
+			NewConfig = Config#config{tttTimer=Timer, letzterEmpfangEinerZahl=now()},	
 				
 			case Mi2 =/= Mi of
 				true -> 
@@ -134,15 +138,8 @@ process(Config,Mi)->
 				
 				
 		% 5.4.1 Ist die Abstimmung erfolgreich (vote wird ihm mit seinem Namen gesendet),
-		{vote, Initiator} when Initiator == Config#config.ggtName ->
-			% 5.4.2 sendet er dem Koordinator eine Mitteilung über die Terminierung (brief_term) 
-			%		mit seinem Namen, dem errechneten ggT (sein aktuelles Mi) und seine aktuelle Systemzeit.
-			log(Config,"Abstimmung erfolgreich! informiere (brief_term) Koordinator ~p ueber errechneten GGT:~p",[ Config#config.koordinatorName, Mi]),
-			lookup(Config,Config#config.koordinatorName) ! {brief_term,{Config#config.ggtName, Mi, werkzeug:timeMilliSecond()},self()}, 
-
-			% 5.4.3 Zudem zählt er seine erfolgreich gemeldeten Terminierungsmeldungen und notiert dies in seinem log.
-			%TODO: zähler hochzählen
-			process(Config, Mi);
+		%{vote, Initiator} when Initiator == Config#config.ggtName ->
+			
 			
 			
 		% 5.5.2 Erhält ein initiierender Prozess von seinem rechten Nachbarn die Anfrage nach der Terminierung (vote),
@@ -153,19 +150,35 @@ process(Config,Mi)->
 		
 		% 5.5.1 Ein ggT-Prozess erhält die Anfrage nach der Terminierung (vote) und er ist nicht der Initiator.
 		{vote, Initiator} ->
-			% 5.5.1.2 ist seit dem letzten Empfang einer Zahl ...
-			TimeDiff=timer:now_diff(now(), Config#config.letzterEmpfangEinerZahl),
-			% ... mehr als <ttt>/2 Sekunden vergangen ...
-			case (TimeDiff > timer:seconds((Config#config.ttt/2))) of
-				true ->
-					% ... dann leitet er die Anfrage an seinen linken Nachbarn weiter (implizites Zustimmen). 
-					log(Config, "Leite Anfrage (vote) an den Linken Nachbarn ~p weiter (implizites Zustimmen)",[Config#config.linkerName]),
-					lookup(Config,Config#config.linkerName) ! {vote,Initiator},
-					process(Config,Mi);
-			 	_ -> 
-					% Sonst ignoriert er die Nachricht (implizites ablehnen).
-					process(Config,Mi)
-			end;
+			timer:cancel(Config#config.tttTimer),
+			log(Config,"°°° vote erhalten! Ich = ~p  Initiator = ~p) °°°",[Config#config.ggtName, Initiator]),
+			case Initiator == Config#config.ggtName of
+				true -> 
+					% 5.4.2 sendet er dem Koordinator eine Mitteilung über die Terminierung (brief_term) 
+					%		mit seinem Namen, dem errechneten ggT (sein aktuelles Mi) und seine aktuelle Systemzeit.
+					log(Config,"Abstimmung erfolgreich! informiere (brief_term) Koordinator ~p ueber errechneten GGT:~p",[ Config#config.koordinatorName, Mi]),
+					lookup(Config,Config#config.koordinatorName) ! {brief_term,{Config#config.ggtName, Mi, werkzeug:timeMilliSecond()},self()}; 
+
+					% 5.4.3 Zudem zählt er seine erfolgreich gemeldeten Terminierungsmeldungen und notiert dies in seinem log.
+					%TODO: zähler hochzählen
+				
+				_ ->
+					% 5.5.1.2 ist seit dem letzten Empfang einer Zahl ...
+					TimeDiff=timer:now_diff(now(), Config#config.letzterEmpfangEinerZahl),
+					% ... mehr als <ttt>/2 Sekunden vergangen ...
+					case (TimeDiff > timer:seconds((Config#config.ttt/2))) of
+						true ->
+							% ... dann leitet er die Anfrage an seinen linken Nachbarn weiter (implizites Zustimmen). 
+							log(Config, "Leite Anfrage (vote) an den Linken Nachbarn ~p weiter (implizites Zustimmen)",[Config#config.linkerName]),
+							lookup(Config,Config#config.linkerName) ! {vote, Initiator};
+						_ -> 
+							% Sonst ignoriert er die Nachricht (implizites ablehnen).
+							log(Config, "implizit abgelehnt")
+					end
+					
+			end,
+			
+			process(Config,Mi);
 					 
 					 
 
@@ -190,7 +203,7 @@ process(Config,Mi)->
 	end.
  
 algo(Mi, Y, Config) -> 
-	log(Config,"ALGO: ((~p -1) mod ~p) +1     --    TTW: ~p",[Mi,Y,Config#config.ttw]),
+	log(Config,"ALGO: ((~p -1) mod ~p) +1     --    (TTW: ~p Sekunden)",[Mi,Y,Config#config.ttw]),
 	% 5.2.1 Für eine ggT-Berechnung braucht er jedoch eine gewisse Zeit (<ttw>). Dies simuliert eine größere, 
 	%		Zeit intensivere Aufgabe. Der ggT-Prozess soll in dieser Zeit einfach nichts tun (timer:sleep).
 	timer:sleep(timer:seconds(Config#config.ttw)),

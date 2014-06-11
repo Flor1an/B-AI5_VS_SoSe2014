@@ -1,0 +1,57 @@
+
+
+Coordinator@FloUB 11.06 23:46:53,329| ######################## Status: SETUP ########################################
+Coordinator@FloUB 11.06 23:46:53,329| NameServiceNode = nameser@FloUB
+Coordinator@FloUB 11.06 23:46:53,391| NameServiceName = nameservice
+Coordinator@FloUB 11.06 23:46:53,391| NameServicePID  = undefined
+
+
+Coordinator@FloUB 11.06 23:46:54,407| ######################## Status: SETUP ########################################
+Coordinator@FloUB 11.06 23:46:54,423| NameServiceNode = nameser@FloUB
+Coordinator@FloUB 11.06 23:46:54,437| NameServiceName = nameservice
+Coordinator@FloUB 11.06 23:46:54,438| NameServicePID  = <6478.46.0>
+Coordinator@FloUB 11.06 23:46:54,438| Mit NameService verbunden
+
+
+Coordinator@FloUB 11.06 23:46:54,438| ######################## Status: REGISTER ########################################
+Coordinator@FloUB 11.06 23:46:54,438| Warte 20 sekunden lang auf Registrierungen
+Coordinator@FloUB 11.06 23:47:00,204| Starter <10451.1421.0> erfragt die GGT Startwerte (get_ggt_vals)
+Coordinator@FloUB 11.06 23:47:00,204| ... sende ggt_vals (TTW: 5 TTT: 15 PTS: 3)
+Coordinator@FloUB 11.06 23:47:00,220| Neuer GGT Prozess mit dem Name: '231_99' hat sich angemeldet (check_in)
+Coordinator@FloUB 11.06 23:47:01,220| Neuer GGT Prozess mit dem Name: '232_99' hat sich angemeldet (check_in)
+Coordinator@FloUB 11.06 23:47:02,234| Neuer GGT Prozess mit dem Name: '233_99' hat sich angemeldet (check_in)
+
+
+Coordinator@FloUB 11.06 23:47:14,454| ######################## Status: INIT ########################################
+Coordinator@FloUB 11.06 23:47:14,454| Warte auf dem step befehl
+Coordinator@FloUB 11.06 23:47:15,125| step erhalten. Erstelle den Ring
+Coordinator@FloUB 11.06 23:47:15,141| Erstelle Ring:
+Coordinator@FloUB 11.06 23:47:15,141| ## Sortierte GGTs: ['231_99','232_99','233_99']
+Coordinator@FloUB 11.06 23:47:15,141| ## Gemixte GGTs: ['231_99','233_99','232_99']
+Coordinator@FloUB 11.06 23:47:15,141| GGT '232_99' = linker Nachbar: '233_99' | rechter Nachbar: '231_99'
+Coordinator@FloUB 11.06 23:47:15,141| GGT '233_99' = linker Nachbar: '231_99' | rechter Nachbar: '232_99'
+Coordinator@FloUB 11.06 23:47:15,141| GGT '231_99' = linker Nachbar: '232_99' | rechter Nachbar: '233_99'
+Coordinator@FloUB 11.06 23:47:15,141| GGT Prozesse ueber Nachbarn informieren
+Coordinator@FloUB 11.06 23:47:15,141| Sende '231_99' seine Nachbarn: R='232_99' | L='233_99'
+Coordinator@FloUB 11.06 23:47:15,141| Sende '232_99' seine Nachbarn: R='233_99' | L='231_99'
+Coordinator@FloUB 11.06 23:47:15,157| Sende '233_99' seine Nachbarn: R='231_99' | L='232_99'
+
+
+Coordinator@FloUB 11.06 23:47:15,157| ######################## Status: READY ########################################
+Coordinator@FloUB 11.06 23:47:17,625| Schluesselwort calc empfangen mit target=100
+Coordinator@FloUB 11.06 23:47:17,626| Informiere '231_99': ueber initial Mi = 10915862100
+Coordinator@FloUB 11.06 23:47:17,626| Informiere '232_99': ueber initial Mi = 1875900
+Coordinator@FloUB 11.06 23:47:17,626| Informiere '233_99': ueber initial Mi = 4680500
+Coordinator@FloUB 11.06 23:47:17,626| 15% der GGT Prozess ausgewaehlt: ['231_99','233_99']
+Coordinator@FloUB 11.06 23:47:17,626| Informiere '231_99' mit dem Vielfachen von Target = 7500
+Coordinator@FloUB 11.06 23:47:17,641| Informiere '233_99' mit dem Vielfachen von Target = 3727102500
+Coordinator@FloUB 11.06 23:47:22,657| Prozess '231_99' hat einen neuen Mi 2100 um "11.06 23:47:22,659|" berechnet
+Coordinator@FloUB 11.06 23:47:27,673| Prozess '233_99' hat einen neuen Mi 1700 um "11.06 23:47:27,675|" berechnet
+Coordinator@FloUB 11.06 23:47:27,673| Prozess '232_99' hat einen neuen Mi 600 um "11.06 23:47:27,675|" berechnet
+Coordinator@FloUB 11.06 23:47:32,687| Prozess '233_99' hat einen neuen Mi 500 um "11.06 23:47:32,690|" berechnet
+Coordinator@FloUB 11.06 23:47:32,704| Prozess '231_99' hat einen neuen Mi 400 um "11.06 23:47:32,690|" berechnet
+Coordinator@FloUB 11.06 23:47:37,720| Prozess '233_99' hat einen neuen Mi 100 um "11.06 23:47:37,722|" berechnet
+Coordinator@FloUB 11.06 23:47:37,720| Prozess '232_99' hat einen neuen Mi 200 um "11.06 23:47:37,722|" berechnet
+Coordinator@FloUB 11.06 23:47:47,750| Prozess '231_99' hat einen neuen Mi 100 um "11.06 23:47:47,753|" berechnet
+Coordinator@FloUB 11.06 23:47:47,766| Prozess '232_99' hat einen neuen Mi 100 um "11.06 23:47:47,768|" berechnet
+Coordinator@FloUB 11.06 23:48:07,812| Client '232_99' finished calculation with Mi 100 at "11.06 23:48:07,800|" laut <10451.3742.0>
