@@ -1,6 +1,6 @@
 -module(coordinator).
 
--export([start/1,calc/0,calc/1,reset/0,kill/0]).
+-export([start/1]).
 
 -record(state, { clients=orddict:new(),
 				smallesMi
@@ -25,19 +25,6 @@
 start(NameserviceNode) ->
 	setup(NameserviceNode).
 	
-	
-calc() -> %5.1
-	sentToMyself(calc).
-
-calc(GCD) when is_integer(GCD) andalso GCD > 0 -> % 5.0
-	sentToMyself({calc, GCD}).
-
-reset() ->
-	sentToMyself(reset).
-
-kill() ->
-	sentToMyself(kill).
-
 % /PUBLIC ##############################################
   
 load_config() ->
@@ -141,16 +128,17 @@ init(State,Config) ->
 		step ->			
 			log("step erhalten. Erstelle den Ring"),
 	
-			ClientsWithRing = step_ring_bauen(State#state.clients),
-			StateWithRing = State#state{clients = ClientsWithRing},
-
+			StateWithRing =ringErstellen(State,State#state.clients),  %step_ring_bauen(State#state.clients),
+			
 			% IP 5.2 der die ggT Prozesse über ihren linken und rechten Nachbarn informiert (set_neighbours).
-			set_neighbours(StateWithRing),
+			set_neighbours(StateWithRing,Config),
 	
 			% 4.3 Danach wechselt der Koordinator inf den Zustand ready.
 			readyEntryPoint(StateWithRing,Config)
 	end.
-
+	
+	
+	
 readyEntryPoint(State,Config) ->
 	logH("READY"),
 	ready(State,Config).
@@ -162,25 +150,27 @@ ready(State,Config) ->
 	% 5.0
     calc ->
 		Target = random:uniform(100), %Beliebige Zahl zwischen 1 und 100
+		log("Schluesselwort ~p empfangen (generiertes target=~p)",[calc,Target]),
 		% 5.1 Der Koordinator informiert alle ggT-Prozesse über ihre Startwerte (set_pmi)
-		set_pmi(State, Target),
+		set_pmi(State, Config, Target),
 		% 5.3 Er startet die Berechnung und sendet 15% der ggT Prozesse (mindestens 2 und zufällig gewählt) eine Zahl (Vielfaches von target) über send
-		send(State, Target),
+		send(State,Config, Target),
 		% loop
 		ready(State,Config);
 	  
 	% 5.0 (Für per Hand) Starten einer Berechnung über die Nachricht {calc target}.
 	%					 target ist der gewünschte ggt (dieser ist zur manuellen Überprüfung der Berechnung gedacht).
     {calc, Target} when is_integer(Target) andalso Target > 0 ->
+		log("Schluesselwort ~p empfangen mit target=~p",[calc,Target]),
 		% 5.1 Der Koordinator informiert alle ggT-Prozesse über ihre Startwerte (set_pmi)
-		set_pmi(State, Target),
+		set_pmi(State, Config, Target),
 		% 5.3 Er startet die Berechnung und sendet 15% der ggT Prozesse (mindestens 2 und zufällig gewählt) eine Zahl (Vielfaches von target) über send
-		send(State, Target),
+		send(State,Config, Target),
 		% loop
 		ready(State,Config);
 	
 	%Ein ggT-Prozess mit Namen ggtName informiert über sein neues Mi ggTMi um ggTZeit Uhr.
-    {briefmi, {GGTName, GGTMi, GGTZeit}} ->
+    {brief_mi, {GGTName, GGTMi, GGTZeit}} ->
 		log("Prozess ~p hat einen neuen Mi ~p um ~p berechnet", [GGTName, GGTMi, GGTZeit]),
 		ready(State,Config);
 	  
@@ -193,7 +183,7 @@ ready(State,Config) ->
 				log("°°°°°°°°°° FEHLER !! Kleinster Mi = ~p neuer Mi von ~p = ~p",[BissherigesMi,GGTName,GGTMi]),
 				ready(State,Config);
 			_ ->
-				log("Client ~p finished calculation with Mi ~p at ~p", [GGTName, GGTMi, GGTZeit]),
+				log("Client ~p finished calculation with Mi ~p at ~p laut ~p", [GGTName, GGTMi, GGTZeit,From]),
 				NewState = State#state{smallesMi = GGTMi},
 				ready(NewState,Config)
 		end;	
@@ -219,7 +209,7 @@ ready(State,Config) ->
 	% 5.5.2 ... oder in den Zustand register (Nachricht reset) versetzt werden.
 	% Der Koordinator sendet allen ggT-Prozessen das kill-Kommando und bringt sich selbst in den Zustand, indem sich Starter wieder melden können.
     reset ->
-		reseting(State)
+		reseting(State,Config)
 
 	end.
 	
@@ -228,9 +218,9 @@ toggle(State,Config) ->
 	%sendet er dem ggT-Prozess die kleinste Zahl per send
 
 
-reseting(State) ->
+reseting(State,Config) ->
 	logH("RESET"),
-	kill_all_gcd_clients(State),
+	kill_all_gcd_clients(State,Config),
 	% 5.5.3 Beim Übergang in den Zustand register wird die Konfigurationsdatei des Koordinators erneut gelesen.
 	FreshConfig = load_config(),
 	FreshState = State#state{clients=orddict:new(), smallesMi=[10000000000000000000000000000]},
@@ -240,7 +230,7 @@ reseting(State) ->
 killing(State,Config) ->
 	logH("KILL"),
   %%% send the kill command to all registered clients
-  kill_all_gcd_clients(State),
+  kill_all_gcd_clients(State,Config),
 
   log("Trying to unbind coordinator name at nameservice"),
   case global:whereis_name(nameservice) of
@@ -251,169 +241,96 @@ killing(State,Config) ->
   log("Terminating coordinator process. Goodbye."),
   exit(self()).
 
-
-
-%%% update the clients dictionary with another client
-update_clients_with_client(Clients, ClientName, UpdatedClient) ->
-  orddict:store(ClientName, UpdatedClient, Clients).
-
-%%% register gcd client and return new state
-addGGTNode(State, Config, NewGGTNodeName) ->
-	ClientList = State#state.clients,
-	NameServicePID = global:whereis_name(Config#config.nameservicename),
-
-	lookup(NameServicePID,NewGGTNodeName),
 	
-	NewGGTNodePID = case nameservice_lookup(NameServicePID, NewGGTNodeName) of
-		not_found ->
-			log_error(format("Client: ~p not found at nameservice", [NewGGTNodeName])),
-			not_found;
+ringErstellen(State, GGTs) ->
+	log("Erstelle Ring:"),
+	GgtProcs = orddict:fetch_keys(GGTs),
+	log("## Sortierte GGTs: ~p",[GgtProcs]),
+	ShuffledGgtProcs = werkzeug:shuffle(GgtProcs),
+	log("## Gemixte GGTs: ~p",[ShuffledGgtProcs]),
+	ringErstellen(State,ShuffledGgtProcs, length(ShuffledGgtProcs)).
+	
+ringErstellen(State,_, 0) -> State;
+ringErstellen(State, GgtProcs, Index) ->
+	PreviousIndex = case (Index-1) =< 0 of
+					true ->
+						length(GgtProcs); %Letzter
+					_ ->
+						(Index-1)
+					end,
+	NextIndex	  = case (Index+1) > length(GgtProcs) of
+					true ->
+						1; % Erster
+					_ ->
+						(Index+1)
+					end,
+	Left = lists:nth(PreviousIndex, GgtProcs),
+	Current = lists:nth(Index, GgtProcs),
+	Right = lists:nth(NextIndex, GgtProcs),
+	log("GGT ~p = linker Nachbar: ~p | rechter Nachbar: ~p",[Current,Left,Right]),
+	
+	UpdatedClients = orddict:store(Current, #gcd_client{left_neighbor=Left, right_neighbor=Right}, State#state.clients),
+	NewState=State#state{clients=UpdatedClients},
+	
+	%Current ! {?NEIGHBOURS, Left, Right},
+	ringErstellen(NewState, GgtProcs, Index - 1).
 
-		%%% everything is good. return servicepid.
-		{ok, ServicePid} -> 
-			ServicePid;
-
-		error ->
-			log_error("register gcd client: nameservice_lookup was interrupted."),
-			error
-	end,
-
-	UpdatedClients = orddict:store(NewGGTNodeName, #gcd_client{name=NewGGTNodeName, servicepid=NewGGTNodePID}, ClientList),
-	State#state{clients=UpdatedClients}.
-
-%%% build a ring of the registered gcd clients where each gcd client
-%%% knows his left and right neighbor.
-%%% Pivot: first ClientName from which we start building the ring
-%%% Clients: State#state.clients Dictionary with ClientName -> gcd_client entries
-%%%
-%%% Returns: an updated Clients Dictionary
-step_ring_bauen(Clients) ->
-  log("Build ring of gcd clients"),
-  %%% it is not possible/ill-adviced to build a ring with only one client.
-  %%% that client would have himself as his left and right neighbor and would
-  %%% send himself 2 messages.
-  %%% TODO decide if we should increment this to < 3 to have distinct neighbors
-  case orddict:size(Clients) < 2 of
-    true ->
-		log_error("Building the GCD ring failed."),
-		log_error("Building a ring of less than two clients is not possible"),
-		error;
-    false ->
-		ClientsList = werkzeug:shuffle(orddict:fetch_keys(Clients)),
-		[Pivot | Tail] = ClientsList,
-		step_ring_bauen(Clients,
-                                orddict:fetch(Pivot, Clients),
-                                Tail,
-                                none)
-  end.
-
-step_ring_bauen(Clients, Pivot, RemainingClientsList, none) ->
-	%%% initial call:
-	step_ring_bauen(Clients,
-                            Pivot,
-                            RemainingClientsList,
-                            Pivot);
-
-step_ring_bauen(Clients, Pivot, [], PreviousClient) ->
-  %%% empty RemainingClientsList:
-  %%% all clients have been updated. all that is missing is the left neighbor
-  %%% of the Pivot element and the right_neighbor of the PreviousClient
-  {ok, PivotFromClientsDictionary} = orddict:find(Pivot#gcd_client.name, Clients),
-  FinishedPivot = PivotFromClientsDictionary#gcd_client{left_neighbor=PreviousClient#gcd_client.name},
-
-  %%% 3. set FinishedPivot as the right_neighbor of the PreviousClient
-  FinishedPreviousClient = PreviousClient#gcd_client{right_neighbor=FinishedPivot#gcd_client.name},
-
-  %%% return the updated Clients Dictionary with the ring
-  UpdatedClients = update_clients_with_client(Clients,
-                                              FinishedPivot#gcd_client.name,
-                                              FinishedPivot),
-
-  log("Building the ring of gcd clients succeeded"),
-  update_clients_with_client(UpdatedClients,
-                             FinishedPreviousClient#gcd_client.name,
-                             FinishedPreviousClient);
-
-step_ring_bauen(Clients, Pivot, RemainingClientsList, PreviousClient) ->
-  %%% there are remaining clients. recursively traverse the RemainingClientsList:
-  %%% 1. get the CurrentClient from the Clients Dictionary
-  %%% we dont match for error because if this fails we have a problem anyway
-  %%% and want the process to throw an exception for now
-  [Head | Tail] = RemainingClientsList,
-  {ok, CurrentClient} = orddict:find(Head, Clients),
-
-  %%% 1. set the PreviousClient as the left_neighbor of the current client
-  %%% 2. set the head of the RemainingClientsList as the right_neighbor
-  %%% of the current client
-  UpdatedClient = CurrentClient#gcd_client{left_neighbor=PreviousClient#gcd_client.name},
-
-  %%% 3. set UpdatedClient as the right_neighbor of the PreviousClient
-  FinishedPreviousClient = PreviousClient#gcd_client{right_neighbor=UpdatedClient#gcd_client.name},
-
-  %%% 4. update the Client Dictionary with the UpdatedClient and
-  %%% FinishedPreviousClient
-  UpdatedClients = update_clients_with_client(Clients,
-                                              UpdatedClient#gcd_client.name,
-                                              UpdatedClient),
-  UpdatedClients2 = update_clients_with_client(UpdatedClients,
-                                               FinishedPreviousClient#gcd_client.name,
-                                               FinishedPreviousClient),
-  %%% 3. set the RemainingClientsList to the tail of RemainingClientsList
-  step_ring_bauen(UpdatedClients2,
-                            Pivot,
-                            Tail,
-                            UpdatedClient).
+	
+	
 
 % IP 5.2 der die ggT Prozesse über ihren linken und rechten Nachbarn informiert (set_neighbours).
-set_neighbours(State) ->
-  log("Introducing GCD clients to their neighbors"),
-  orddict:map(
-    fun(Key, Value) ->
-        log(format("set GCD client ~p: left neighbor: ~p, right neighbor: ~p",  [Key,Value#gcd_client.left_neighbor,Value#gcd_client.right_neighbor])),
-        Value#gcd_client.servicepid ! {setneighbours,
+set_neighbours(State,Config) ->
+	log("GGT Prozesse ueber Nachbarn informieren"),
+	NameServicePID = global:whereis_name(Config#config.nameservicename),
+	orddict:map(
+		fun(Key, Value) ->
+			log("Sende ~p seine Nachbarn: R=~p | L=~p",[Key,Value#gcd_client.left_neighbor,Value#gcd_client.right_neighbor]),
+			lookup(NameServicePID,Key) ! {set_neighbours,
                                        Value#gcd_client.left_neighbor,
                                        Value#gcd_client.right_neighbor}
-    end,
+		end,
     State#state.clients).
 
 % 5.1 Der Koordinator informiert alle ggT-Prozesse über ihre Startwerte (set_pmi)
-set_pmi(State, Target) ->
+set_pmi(State,Config, Target) ->
+	NameServicePID = global:whereis_name(Config#config.nameservicename),
+		
 	orddict:map(
-		fun(Key, Value) ->
-			VielfachesVonTarget = werkzeug:bestimme_mis(Target,1),
-			log(format("The GCD process ~p: initial Mi ~p", [Key, VielfachesVonTarget])),
-			Value#gcd_client.servicepid ! {set_pmi, VielfachesVonTarget}
+		fun(Key, _) ->
+			VielfachesVonTarget = lists:nth(1,werkzeug:bestimme_mis(Target,1)),
+			log("Informiere ~p: ueber initial Mi = ~p", [Key, VielfachesVonTarget]),
+			lookup(NameServicePID,Key) ! {set_pmi, VielfachesVonTarget}
 		end,
     State#state.clients).
 
 % 5.3 Er startet die Berechnung und sendet 15% der ggT Prozesse (mindestens 2 und zufällig gewählt) eine Zahl (Vielfaches von target) über send
-send(State, Target) ->
+send(State,Config, Target) ->
 	Clients = State#state.clients,
 	ClientsNamesList = orddict:fetch_keys(Clients),
 	%%% select 15% of the clients but at least 2 clients
 	SelectedClientNames = get15Percent(ClientsNamesList),
+	log("15% der GGT Prozess ausgewaehlt: ~p",[SelectedClientNames]),
+	NameServicePID = global:whereis_name(Config#config.nameservicename),
+	
 	lists:map(
-		fun(ClientName) ->
-			VielfachesVonTarget = werkzeug:bestimme_mis(Target,1),
-			io:format("VielfachesVonTarget = ~p~n~n~n",[VielfachesVonTarget]),
-			log("send_message_to_service( ~p )", [{ClientName, VielfachesVonTarget}]),
-			Client = orddict:fetch(ClientName, Clients),
-			Client#gcd_client.servicepid ! {send, VielfachesVonTarget}
+		fun(GGTProzess) ->
+			VielfachesVonTarget = lists:nth(1,werkzeug:bestimme_mis(Target,1)),
+			log("Informiere ~p mit dem Vielfachen von Target = ~p", [GGTProzess, VielfachesVonTarget]),
+			lookup(NameServicePID,GGTProzess) ! {send, VielfachesVonTarget}
 		end,
 		SelectedClientNames),
 	ok.
 
-kill_all_gcd_clients(State) ->
-  Clients = State#state.clients,
-  ClientsNamesList = orddict:fetch_keys(Clients),
-
-  lists:map(
-    fun(ClientName) ->
-      log(format("Sending the kill command to GCD-process ~p", [ClientName])),
-      Client = orddict:fetch(ClientName, Clients),
-      Client#gcd_client.servicepid ! kill
-    end,
-    ClientsNamesList).
+kill_all_gcd_clients(State,Config) ->
+	Clients = State#state.clients,
+	ClientsNamesList = orddict:fetch_keys(Clients),
+	NameServicePID = global:whereis_name(Config#config.nameservicename),
+	  lists:map(
+		fun(ClientName) ->
+		  log("Sending the kill command to GCD-process ~p", [ClientName]),
+		  lookup(NameServicePID,ClientName) ! kill
+		end,
+		ClientsNamesList).
 
 		
 
@@ -433,83 +350,11 @@ selectPercentageOfElementsFromList(_List, 0, Accu) ->
 
 selectPercentageOfElementsFromList(List, RemainingElementsToSelect, Accu) ->
 	[Head | Tail] = werkzeug:shuffle(List),
-	selectPercentageOfElementsFromList(Tail,
-                                          RemainingElementsToSelect - 1,
-                                          [Head | Accu]).
+	selectPercentageOfElementsFromList(Tail, RemainingElementsToSelect - 1, [Head | Accu]).
 
 
 
 
-
-
-  
-
-
-format(String, ArgumentsList) ->
-	io_lib:format(String, ArgumentsList).
-
-%%%
-%%% Helpers for message sending
-%%%
-nameservice_lookup(NameService, ServiceName) ->
-  log(format("Searching for service ~p at the nameservice~n~n", [ServiceName])),
-
-  NameService ! {self(), {lookup, ServiceName}},
-
-  receive
-    not_found ->
-      log_error(format("Search for service ~p at the nameservice failed.", [ServiceName])),
-      not_found;
-    ServiceAddress = {ServiceName, ServiceNode} when
-      is_atom(ServiceName) and is_atom(ServiceNode) ->
-      {ok, ServiceAddress}
-
-    %%% we do not want to get stuck due to an unexpected message
-    %Unknown ->
-      %log_error(format("nameservice_lookup: waiting for nameservice response but got: ~p.", [Unknown])),
-       %error
-  end.
-
-%%% ping the nameservice in order to introduce our nodes to each other
-ping_name_service(NameServiceNode) ->
-  case net_adm:ping(NameServiceNode) of
-    pong ->
-      global:sync(),
-      {ok, global:whereis_name(nameservice)};
-
-    _ ->
-      log_error("Cannot find NameService"),
-      error
-  end.
-
-
-
-sentToMyself(Message) ->
-	io:format("°°°°°°°°°°°°°°°°°°°sentToMyself(~p)~n",[Message]),
-	Config = load_config(),
-	
-	%%% ping NameServiceNode
-	case ping_name_service(Config#config.nameservicename) of
-		{ok, NameService} ->
-			%%% lookup the name and node of the current coordinator in charge
-			case nameservice_lookup(NameService, Config#config.myname) of
-				not_found ->
-					log_error(format("Service: ~p not found at nameservice", [Config#config.myname])),
-					not_found;
-
-				%%% everything is good. send message.
-				{ok, ServicePid} -> 
-					ServicePid ! Message;
-
-				error ->
-					log_error("send_message_to_service: nameservice_lookup was interrupted. No message sent."),
-					sentToMyself(Message)
-			end;
-
-		_ ->
-			log_error("NameService was not found in send_message_to_service function"),
-			error
-	end.
 	
 	
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -530,9 +375,9 @@ logH(Message)->
 							CoordinatorName,
 							" ",
                             werkzeug:timeMilliSecond(),
-                            " °°°°°°°°°°°°°°°°°°°°°°°° Status: ",
+                            " ######################## Status: ",
                             Message,
-							" °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°",
+							" ########################################",
                             io_lib:nl()]),
 	werkzeug:logging(lists:concat([CoordinatorName,".log"]), LogMessage).
 %Default Log
@@ -549,7 +394,3 @@ log(Message)->
 log(Message,Prams)->
 	Flat = io_lib:format(Message, Prams),
 	log(Flat).  
-  
-log_error(ErrorMessage) ->
-	Message = lists:concat(["##### ","Error: ", ErrorMessage, " #####"]),
-	log(Message).

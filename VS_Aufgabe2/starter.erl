@@ -42,7 +42,7 @@ start(Nummer) ->
 	end,
 	
 	Cord = lookup(NameServicePID, Config#config.koordinatorname),
-	io:format("###lookup returns: ~p~n",[Cord]),
+	log(Nummer,"###lookup returns: ~p~n",[Cord]),
 
 	% 1.0 Der Starter (mit eindeutiger Nummer) erfragt beim Koordinator die steuernden Werte (get_ggt_vals) asynchron
 	Cord ! {get_ggt_vals, self()},

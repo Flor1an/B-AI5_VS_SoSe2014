@@ -56,7 +56,7 @@ initial(Config)->
 	receive 
 		% {set_neighbours,LeftN,RightN}: die (lokal auf deren Node registrierten und im Namensdienst registrierten) 
 		% Namen des linken und rechten Nachbarn werden gesetzt. LeftN und RightN sind die Namen der Nachbarn.
-		{setneighbours, Left, Right} -> 
+		{set_neighbours, Left, Right} -> 
 			log(Config,"Nachbarn wurden mitgeteilt {L: ~p | R: ~p}",[Left,Right]),
 			NewConfig=Config#config{linkerName=Left, rechterName=Right},
 			%2.2.2 Wechsel in den Zustand pre_process
@@ -95,8 +95,9 @@ process(Config,Mi)->
 	Temp=timer:now_diff(now(), Config#config.letzterEmpfangEinerZahl),
 	case Temp > timer:seconds(Config#config.ttt) of 
 		true -> 
-			log(Config,"TTT wurde ueberschritten. Sende ?!?! TBD");%, 
-			%lookup(Config,Config#config.rechterName) ! {vote,Config#config.ggtName};
+			log(Config,"TTT wurde ueberschritten. Sende vote an linken Nachbarn ~p",[Config#config.linkerName]), 
+			% AP seinen linken Nachbarn, ob dieser bereit ist, zu terminieren (vote).
+			lookup(Config,Config#config.linkerName) ! {vote,Config#config.ggtName};
 		_ -> foo
 	end,
 	
@@ -193,12 +194,13 @@ algo(Mi, Y, Config) ->
 	% 5.2.1 Für eine ggT-Berechnung braucht er jedoch eine gewisse Zeit (<ttw>). Dies simuliert eine größere, 
 	%		Zeit intensivere Aufgabe. Der ggT-Prozess soll in dieser Zeit einfach nichts tun (timer:sleep).
 	timer:sleep(timer:seconds(Config#config.ttw)),
- 	case Y < Mi of
-		true -> 
-			((Mi-1) rem Y)+1;
-		_ -> 
-			Mi
-		end.
+ 	NeuerMi = case Y < Mi of
+				true -> 
+					((Mi-1) rem Y)+1;
+				_ -> 
+					Mi
+				end,
+	NeuerMi.
 			
 
 
@@ -220,11 +222,11 @@ logH(Config,Message)->
 							GgtName,
 							" ",
                             werkzeug:timeMilliSecond(),
-                            " °°°°°°°°°°°°°°°°°°°°°°°° ",
+                            " ######################## ",
 							Config#config.ggtName,
 							" Status: ",
                             Message,
-							" °°°°°°°°°°°°°°°°°°°°°°°°",
+							" ########################",
                             io_lib:nl()]),
 	werkzeug:logging(lists:concat([GgtName,".log"]), LogMessage).	
 	
