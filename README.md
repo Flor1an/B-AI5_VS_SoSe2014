@@ -5,13 +5,13 @@ VS_SoSe2014
 
 ###### Server Terminal Starten: `erl -sname s -setcookie bob`
 
-- Compilieren: `c(werkzeug), c(myserver).
-- Server starten: `myserver:start().`
+- Compilieren: `c(werkzeug), c(myserver).`
+- starten: `myserver:start().`
 
 ###### Client Terminal Starten: `erl -sname c -setcookie bob`
 
 - Compilieren: `c(client).`
-- Client starten: `client:start(s@workstation).`    *s@workstation = Nodename*
+- starten: `client:start(s@workstation).`    *s@workstation = Nodename*
 
 
 ##Aufgabe 2 (GGT/GCD)
