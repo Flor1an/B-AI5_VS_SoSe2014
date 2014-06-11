@@ -30,3 +30,8 @@ VS_SoSe2014
 
 - Compilieren: `c(starter), c(ggt).`
 - Starten: `starter:start(1).`      *1 = Nummer des Starters*
+
+
+##Aufgabe 3 
+
+###### tbd
