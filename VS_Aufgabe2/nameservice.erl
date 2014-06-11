@@ -14,7 +14,9 @@
 start() ->
   {ok, Config} = file:consult("nameservice.cfg"),
   {ok, Name} = get_config_value(name, Config),
-  register_name(Name, self()),
+  global:register_name(Name, self()),
+  io:format("List if register_names: ~p~n",[global:registered_names()]),
+  io:format("Started~n",[]),
   ns_loop(Name, []).
 
 

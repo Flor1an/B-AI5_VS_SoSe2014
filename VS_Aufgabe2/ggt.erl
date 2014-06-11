@@ -8,7 +8,7 @@
 		ttw,
 		ttt,
 		starterNR,
-		nameserviceNode,
+		nameservicePID,
 		ggtName,
 		linkerName,
 		rechterName,
@@ -18,17 +18,17 @@
 -include("constants.hrl").
 
 	
-start(KoordinatorName, TTW, TTT, ProzessNR, StarterNR, NameserviceNode, Praktikumsgruppe, TeamID) ->
-	MyID = list_to_atom(lists:flatten(io_lib:format("~p~p~p_~p", [ Praktikumsgruppe, TeamID, ProzessNR, StarterNR ]))),
+start(KoordinatorName, TTW, TTT, ProzessNR, StarterNR, NameservicePID, Praktikumsgruppe, TeamID) ->
+	GGTName = list_to_atom(lists:flatten(io_lib:format("~p~p~p_~p", [ Praktikumsgruppe, TeamID, ProzessNR, StarterNR ]))),
 	Config = #config{koordinatorName=KoordinatorName,
 					ttw=TTW,
 					ttt=TTT,
 					prozessNR=ProzessNR,
 					starterNR=StarterNR,
-					nameserviceNode=NameserviceNode, 
+					nameservicePID=NameservicePID, 
 					praktikumsgruppe=Praktikumsgruppe, 
 					teamID=TeamID,
-					ggtName=MyID,
+					ggtName=GGTName,
 					logfile="GGTP_" ++ "@" ++ net_adm:localhost() ++ ".log"
 					},
 
@@ -44,7 +44,7 @@ initial(Config)->
 	register(Config#config.ggtName,self()),
 	
 	%2.1.2 Der ggT-Prozess registriert sich beim Namensdienst (rebind).
-	Config#config.nameserviceNode ! {self(), {?REBIND, Config#config.ggtName, node()}},
+	Config#config.nameservicePID ! {self(), {?REBIND, Config#config.ggtName, node()}},
 	log(Config,"REBIND"),
 
 	%2.1.1 Der ggT-Prozess meldet sich beim Koordinator mit seinem Namen an (check_in)....
@@ -137,7 +137,7 @@ process(Config,Mi)->
 			% 5.4.2 sendet er dem Koordinator eine Mitteilung über die Terminierung (brief_term) 
 			%		mit seinem Namen, dem errechneten ggT (sein aktuelles Mi) und seine aktuelle Systemzeit.
 			log(Config,"Abstimmung erfolgreich! informiere (brief_term) Koordinator ~p ueber errechneten GGT:~p",[ Config#config.koordinatorName, Mi]),
-			lookup(Config,Config#config.koordinatorName) ! {brief_term,{Config#config.ggtName, Mi, werkzeug:timeMilliSecond()}}, 
+			lookup(Config,Config#config.koordinatorName) ! {brief_term,{Config#config.ggtName, Mi, werkzeug:timeMilliSecond()},self()}, 
 
 			% 5.4.3 Zudem zählt er seine erfolgreich gemeldeten Terminierungsmeldungen und notiert dies in seinem log.
 			%TODO: zähler hochzählen
@@ -183,7 +183,7 @@ process(Config,Mi)->
 			
 		% kill der ggT-Prozess wird beendet.
 		kill -> 
-			Config#config.nameserviceNode ! {self(),{?UNBIND, Config#config.ggtName}},
+			Config#config.nameservicePID ! {self(),{?UNBIND, Config#config.ggtName}},
 			logH(Config,"KILLED :(")
 	
 	end.
@@ -206,7 +206,7 @@ algo(Mi, Y, Config) ->
 
 
 lookup(Config, Name) ->
-	Config#config.nameserviceNode ! {self(), {?LOOKUP, Name}},
+	Config#config.nameservicePID ! {self(), {?LOOKUP, Name}},
 	receive
 		{?LOOKUP_RES, ServiceAtNode} ->
 		ServiceAtNode

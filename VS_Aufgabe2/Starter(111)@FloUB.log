@@ -1,0 +1,6 @@
+Starter(111)@FloUB 11.06 14:58:18,515| NameServiceName = nameser@FloUB
+Starter(111)@FloUB 11.06 14:58:18,515| NameServicePID = <7150.46.0>
+Starter(111)@FloUB 11.06 14:58:18,531| Erstelle GGT-Prozess (TimeToWork: 5 , TimeToTerminate: 5 , ProcessesToStart: 3)
+Starter(111)@FloUB 11.06 14:58:18,531| GGT-Prozess Nr: 1 wurde gestartet
+Starter(111)@FloUB 11.06 14:58:19,562| GGT-Prozess Nr: 2 wurde gestartet
+Starter(111)@FloUB 11.06 14:58:20,578| GGT-Prozess Nr: 3 wurde gestartet

@@ -1,9 +1,9 @@
 -module(coordinator).
 
--export([start/0,calc/0,calc/1,reset/0,kill/0]).
+-export([start/1,calc/0,calc/1,reset/0,kill/0]).
 
--record(state, { clients=orddict:new()
-			   , smallesMi
+-record(state, { clients=orddict:new(),
+				smallesMi
                }).
 -record(gcd_client, { name
                     , servicepid
@@ -11,18 +11,19 @@
                     , right_neighbor
                     }).
 -record(config, {
-				nameservicenode,
+				nameservicename,
 				rt,
 				pts,
 				ttw,
 				ttt,
 				myname
 }).
-
+-include("messages.hrl").
+-include("constants.hrl").
 
 % PUBLIC ##############################################
-start() ->
-	spawn(fun setup/0).
+start(NameserviceNode) ->
+	setup(NameserviceNode).
 	
 	
 calc() -> %5.1
@@ -40,9 +41,9 @@ kill() ->
 % /PUBLIC ##############################################
   
 load_config() ->
-	{ok, ConfigFile} = file:consult('coordinator1.cfg'),
+	{ok, ConfigFile} = file:consult('coordinator.cfg'),
 	#config{
-			nameservicenode = proplists:get_value(nameservicenode, ConfigFile),
+			nameservicename = proplists:get_value(nameservicename, ConfigFile),
 			rt 				= proplists:get_value(rt, ConfigFile),	%RegisterTime
 			pts 			= proplists:get_value(pts, ConfigFile), %ProcessesToStart
 			ttw 			= proplists:get_value(ttw, ConfigFile), %TimeToWork
@@ -51,49 +52,42 @@ load_config() ->
 	}.
 	
 	
-setup() ->
+setup(NameserviceNode) ->
 	io:format("~n~n~n~n~n~n~n"),
 	logH("SETUP"),
 	State = #state{smallesMi=[10000000000000000000000000000]},
 	Config = load_config(),
-
-	%Global Registrieren
-	%unregister(Config#config.myname), % TEMP
 	register(Config#config.myname, self()),
+	global:register_name(Config#config.myname, self()),
+	log("NameServiceNode = ~p", [NameserviceNode]),
 	
+	net_adm:ping(NameserviceNode),
+	log("NameServiceName = ~p", [Config#config.nameservicename]),
+	
+	NameServicePID = global:whereis_name(Config#config.nameservicename),
+	log("NameServicePID  = ~p", [NameServicePID]),	
+	case NameServicePID == undefined of
+		true ->
+			timer:sleep(500),
+			io:format("~n~n~n"),
+			exit("NameServicePID ist undefined. Bitte nochmal versuchen.");
+		_ ->
+			now()
+	end,
+	
+
 	% IP 2 Starten des Koordinators mit Registrierung beim Namensdienst registriert
-	case ping_name_service(Config#config.nameservicenode) of
-		{ok, NameService} ->
-			%%% first time bind of our service with the nameservice
-			%%% use rebind just in case a previous coordinator did not shut down cleanly
-			Node = node(),
-			%io:format("#### Node: ~p~n",[Node]),
-			NameService ! {self(), {rebind, Config#config.myname, Node}},
-			receive
-				ok ->
-					log("Successfully bound at nameservice"),
-
-					%%% done with the start phase. everything worked. go into initial state.
-					
-					registerEntryPoint(State,Config);
-
-				in_use ->
-					io:format("#### in use~n",[]),
-					%%% something went wrong. the coordinator is already bound at the Nameservice.
-					log_error("Binding name with the nameservice failed. Name alrady in use."),
-					killing(State,Config)
-			end;
-
-		error ->
-			io:format("#### error~n",[]),
-			log_error("Nameservice unavailable"),
-			killing(State,Config)
-
-  end.
+	NameServicePID ! {self(), {?REBIND, Config#config.myname, node()}},
+	receive
+		{?REBIND_RES, ok} ->
+			log("Mit NameService verbunden"),		
+			registerEntryPoint(State,Config)
+	end.
 
 % 3.0 Nach den <rt> Sekunden geht der Koordinator in den Zustand init über. Er gibt keinem Starter mehr Auskunft und registriert keine ggT-Prozesse mehr!
 registerEntryPoint(State,Config) ->
 	logH("REGISTER"),
+	log("Warte ~p sekunden lang auf Registrierungen",[Config#config.rt]),
 	timer:send_after(timer:seconds(Config#config.rt),self(), moveToInit),
 	registerState(State,Config).
   
@@ -103,9 +97,11 @@ registerState(State,Config) ->
 	
 	receive
 		% 2.0 Nach dem Start des Koordinators können sich Starter und/oder ggT-Prozesse innerhalb der <rt>Sekunden bei ihm melden.
-		{check_in, NewGGTNodeName} -> % 1x pro GGT Node
-			log("Client has been registered under the name: ~p", [NewGGTNodeName]),
-			registerState(addGGTNode(State, NewGGTNodeName),Config); %Loop für weitere Anfragen
+		{check_in, NewGGTName} -> % 1x pro GGT Node
+			UpdatedClients = orddict:store(NewGGTName, #gcd_client{name=NewGGTName}, State#state.clients),
+			NewState = State#state{clients=UpdatedClients},
+			log("Neuer GGT Prozess mit dem Name: ~p hat sich angemeldet (check_in)", [NewGGTName]),
+			registerState(NewState,Config); %Loop für weitere Anfragen
 
 		
 		
@@ -113,44 +109,47 @@ registerState(State,Config) ->
 		%	  Anzahl der zu startenden ggT-Prozesse, deren jeweilige Verzögerungszeit <ttw> und deren Terminierungszeit <ttt> erfragen.
 		{get_ggt_vals, From} -> % 1x pro STARTER
 		
-			log("Starter ~p is requesting get_ggt_vals", [From]),
+			log("Starter ~p erfragt die GGT Startwerte (get_ggt_vals)", [From]),
 			From ! {ggt_vals,
 						Config#config.ttw,
 						Config#config.ttt,
 						Config#config.pts
 						},
-			log("... sending ggt_vals (TTW: ~p TTT: ~p PTS: ~p)", [Config#config.ttw,Config#config.ttt,Config#config.pts]),
+			log("... sende ggt_vals (TTW: ~p TTT: ~p PTS: ~p)", [Config#config.ttw,Config#config.ttt,Config#config.pts]),
 			registerState(State,Config); %Loop für weitere Anfragen
 
 		% Wird nach ablauf der <rt> Zeit automatisch aufgerufen
 		moveToInit ->
-			init(State,Config)
+			init(State,Config);
+			
+		Other ->
+			logH(Other)
   end,
   
   
   ok.
 
-% 3. Nach den <rt> Sekunden geht der Koordinator in den Zustand init über. Er gibt keinem Starter mehr Auskunft und registriert keine ggT-Prozesse mehr!
-init(State,Config) -> % ehemals get_ready
+% 3. Nach den <rt> Sekunden geht der Koordinator in den Zustand init über. 
+%	 Er gibt keinem Starter mehr Auskunft und registriert keine ggT-Prozesse mehr!
+init(State,Config) -> 
 	logH("INIT"),
-	log("Building ring of GCD Clients (STEP)"),
-	% 4.1. Über step wird der Koordinator veranlasst den ggT Ring aufzubauen. Die Reihenfolge soll zufällig bestimmt werden.
-	% IP 5.1 Aufbau eines zufällig gemischten Rings durch den Koordinator (Trigger ist die Nachricht step)
-	ClientsWithRing = case step_ring_bauen(State#state.clients) of
-		error -> 
-			killing(State,Config);
-		ClientsRing ->
-			ClientsRing
-	end,
-
-	StateWithRing = State#state{clients = ClientsWithRing},
-
-	% IP 5.2 der die ggT Prozesse über ihren linken und rechten Nachbarn informiert (set_neighbours).
-	set_neighbours(StateWithRing),
-
+	log("Warte auf dem step befehl"),
 	
-	% 4.3 Danach wechselt der Koordinator inf den Zustand ready.
-	readyEntryPoint(StateWithRing,Config).
+	receive 
+		% 4.1. Über step wird der Koordinator veranlasst den ggT Ring aufzubauen. Die Reihenfolge soll zufällig bestimmt werden.
+		% IP 5.1 Aufbau eines zufällig gemischten Rings durch den Koordinator (Trigger ist die Nachricht step)
+		step ->			
+			log("step erhalten. Erstelle den Ring"),
+	
+			ClientsWithRing = step_ring_bauen(State#state.clients),
+			StateWithRing = State#state{clients = ClientsWithRing},
+
+			% IP 5.2 der die ggT Prozesse über ihren linken und rechten Nachbarn informiert (set_neighbours).
+			set_neighbours(StateWithRing),
+	
+			% 4.3 Danach wechselt der Koordinator inf den Zustand ready.
+			readyEntryPoint(StateWithRing,Config)
+	end.
 
 readyEntryPoint(State,Config) ->
 	logH("READY"),
@@ -179,40 +178,50 @@ ready(State,Config) ->
 		send(State, Target),
 		% loop
 		ready(State,Config);
-
-    {briefmi, {ClientName, CMi, CZeit}} ->
-		log(format("Client ~p calculated new Mi ~p at ~p", [ClientName, CMi, CZeit])),
+	
+	%Ein ggT-Prozess mit Namen ggtName informiert über sein neues Mi ggTMi um ggTZeit Uhr.
+    {briefmi, {GGTName, GGTMi, GGTZeit}} ->
+		log("Prozess ~p hat einen neuen Mi ~p um ~p berechnet", [GGTName, GGTMi, GGTZeit]),
 		ready(State,Config);
 	  
 	% 5.4 Der Koordinator wird von den ggT-Prozessen über deren Terminierung informiert (brief_term).
-    {brief_term, {ClientName, CMi, CZeit}} -> % TODO: noch viel flo
+	% Ein ggT-Prozess mit Namen ggtName und PID From informiert über die Terminierung mit Ergebnis ggTMi um ggTZeit Uhr.
+    {brief_term, {GGTName, GGTMi, GGTZeit}, From} -> % TODO: noch viel flo
 		BissherigesMi = State#state.smallesMi,
-		case CMi > BissherigesMi of
+		case GGTMi > BissherigesMi of
 			true ->
-				log("°°°°°°°°°° FEHLER !! Kleinster Mi = ~p neuer Mi von ~p = ~p",[BissherigesMi,ClientName,CMi]),
+				log("°°°°°°°°°° FEHLER !! Kleinster Mi = ~p neuer Mi von ~p = ~p",[BissherigesMi,GGTName,GGTMi]),
 				ready(State,Config);
 			_ ->
-				log("Client ~p finished calculation with Mi ~p at ~p", [ClientName, CMi, CZeit]),
-				NewState = State#state{smallesMi = CMi},
+				log("Client ~p finished calculation with Mi ~p at ~p", [GGTName, GGTMi, GGTZeit]),
+				NewState = State#state{smallesMi = GGTMi},
 				ready(NewState,Config)
 		end;	
-		
-		
+	
+	% Der Koordinator erfragt bei allen ggT-Prozessen per tell_mi deren aktuelles Mi ab und zeigt es im log an.
+	%prompt ->
+		%TODO
+	
+	% Der Koordinator erfragt bei allen ggT-Prozessen per whats_on deren Lebenszustand ab und zeigt dies im log an.
+	%whats_on ->
+		%TODO
 		
 	% 5.4.3 Ist ein spezielles Flag (Nachricht toggle) gesetzt, sendet er dem ggT-Prozess die kleinste Zahl per send.
+	% Der Koordinator verändert den Flag zur Korrektur bei falschen Terminierungsmeldungen.
 	toggle ->
 		toggle(State,Config);
 
 	% 5.5.1 Per manueller Eingabe kann der Koordinator in den Zustand "beenden" (Nachricht kill)
+	% Der Koordinator wird beendet und sendet allen ggT-Prozessen das kill-Kommando.
 	kill ->
 		killing(State,Config);
 
 	% 5.5.2 ... oder in den Zustand register (Nachricht reset) versetzt werden.
+	% Der Koordinator sendet allen ggT-Prozessen das kill-Kommando und bringt sich selbst in den Zustand, indem sich Starter wieder melden können.
     reset ->
 		reseting(State)
 
-	end,
-	ok.
+	end.
 	
 toggle(State,Config) ->
 		io:format("TODO~p~p~n",[State,Config]).
@@ -249,10 +258,12 @@ update_clients_with_client(Clients, ClientName, UpdatedClient) ->
   orddict:store(ClientName, UpdatedClient, Clients).
 
 %%% register gcd client and return new state
-addGGTNode(State, NewGGTNodeName) ->
+addGGTNode(State, Config, NewGGTNodeName) ->
 	ClientList = State#state.clients,
-	NameServicePID = global:whereis_name(nameservice),
+	NameServicePID = global:whereis_name(Config#config.nameservicename),
 
+	lookup(NameServicePID,NewGGTNodeName),
+	
 	NewGGTNodePID = case nameservice_lookup(NameServicePID, NewGGTNodeName) of
 		not_found ->
 			log_error(format("Client: ~p not found at nameservice", [NewGGTNodeName])),
@@ -478,7 +489,7 @@ sentToMyself(Message) ->
 	Config = load_config(),
 	
 	%%% ping NameServiceNode
-	case ping_name_service(Config#config.nameservicenode) of
+	case ping_name_service(Config#config.nameservicename) of
 		{ok, NameService} ->
 			%%% lookup the name and node of the current coordinator in charge
 			case nameservice_lookup(NameService, Config#config.myname) of
@@ -501,7 +512,17 @@ sentToMyself(Message) ->
 	end.
 	
 	
-%%% Log function for all coordinator logs
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+lookup(NameservicePID, Name) ->
+	NameservicePID ! {self(), {?LOOKUP, Name}},
+	receive
+		{?LOOKUP_RES, ServiceAtNode} ->
+			ServiceAtNode
+	end.
+	
+%%%%%%%%%%%%%
+
 %Log for Heading
 logH(Message)->
 	CoordinatorName= lists:concat(["Coordinator@", net_adm:localhost()]),
