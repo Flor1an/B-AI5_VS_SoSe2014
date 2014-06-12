@@ -35,14 +35,14 @@ VS_SoSe2014
 **coordinatorFM** = *Koordinatorname (aus Config)*<br>
 **c@workstation** = *Name vom Koordinator Terminal*
 
-** Nach REGISTER **
+**Nach REGISTER**
 - `{coordinatorFM,c@workstation} ! step.` Erstellt Ring; Informiert über Nachbarn
 
-** Nach step **
+**Nach step**
 - `{coordinatorFM,c@workstation} ! calc.` Lässt GGT basierend auf einer random Zahl berechnen
 - `{coordinatorFM,c@workstation} ! {calc,100}.` Lässt GGT berechnen mit dem Ziel GGT=100
 
-** Jederzeit **
+**Jederzeit**
 - `{coordinatorFM,c@workstation} ! prompt.` Fragt bei allen GGT's den letzten MI ab
 - `{coordinatorFM,c@workstation} ! whats_on.` Fragt bei allen GGT's den letzten STATUS ab
 - `{coordinatorFM,c@workstation} ! reset.` Killed alle GGT's und begiebt sich in den REGISTER status
