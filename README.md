@@ -29,7 +29,7 @@ VS_SoSe2014
 ###### 2.3 Starter Terminal Starten `erl -sname s -setcookie bob`
 
 - Kompilieren: `c(starter), c(ggt).`
-- Starten: `starter:start(1).`      *1 = Nummer des Starters*
+- Starten: `starter:start(ns@workstation,1).`      *1 = Nummer des Starters*
 
 ###### 2.4 Steuer Terminal Starten `erl -sname x -setcookie bob`
 **coordinatorFM** = *Koordinatorname (aus Config)*<br>
