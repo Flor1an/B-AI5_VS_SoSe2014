@@ -2,32 +2,31 @@
 -module(starter).
 
 
--record(config, {praktikumsgruppe,teamnummer,nameservicenode,nameservicename,koordinatorname}).
+-record(config, {praktikumsgruppe,teamnummer,nameservicename,koordinatorname}).
 
 -import(util, [timestamp/0]).
 -import(werkzeug,[get_config_value/2]).
 -include("messages.hrl").
 -include("constants.hrl").
 
--compile([export_all]).
+-export([start/2]).
 
 load_config() ->
 	{ok, ConfigFile} = file:consult('ggt.cfg'),
 	#config{
 			praktikumsgruppe = proplists:get_value(praktikumsgruppe, ConfigFile),
 			teamnummer 		 = proplists:get_value(teamnummer, ConfigFile),
-			nameservicenode  = proplists:get_value(nameservicenode, ConfigFile), 
 			nameservicename  = proplists:get_value(nameservicename, ConfigFile), 
 			koordinatorname  = proplists:get_value(koordinatorname, ConfigFile)
 	}.
 
 % 4. Beim Starten des Starters wird die Starternummer mitgegeben.
-start(Nummer) ->
+start(NameserviceNode,Nummer) ->
 	% 2. Der Starter liest aus der Datei ggt.cfg Werte
 	Config = load_config(),
 
-	net_adm:ping(Config#config.nameservicenode),
-	log(Nummer,"NameServiceName = ~p", [Config#config.nameservicenode]),
+	net_adm:ping(NameserviceNode),
+	log(Nummer,"NameServiceName = ~p", [NameserviceNode]),
 	
 	NameServicePID = global:whereis_name(Config#config.nameservicename),
 	log(Nummer,"NameServicePID = ~p", [NameServicePID]),	

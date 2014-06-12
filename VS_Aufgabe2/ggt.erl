@@ -59,23 +59,61 @@ initial(Config)->
 			log(Config,"Nachbarn wurden mitgeteilt {L: ~p | R: ~p}",[Left,Right]),
 			NewConfig=Config#config{linkerName=Left, rechterName=Right},
 			%2.2.2 Wechsel in den Zustand pre_process
-			pre_process(NewConfig)
+			WorkerPID = spawn_link(fun() -> pre_process(NewConfig) end),
+			dispatcherLoop(Config,WorkerPID,initial,0)
 	end.
 
+%Syncroner Loop fuer asyncronische Aufrufe in meinem Worker 
+dispatcherLoop(Config,WorkerPID,AktuellerStatus,AktuellerMi) ->
 
+	receive 
+		% Vom KOORDINATOR ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		% Sendet das aktuelle Mi an From: From ! {mi,Mi}. Wird vom Koordinator z.B. genutzt, um bei einem Berechnungsstillstand die Mi-Situation im Ring anzuzeigen.
+		{tell_mi, From} -> 
+			log(Config,"~p erfragt aktuellen Mi. Sende Mi = ~p",[From,AktuellerMi]),
+			From ! {mi,AktuellerMi},
+			dispatcherLoop(Config,WorkerPID,AktuellerStatus,AktuellerMi);
+			
+		% Sendet ein {i_am, State} an den Koordinator, in dem der aktuelle Zustand mitgeteilt wird. 
+		% Wird vom Koordinator z.B. genutzt, um auf manuelle Anforderung hin die Lebendigkeit des Rings zu prüfen.
+		{whats_on,From} ->
+			log(Config, "~p erfragt aktuellen Status. Sende ~p",[From,AktuellerStatus]),
+			lookup(Config,Config#config.koordinatorName) ! {i_am, AktuellerStatus},
+			dispatcherLoop(Config,WorkerPID,AktuellerStatus,AktuellerMi);
+			
+		% kill der ggT-Prozess wird beendet.
+		kill -> 
+			Config#config.nameservicePID ! {self(),{?UNBIND, Config#config.ggtName}},
+			logH(Config,"KILLED :("),
+			exit(WorkerPID,"KILL empfangen"), %Worker killen
+			exit("KILL empfangen"); % Dispatcher killen
+		
+		%Vom WORKER ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		{update_mi, Mi} ->
+			dispatcherLoop(Config,WorkerPID,AktuellerStatus,Mi);
+			
+		{update_state, State} ->
+			dispatcherLoop(Config,WorkerPID,State,AktuellerMi);
+		
+		% Rest an den eigentlichen Worker weiterleiten
+		Other -> 
+			log(Config,"DISPATCHER: Leite Befehl ~p an meinen Worker weiter...",[Other]),
+			WorkerPID ! Other,
+			dispatcherLoop(Config,WorkerPID,AktuellerStatus,AktuellerMi)
+	end.
 	
 	
 
 % AUFGABE 3
 pre_process(Config) ->
 	logH(Config,"PRE_PROCESS"),
+	lookup(Config,Config#config.ggtName) ! {update_state, pre_process}, %Dispatcher Informieren
 	%3.1.1 Zustand pre_process: Der ggT-Prozess erwartet vom Koordinator seine Zahl Mi (set_pmi).
 	receive 
 		% {set_pmi,MiNeu}: die von diesem Prozess zu berabeitenden Zahl für eine neue Berechnung wird gesetzt.
 		{set_pmi,Mi} -> 
 			log(Config,"Initial Mi wurde mitgeteilt. Mi:~p",[Mi]),
 			% 5.3.1 
-			%NewConfig=Config#config{letzterEmpfangEinerZahl=now()},
 			{ok, Timer} = timer:send_after(timer:seconds(Config#config.ttt), votehelper),
 			NewConfig = Config#config{tttTimer=Timer, letzterEmpfangEinerZahl=now()},
 			%3.1.2 Wechsel in den Zustand process.
@@ -85,13 +123,12 @@ pre_process(Config) ->
 
 processEntryPoint(Config,Mi)->
 	logH(Config,"PROCESS"),
+	lookup(Config,Config#config.ggtName) ! {update_state, process}, %Dispatcher Informieren
 	process(Config,Mi).
 	
 % AUFGABE (4+) 5
 process(Config,Mi)->
-	
 
-	
 	receive 
 	
 		% 5.3 Der ggT-Prozess beobachtet die Zeit seit dem letzten Empfang einer Zahl (send oder set_pmi). 
@@ -105,7 +142,7 @@ process(Config,Mi)->
 		% 4. Der ggT-Prozess kann zu jeder Zeit zu einer neuen Berechnung aufgefordert werden! (copy n' paste von pre_process)
 		{set_pmi,Mi} -> 
 			log(Config,"Neuer Mi wurde mitgeteilt (Neue berechnung). Mi:~p",[Mi]),
-			%NewConfig=Config#config{letzterEmpfangEinerZahl=now()},
+			lookup(Config,Config#config.ggtName) ! {update_mi, Mi}, %Dispatcher Informieren
 			timer:cancel(Config#config.tttTimer),
 			{ok, Timer} = timer:send_after(timer:seconds(Config#config.ttt), votehelper),
 			NewConfig = Config#config{tttTimer=Timer, letzterEmpfangEinerZahl=now()},
@@ -115,8 +152,8 @@ process(Config,Mi)->
 		{send,Y} ->
 			log(Config,"Send erhalten Y:~p",[Y]),
 			Mi2=algo(Mi, Y, Config),
+			lookup(Config,Config#config.ggtName) ! {update_mi, Mi2}, %Dispatcher Informieren
 			%io:format("Mi: ~p Mi2: ~p", [Mi, Mi2]),
-			%NewConfig = Config#config{letzterEmpfangEinerZahl=now()},
 			timer:cancel(Config#config.tttTimer),
 			{ok, Timer} = timer:send_after(timer:seconds(Config#config.ttt), votehelper),
 			NewConfig = Config#config{tttTimer=Timer, letzterEmpfangEinerZahl=now()},	
@@ -134,13 +171,9 @@ process(Config,Mi)->
 					% 5.1.3 Ändert sich seine Zahl dadurch nicht, macht der ggT-Prozess gar nichts und erwartet die nächste Nachricht.
 					log(Config,"Mi NICHT geaendert! (ist und bleibt: ~p)",[Mi])		
 			end,
-			process(NewConfig, Mi2);
+			process(NewConfig,Mi2);
 				
-				
-		% 5.4.1 Ist die Abstimmung erfolgreich (vote wird ihm mit seinem Namen gesendet),
-		%{vote, Initiator} when Initiator == Config#config.ggtName ->
-			
-			
+							
 			
 		% 5.5.2 Erhält ein initiierender Prozess von seinem rechten Nachbarn die Anfrage nach der Terminierung (vote),
 		%{vote, Initiator} when Initiator == Config#config.rechterName ->
@@ -148,12 +181,16 @@ process(Config,Mi)->
 			%process(Config, Mi);
 		
 		
-		% 5.5.1 Ein ggT-Prozess erhält die Anfrage nach der Terminierung (vote) und er ist nicht der Initiator.
+		% 5.5.1 Ein ggT-Prozess erhält die Anfrage nach der Terminierung (vote)
 		{vote, Initiator} ->
+			lookup(Config,Config#config.ggtName) ! {update_state, vote}, %Dispatcher Informieren
 			timer:cancel(Config#config.tttTimer),
-			log(Config,"°°° vote erhalten! Ich = ~p  Initiator = ~p) °°°",[Config#config.ggtName, Initiator]),
+			log(Config,"### vote erhalten! Ich = ~p  Initiator = ~p) ###",[Config#config.ggtName, Initiator]),
+			
 			case Initiator == Config#config.ggtName of
-				true -> 
+				
+				true -> % 5.4.1 Ist die Abstimmung erfolgreich (vote wird ihm mit seinem Namen gesendet),
+					lookup(Config,Config#config.ggtName) ! {update_state, voted}, %Dispatcher Informieren
 					% 5.4.2 sendet er dem Koordinator eine Mitteilung über die Terminierung (brief_term) 
 					%		mit seinem Namen, dem errechneten ggT (sein aktuelles Mi) und seine aktuelle Systemzeit.
 					log(Config,"Abstimmung erfolgreich! informiere (brief_term) Koordinator ~p ueber errechneten GGT:~p",[ Config#config.koordinatorName, Mi]),
@@ -162,7 +199,7 @@ process(Config,Mi)->
 					% 5.4.3 Zudem zählt er seine erfolgreich gemeldeten Terminierungsmeldungen und notiert dies in seinem log.
 					%TODO: zähler hochzählen
 				
-				_ ->
+				_ -> % 5.5.1 ...und er ist nicht der Initiator.
 					% 5.5.1.2 ist seit dem letzten Empfang einer Zahl ...
 					TimeDiff=timer:now_diff(now(), Config#config.letzterEmpfangEinerZahl),
 					% ... mehr als <ttt>/2 Sekunden vergangen ...
@@ -178,28 +215,7 @@ process(Config,Mi)->
 					
 			end,
 			
-			process(Config,Mi);
-					 
-					 
-
-		% Sendet das aktuelle Mi an From: From ! {mi,Mi}. Wird vom Koordinator z.B. genutzt, um bei einem Berechnungsstillstand die Mi-Situation im Ring anzuzeigen.
-		{tell_mi, From} -> 
-			log(Config,"~p erfragt aktuellen Mi. Sende Mi = ~p",[From,Mi]),
-			From ! {mi,Mi},
-			process(Config, Mi);
-			
-		% Sendet ein {i_am, State} an den Koordinator, in dem der aktuelle Zustand mitgeteilt wird. 
-		% Wird vom Koordinator z.B. genutzt, um auf manuelle Anforderung hin die Lebendigkeit des Rings zu prüfen.
-		{whats_on,From} ->
-			State=process,
-			log(Config, "~p erfragt aktuellen Status. Sende ~p",[From,State]),
-			lookup(Config,Config#config.koordinatorName) ! {i_am, State};
-			
-		% kill der ggT-Prozess wird beendet.
-		kill -> 
-			Config#config.nameservicePID ! {self(),{?UNBIND, Config#config.ggtName}},
-			logH(Config,"KILLED :(")
-	
+			process(Config,Mi)
 	end.
  
 algo(Mi, Y, Config) -> 

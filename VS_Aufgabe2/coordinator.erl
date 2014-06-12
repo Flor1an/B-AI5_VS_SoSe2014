@@ -119,7 +119,7 @@ registerState(State,Config) ->
 %	 Er gibt keinem Starter mehr Auskunft und registriert keine ggT-Prozesse mehr!
 init(State,Config) -> 
 	logH("INIT"),
-	log("Warte auf dem step befehl"),
+	log("Warte auf dem step Befehl"),
 	
 	receive 
 		% 4.1. Über step wird der Koordinator veranlasst den ggT Ring aufzubauen. Die Reihenfolge soll zufällig bestimmt werden.
@@ -133,13 +133,20 @@ init(State,Config) ->
 			set_neighbours(StateWithRing,Config),
 	
 			% 4.3 Danach wechselt der Koordinator inf den Zustand ready.
-			readyEntryPoint(StateWithRing,Config)
+			readyEntryPoint(StateWithRing,Config);
+			
+		kill ->
+			killing(State,Config);
+
+		reset ->
+			reseting(State,Config)
 	end.
 	
 	
 	
 readyEntryPoint(State,Config) ->
 	logH("READY"),
+	log("Warte auf steuer Befehle (z.b. calc)"),
 	ready(State,Config).
   
 % 5 Im Zustand ready:
@@ -179,26 +186,51 @@ ready(State,Config) ->
 		BissherigesMi = State#state.smallesMi,
 		case GGTMi > BissherigesMi of
 			true ->
-				log("°°°°°°°°°° FEHLER !! Kleinster Mi = ~p neuer Mi von ~p = ~p",[BissherigesMi,GGTName,GGTMi]),
+				log("#### FEHLER !! Kleinster Mi = ~p neuer Mi von ~p = ~p ; gesendet von ~p",[BissherigesMi,GGTName,GGTMi,From]),
 				ready(State,Config);
 			_ ->
-				log("Client ~p finished calculation with Mi ~p at ~p laut ~p", [GGTName, GGTMi, GGTZeit,From]),
+				log("GGT wurde berechnent: Mi >> ~p << berechnet durch: ~p um:~p", [GGTMi, GGTName, GGTZeit]),
 				NewState = State#state{smallesMi = GGTMi},
 				ready(NewState,Config)
 		end;	
 	
 	% Der Koordinator erfragt bei allen ggT-Prozessen per tell_mi deren aktuelles Mi ab und zeigt es im log an.
-	%prompt ->
-		%TODO
+	prompt ->
+		log("prompt empfangen; Liste die aktuelle Mi's aller GGT Prozesse:"),
+		ClientsNamesList = orddict:fetch_keys(State#state.clients),
+		NameServicePID = global:whereis_name(Config#config.nameservicename),
+		lists:map(
+			fun(ClientName) ->
+				lookup(NameServicePID,ClientName) ! {tell_mi,self()},
+				receive
+					{mi,AktuellerMi} ->
+						log("  ~p = ~p",[ClientName,AktuellerMi])
+				end				
+			end,
+			ClientsNamesList),
+		ready(State,Config);
 	
 	% Der Koordinator erfragt bei allen ggT-Prozessen per whats_on deren Lebenszustand ab und zeigt dies im log an.
-	%whats_on ->
-		%TODO
+	whats_on ->
+		log("whats_on empfangen; Liste die aktuelle Status aller GGT Prozesse:"),
+		ClientsNamesList = orddict:fetch_keys(State#state.clients),
+		NameServicePID = global:whereis_name(Config#config.nameservicename),
+		lists:map(
+			fun(ClientName) ->
+				lookup(NameServicePID,ClientName) ! {whats_on,self()},
+				receive
+					{i_am,AktuellerStatus} ->
+						log("  ~p = ~p",[ClientName,AktuellerStatus])
+				end
+			end,
+			ClientsNamesList),
+		ready(State,Config);
 		
 	% 5.4.3 Ist ein spezielles Flag (Nachricht toggle) gesetzt, sendet er dem ggT-Prozess die kleinste Zahl per send.
 	% Der Koordinator verändert den Flag zur Korrektur bei falschen Terminierungsmeldungen.
 	toggle ->
-		toggle(State,Config);
+		toggle(State,Config),
+		ready(State,Config);
 
 	% 5.5.1 Per manueller Eingabe kann der Koordinator in den Zustand "beenden" (Nachricht kill)
 	% Der Koordinator wird beendet und sendet allen ggT-Prozessen das kill-Kommando.
@@ -212,34 +244,39 @@ ready(State,Config) ->
 
 	end.
 	
+
+
+	
 toggle(State,Config) ->
 		io:format("TODO~p~p~n",[State,Config]).
-	%sendet er dem ggT-Prozess die kleinste Zahl per send
+		%sendet er dem ggT-Prozess die kleinste Zahl per send
 
 
 reseting(State,Config) ->
 	logH("RESET"),
-	kill_all_gcd_clients(State,Config),
+	ggtsKillen(Config,State#state.clients),
 	% 5.5.3 Beim Übergang in den Zustand register wird die Konfigurationsdatei des Koordinators erneut gelesen.
 	FreshConfig = load_config(),
 	FreshState = State#state{clients=orddict:new(), smallesMi=[10000000000000000000000000000]},
 	registerEntryPoint(FreshState,FreshConfig).
 
-
 killing(State,Config) ->
 	logH("KILL"),
-  %%% send the kill command to all registered clients
-  kill_all_gcd_clients(State,Config),
+	ggtsKillen(Config,State#state.clients),
+	log("Unbind vom Namensdienst"),
+	NameServicePID = global:whereis_name(Config#config.nameservicename),
+    NameServicePID ! {self(), {?UNBIND, Config#config.myname}},
+	exit("kill erhalten :(").
 
-  log("Trying to unbind coordinator name at nameservice"),
-  case global:whereis_name(nameservice) of
-    undefined -> ok; %% do nothing, if nameservice not available
-    Nameservice ->
-      Nameservice ! {self(), {unbind, Config#config.myname}}
-  end,
-  log("Terminating coordinator process. Goodbye."),
-  exit(self()).
-
+ggtsKillen(Config,GGTProzesse) ->
+	ClientsNamesList = orddict:fetch_keys(GGTProzesse),
+	NameServicePID = global:whereis_name(Config#config.nameservicename),
+	lists:map(
+			fun(ClientName) ->
+				log("Leite ~p an ~p weiter", [kill,ClientName]),
+				lookup(NameServicePID,ClientName) ! kill
+			end,
+			ClientsNamesList).
 	
 ringErstellen(State, GGTs) ->
 	log("Erstelle Ring:"),
@@ -320,18 +357,6 @@ send(State,Config, Target) ->
 		SelectedClientNames),
 	ok.
 
-kill_all_gcd_clients(State,Config) ->
-	Clients = State#state.clients,
-	ClientsNamesList = orddict:fetch_keys(Clients),
-	NameServicePID = global:whereis_name(Config#config.nameservicename),
-	  lists:map(
-		fun(ClientName) ->
-		  log("Sending the kill command to GCD-process ~p", [ClientName]),
-		  lookup(NameServicePID,ClientName) ! kill
-		end,
-		ClientsNamesList).
-
-		
 
 get15Percent(List) ->
 	RemainingElementsToSelect = case round((length(List)/100) * 15) < 2 of
