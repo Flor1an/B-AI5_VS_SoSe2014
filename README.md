@@ -5,31 +5,31 @@ VS_SoSe2014
 
 ###### Server Terminal Starten: `erl -sname s -setcookie bob`
 
-- Kompilieren: `c(werkzeug), c(myserver).`
-- starten: `myserver:start().`
+- Kompilieren: `(s@workstation)1> c(werkzeug), c(myserver).`
+- starten: `(s@workstation)2> myserver:start().`
 
 ###### Client Terminal Starten: `erl -sname c -setcookie bob`
 
-- Kompilieren: `c(client).`
-- starten: `client:start(s@workstation).`    *s@workstation = Nodename*
+- Kompilieren: `(c@workstation)1> c(client).`
+- starten: `(c@workstation)2> client:start(s@workstation).`    *s@workstation = Nodename*
 
 
 ##Aufgabe 2 (GGT/GCD)
 
 ###### 2.1 Nameservice Terminal Starten `erl -sname ns -setcookie bob`
 
-- Kompilieren: `c(nameservice), c(werkzeug), c(tools), c(util).`
-- Starten: `nameservice:start().`
+- Kompilieren: `(ns@workstation)1> c(nameservice), c(werkzeug), c(tools), c(util).`
+- Starten: `(ns@workstation)2> nameservice:start().`
  
 ###### 2.2 Coordinator Terminal Starten `erl -sname c -setcookie bob`
 
-- Kompilieren: `c(coordinator).`
-- Starten: `coordinator:start(ns@workstation).`    *ns@workstation = Nodename*
+- Kompilieren: `(c@workstation)1> c(coordinator).`
+- Starten: `(c@workstation)2> coordinator:start(ns@workstation).`    *ns@workstation = Nodename*
 
 ###### 2.3 Starter Terminal Starten `erl -sname s -setcookie bob`
 
-- Kompilieren: `c(starter), c(ggt).`
-- Starten: `starter:start(1).`      *1 = Nummer des Starters*
+- Kompilieren: `(s@workstation)1> c(starter), c(ggt).`
+- Starten: `(s@workstation)2> starter:start(ns@workstation,1).`      *1 = Nummer des Starters*
 
 ###### 2.4 Steuer Terminal Starten `erl -sname x -setcookie bob`
 **coordinatorFM** = *Koordinatorname (aus Config)*<br>
