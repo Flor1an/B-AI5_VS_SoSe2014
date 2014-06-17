@@ -13,7 +13,8 @@
 		linkerName,
 		rechterName,
 		letzterEmpfangEinerZahl,
-		tttTimer}).
+		tttTimer,
+		erfGemeldetTerms}).
 -include("messages.hrl").
 -include("constants.hrl").
 
@@ -28,7 +29,8 @@ start(KoordinatorName, TTW, TTT, ProzessNR, StarterNR, NameservicePID, Praktikum
 					nameservicePID=NameservicePID, 
 					praktikumsgruppe=Praktikumsgruppe, 
 					teamID=TeamID,
-					ggtName=GGTName
+					ggtName=GGTName,
+					erfGemeldetTerms=0
 					},
 
 	logH(Config,"SETUP"),	
@@ -172,13 +174,6 @@ process(Config,Mi)->
 					log(Config,"Mi NICHT geaendert! (ist und bleibt: ~p)",[Mi])		
 			end,
 			process(NewConfig,Mi2);
-				
-							
-			
-		% 5.5.2 Erhält ein initiierender Prozess von seinem rechten Nachbarn die Anfrage nach der Terminierung (vote),
-		%{vote, Initiator} when Initiator == Config#config.rechterName ->
-			%TODO:
-			%process(Config, Mi);
 		
 		
 		% 5.5.1 Ein ggT-Prozess erhält die Anfrage nach der Terminierung (vote)
@@ -187,17 +182,19 @@ process(Config,Mi)->
 			timer:cancel(Config#config.tttTimer),
 			log(Config,"### vote erhalten! Ich = ~p  Initiator = ~p) ###",[Config#config.ggtName, Initiator]),
 			
-			case Initiator == Config#config.ggtName of
+			NewConfig = case Initiator == Config#config.ggtName of
 				
 				true -> % 5.4.1 Ist die Abstimmung erfolgreich (vote wird ihm mit seinem Namen gesendet),
 					lookup(Config,Config#config.ggtName) ! {update_state, voted}, %Dispatcher Informieren
 					% 5.4.2 sendet er dem Koordinator eine Mitteilung über die Terminierung (brief_term) 
 					%		mit seinem Namen, dem errechneten ggT (sein aktuelles Mi) und seine aktuelle Systemzeit.
 					log(Config,"Abstimmung erfolgreich! informiere (brief_term) Koordinator ~p ueber errechneten GGT:~p",[ Config#config.koordinatorName, Mi]),
-					lookup(Config,Config#config.koordinatorName) ! {brief_term,{Config#config.ggtName, Mi, werkzeug:timeMilliSecond()},self()}; 
+					lookup(Config,Config#config.koordinatorName) ! {brief_term,{Config#config.ggtName, Mi, werkzeug:timeMilliSecond()},self()},
 
+					BisherMeldungen = Config#config.erfGemeldetTerms,
 					% 5.4.3 Zudem zählt er seine erfolgreich gemeldeten Terminierungsmeldungen und notiert dies in seinem log.
-					%TODO: zähler hochzählen
+					log(Config,"Abstimmung erfolgreich! Zaehle meine 'erfolgreich gemeldeten Terminierungsmeldungen hoch' Wert jetzt: ~p",[BisherMeldungen+1]),
+					Config#config{erfGemeldetTerms=BisherMeldungen+1};
 				
 				_ -> % 5.5.1 ...und er ist nicht der Initiator.
 					% 5.5.1.2 ist seit dem letzten Empfang einer Zahl ...
@@ -211,11 +208,12 @@ process(Config,Mi)->
 						_ -> 
 							% Sonst ignoriert er die Nachricht (implizites ablehnen).
 							log(Config, "implizit abgelehnt")
-					end
+					end,
+					Config
 					
 			end,
 			
-			process(Config,Mi)
+			process(NewConfig,Mi)
 	end.
  
 algo(Mi, Y, Config) -> 

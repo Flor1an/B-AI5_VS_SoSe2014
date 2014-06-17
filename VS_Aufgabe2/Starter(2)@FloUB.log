@@ -1,0 +1,15 @@
+Starter(2)@FloUB 17.06 21:26:29,189| NameServiceName = ns@FloUB
+Starter(2)@FloUB 17.06 21:26:29,189| NameServicePID = <11843.46.0>
+Starter(2)@FloUB 17.06 21:26:29,189| ###lookup returns: {coordinatorFM,c@FloUB}
+
+Starter(2)@FloUB 17.06 21:26:29,205| Erstelle GGT-Prozess (TimeToWork: 5 , TimeToTerminate: 15 , ProcessesToStart: 10)
+Starter(2)@FloUB 17.06 21:26:29,205| GGT-Prozess Nr: 1 wurde gestartet
+Starter(2)@FloUB 17.06 21:26:29,314| GGT-Prozess Nr: 2 wurde gestartet
+Starter(2)@FloUB 17.06 21:26:29,424| GGT-Prozess Nr: 3 wurde gestartet
+Starter(2)@FloUB 17.06 21:26:29,533| GGT-Prozess Nr: 4 wurde gestartet
+Starter(2)@FloUB 17.06 21:26:29,642| GGT-Prozess Nr: 5 wurde gestartet
+Starter(2)@FloUB 17.06 21:26:29,752| GGT-Prozess Nr: 6 wurde gestartet
+Starter(2)@FloUB 17.06 21:26:29,861| GGT-Prozess Nr: 7 wurde gestartet
+Starter(2)@FloUB 17.06 21:26:29,971| GGT-Prozess Nr: 8 wurde gestartet
+Starter(2)@FloUB 17.06 21:26:30,080| GGT-Prozess Nr: 9 wurde gestartet
+Starter(2)@FloUB 17.06 21:26:30,189| GGT-Prozess Nr: 10 wurde gestartet

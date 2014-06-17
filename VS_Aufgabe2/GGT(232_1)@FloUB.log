@@ -1,0 +1,57 @@
+
+
+GGT(232_1)@FloUB 17.06 21:26:21,157| ######################## 232_1 Status: SETUP ########################
+
+
+GGT(232_1)@FloUB 17.06 21:26:21,158| ######################## 232_1 Status: INITIAL ########################
+GGT(232_1)@FloUB 17.06 21:26:21,158| REBIND
+GGT(232_1)@FloUB 17.06 21:26:21,158| CHECK_IN
+GGT(232_1)@FloUB 17.06 21:26:58,861| Nachbarn wurden mitgeteilt {L: '235_2' | R: '234_2'}
+GGT(232_1)@FloUB 17.06 21:26:58,861| DISPATCHER: Leite Befehl {rebind_res,ok} an meinen Worker weiter...
+
+
+GGT(232_1)@FloUB 17.06 21:26:58,877| ######################## 232_1 Status: PRE_PROCESS ########################
+GGT(232_1)@FloUB 17.06 21:27:03,861| DISPATCHER: Leite Befehl {set_pmi,31747072500} an meinen Worker weiter...
+GGT(232_1)@FloUB 17.06 21:27:03,861| Initial Mi wurde mitgeteilt. Mi:31747072500
+
+
+GGT(232_1)@FloUB 17.06 21:27:03,861| ######################## 232_1 Status: PROCESS ########################
+GGT(232_1)@FloUB 17.06 21:27:18,861| TTT Timer ist abgelaufen. Informiere meine linken Nachbarn ('235_2') ueber vote
+GGT(232_1)@FloUB 17.06 21:27:23,986| DISPATCHER: Leite Befehl {vote,'234_2'} an meinen Worker weiter...
+GGT(232_1)@FloUB 17.06 21:27:23,986| ### vote erhalten! Ich = '232_1'  Initiator = '234_2') ###
+GGT(232_1)@FloUB 17.06 21:27:23,986| Leite Anfrage (vote) an den Linken Nachbarn '235_2' weiter (implizites Zustimmen)
+GGT(232_1)@FloUB 17.06 21:27:34,111| DISPATCHER: Leite Befehl {vote,'235_1'} an meinen Worker weiter...
+GGT(232_1)@FloUB 17.06 21:27:34,111| ### vote erhalten! Ich = '232_1'  Initiator = '235_1') ###
+GGT(232_1)@FloUB 17.06 21:27:34,111| Leite Anfrage (vote) an den Linken Nachbarn '235_2' weiter (implizites Zustimmen)
+GGT(232_1)@FloUB 17.06 21:28:09,314| DISPATCHER: Leite Befehl {send,2700} an meinen Worker weiter...
+GGT(232_1)@FloUB 17.06 21:28:09,314| Send erhalten Y:2700
+GGT(232_1)@FloUB 17.06 21:28:09,330| ALGO: ((31747072500 -1) mod 2700) +1     --    (TTW: 5 Sekunden)
+GGT(232_1)@FloUB 17.06 21:28:14,346| informiere (brief_mi) Koordinator coordinatorFM ueber neuen Mi:2700
+GGT(232_1)@FloUB 17.06 21:28:14,346| Sende (send) Nachbarn '235_2' und '234_2' neuen Mi:2700
+GGT(232_1)@FloUB 17.06 21:28:19,392| DISPATCHER: Leite Befehl {send,1500} an meinen Worker weiter...
+GGT(232_1)@FloUB 17.06 21:28:19,392| Send erhalten Y:1500
+GGT(232_1)@FloUB 17.06 21:28:19,392| ALGO: ((2700 -1) mod 1500) +1     --    (TTW: 5 Sekunden)
+GGT(232_1)@FloUB 17.06 21:28:24,408| informiere (brief_mi) Koordinator coordinatorFM ueber neuen Mi:1200
+GGT(232_1)@FloUB 17.06 21:28:24,408| Sende (send) Nachbarn '235_2' und '234_2' neuen Mi:1200
+GGT(232_1)@FloUB 17.06 21:28:29,346| DISPATCHER: Leite Befehl {send,900} an meinen Worker weiter...
+GGT(232_1)@FloUB 17.06 21:28:29,361| Send erhalten Y:900
+GGT(232_1)@FloUB 17.06 21:28:29,361| ALGO: ((1200 -1) mod 900) +1     --    (TTW: 5 Sekunden)
+GGT(232_1)@FloUB 17.06 21:28:29,455| DISPATCHER: Leite Befehl {send,300} an meinen Worker weiter...
+GGT(232_1)@FloUB 17.06 21:28:34,377| informiere (brief_mi) Koordinator coordinatorFM ueber neuen Mi:300
+GGT(232_1)@FloUB 17.06 21:28:34,377| Sende (send) Nachbarn '235_2' und '234_2' neuen Mi:300
+GGT(232_1)@FloUB 17.06 21:28:34,392| Send erhalten Y:300
+GGT(232_1)@FloUB 17.06 21:28:34,392| ALGO: ((300 -1) mod 300) +1     --    (TTW: 5 Sekunden)
+GGT(232_1)@FloUB 17.06 21:28:39,391| DISPATCHER: Leite Befehl {send,300} an meinen Worker weiter...
+GGT(232_1)@FloUB 17.06 21:28:39,424| Mi NICHT geaendert! (ist und bleibt: 300)
+GGT(232_1)@FloUB 17.06 21:28:39,424| Send erhalten Y:300
+GGT(232_1)@FloUB 17.06 21:28:39,424| ALGO: ((300 -1) mod 300) +1     --    (TTW: 5 Sekunden)
+GGT(232_1)@FloUB 17.06 21:28:44,439| Mi NICHT geaendert! (ist und bleibt: 300)
+GGT(232_1)@FloUB 17.06 21:28:54,580| DISPATCHER: Leite Befehl {vote,'233_1'} an meinen Worker weiter...
+GGT(232_1)@FloUB 17.06 21:28:54,580| ### vote erhalten! Ich = '232_1'  Initiator = '233_1') ###
+GGT(232_1)@FloUB 17.06 21:28:54,580| Leite Anfrage (vote) an den Linken Nachbarn '235_2' weiter (implizites Zustimmen)
+GGT(232_1)@FloUB 17.06 21:28:54,580| DISPATCHER: Leite Befehl {vote,'236_1'} an meinen Worker weiter...
+GGT(232_1)@FloUB 17.06 21:28:54,580| ### vote erhalten! Ich = '232_1'  Initiator = '236_1') ###
+GGT(232_1)@FloUB 17.06 21:28:54,596| Leite Anfrage (vote) an den Linken Nachbarn '235_2' weiter (implizites Zustimmen)
+
+
+GGT(232_1)@FloUB 17.06 21:31:45,080| ######################## 232_1 Status: KILLED :( ########################

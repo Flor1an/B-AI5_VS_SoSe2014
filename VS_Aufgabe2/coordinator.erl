@@ -3,7 +3,8 @@
 -export([start/1]).
 
 -record(state, { clients=orddict:new(),
-				smallesMi
+				smallesMi,
+				toggle
                }).
 -record(gcd_client, { name
                     , left_neighbor
@@ -41,7 +42,7 @@ load_config() ->
 setup(NameserviceNode) ->
 	io:format("~n~n~n~n~n~n~n"),
 	logH("SETUP"),
-	State = #state{smallesMi=[10000000000000000000000000000]},
+	State = #state{smallesMi=null,toggle=false},
 	Config = load_config(),
 	register(Config#config.myname, self()),
 	global:register_name(Config#config.myname, self()),
@@ -127,7 +128,7 @@ init(State,Config) ->
 		step ->			
 			log("step erhalten. Erstelle den Ring"),
 	
-			StateWithRing =ringErstellen(State,State#state.clients),  %step_ring_bauen(State#state.clients),
+			StateWithRing =ringErstellen(State,State#state.clients),  
 			
 			% IP 5.2 der die ggT Prozesse über ihren linken und rechten Nachbarn informiert (set_neighbours).
 			set_neighbours(StateWithRing,Config),
@@ -182,14 +183,28 @@ ready(State,Config) ->
 	  
 	% 5.4 Der Koordinator wird von den ggT-Prozessen über deren Terminierung informiert (brief_term).
 	% Ein ggT-Prozess mit Namen ggtName und PID From informiert über die Terminierung mit Ergebnis ggTMi um ggTZeit Uhr.
-    {brief_term, {GGTName, GGTMi, GGTZeit}, From} -> % TODO: noch viel flo
-		BissherigesMi = State#state.smallesMi,
+    {brief_term, {GGTName, GGTMi, GGTZeit}, From} -> 
+	
+		BissherigesMi = case State#state.smallesMi == null of 
+			true ->%Noch nicht gesetzt
+				GGTMi;
+			_ ->
+				State#state.smallesMi
+		end,
 		case GGTMi > BissherigesMi of
 			true ->
 				log("#### FEHLER !! Kleinster Mi = ~p neuer Mi von ~p = ~p ; gesendet von ~p",[BissherigesMi,GGTName,GGTMi,From]),
+				%5.4.3 Ist ein spezielles Flag (Nachricht toggle) gesetzt, sendet er dem ggT-Prozess die kleinste Zahl per send.
+				case State#state.toggle == true of
+					true ->
+						NameServicePID = global:whereis_name(Config#config.nameservicename),
+						lookup(NameServicePID,GGTName) ! {send, BissherigesMi};
+					false ->
+						void
+				end,
 				ready(State,Config);
 			_ ->
-				log("GGT wurde berechnent: Mi >> ~p << berechnet durch: ~p um:~p", [GGTMi, GGTName, GGTZeit]),
+				log("GGT wurde berechnent: Mi >> ~p << berechnet durch: ~p um: ~p", [GGTMi, GGTName, GGTZeit]),
 				NewState = State#state{smallesMi = GGTMi},
 				ready(NewState,Config)
 		end;	
@@ -229,8 +244,8 @@ ready(State,Config) ->
 	% 5.4.3 Ist ein spezielles Flag (Nachricht toggle) gesetzt, sendet er dem ggT-Prozess die kleinste Zahl per send.
 	% Der Koordinator verändert den Flag zur Korrektur bei falschen Terminierungsmeldungen.
 	toggle ->
-		toggle(State,Config),
-		ready(State,Config);
+		NewState=toggle(State),
+		ready(NewState,Config);
 
 	% 5.5.1 Per manueller Eingabe kann der Koordinator in den Zustand "beenden" (Nachricht kill)
 	% Der Koordinator wird beendet und sendet allen ggT-Prozessen das kill-Kommando.
@@ -247,8 +262,9 @@ ready(State,Config) ->
 
 
 	
-toggle(State,Config) ->
-		io:format("TODO~p~p~n",[State,Config]).
+toggle(State) ->
+		NewState= State#state{toggle=true},
+		NewState.
 		%sendet er dem ggT-Prozess die kleinste Zahl per send
 
 
@@ -257,7 +273,7 @@ reseting(State,Config) ->
 	ggtsKillen(Config,State#state.clients),
 	% 5.5.3 Beim Übergang in den Zustand register wird die Konfigurationsdatei des Koordinators erneut gelesen.
 	FreshConfig = load_config(),
-	FreshState = State#state{clients=orddict:new(), smallesMi=[10000000000000000000000000000]},
+	FreshState = State#state{clients=orddict:new(), smallesMi=null},
 	registerEntryPoint(FreshState,FreshConfig).
 
 killing(State,Config) ->
@@ -294,6 +310,8 @@ ringErstellen(State, GgtProcs, Index) ->
 					_ ->
 						(Index-1)
 					end,
+					
+					
 	NextIndex	  = case (Index+1) > length(GgtProcs) of
 					true ->
 						1; % Erster

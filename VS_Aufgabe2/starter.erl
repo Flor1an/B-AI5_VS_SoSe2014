@@ -37,7 +37,7 @@ start(NameserviceNode,Nummer) ->
 			io:format("~n~n~n"),
 			exit("NameServicePID ist undefined. Bitte nochmal versuchen.");
 		_ ->
-			now()
+			void
 	end,
 	
 	Cord = lookup(NameServicePID, Config#config.koordinatorname),
@@ -62,7 +62,7 @@ start(NameserviceNode,Nummer) ->
 											Config#config.praktikumsgruppe,
 											Config#config.teamnummer),
 										log(Nummer,"GGT-Prozess Nr: ~p wurde gestartet",[ProzessNr]),
-										timer:sleep(timer:seconds(1))
+										timer:sleep(100)
 								  
 							  end,
 			lists:foreach(LauncheGGTNodes, lists:seq(1, PTS))
