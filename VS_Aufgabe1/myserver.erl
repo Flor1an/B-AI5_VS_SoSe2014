@@ -1,15 +1,5 @@
-%%%-------------------------------------------------------------------
-%%% @author Florian
-%%% @copyright (C) 2014, <COMPANY>
-%%% @doc
-%%%
-%%% @end
-%%% Created : 12. Mai 2014 15:42
-%%%-------------------------------------------------------------------
 -module(myserver).
--author("Florian").
 
-%% API
 -export([start/0]).
 
 -record(status, {
@@ -37,8 +27,6 @@ load_config() ->
   }.
 
 
-% Server starten und unter Namen "theserver" global registrieren
-% Alternative: Servername aus config Datei lesen
 start() ->
   Config = load_config(),
   State = #status{  },
@@ -49,8 +37,6 @@ start() ->
 
 
 
-% Verarbeiten der Daten und Antwort Ergebnis
-% von fn(...) an Client senden
 server(Status,Config) ->
     {ok,MyTimer} = timer:send_after(timer:seconds(Config#config.latency), self(), "Ende Gelaende"),
 
@@ -86,33 +72,27 @@ server(Status,Config) ->
 
   end.
 
-%% #####################################################################################################################
-
+%% 1 #####################################################################################################################
 %% Gibt die naechste freie ID an einen beliebigen Client.
 query_msgid(State) ->
   NewState = State#status{current_msg_id = State#status.current_msg_id + 1},
   NewState.
 
-%% #####################################################################################################################
-
+  
+  
+%% 2 #####################################################################################################################
 %% Empfaengt eine neue Nachricht und Speichert sie in der Holdbackqueue.
 new_message(State,Number,Nachricht) ->
   NachrichtAndTimeStamp = string:join([Nachricht, "|To HBQ:", werkzeug:timeMilliSecond()], " "),
-
   NewState = State#status{hbq = werkzeug:pushSL(State#status.hbq,{Number,NachrichtAndTimeStamp})},
-  %NewState = State#status{hbq = lists:append(State#status.hbq, {Nachricht})},
-  %%%%%%%%%%%io:format("[NEW LIST]~p~n",[NewState#status.hbq]),
   NewState.
 
-%% #####################################################################################################################
-
+  
+  
+%% 3 #####################################################################################################################
 %% Liefert Nachrichten an einen anfragenden Client
 query_messages(State,Config,ClientPID) ->
   StateWithUpdatedQueues = moveMessagesFromHbqToDlq(State,Config),
-  
-  %io:format("[DLQ] ~p~n",[werkzeug:lengthSL(StateWithUpdatedQueues#status.dlq)]),
-  %io:format("[HBQ] ~p~n",[werkzeug:lengthSL(StateWithUpdatedQueues#status.hbq)]),
-
   NewState = deleteOldClients(StateWithUpdatedQueues,Config),
   
   case werkzeug:findSL(NewState#status.clients,ClientPID) of
@@ -127,9 +107,6 @@ query_messages(State,Config,ClientPID) ->
 	  log("Server","~p || Ist als Client bekannt. Nachrichten werden uebertragen", [ClientPID]),	  
 	  NewNewState = updateClientRequestTime(NewState,ClientPID),
 	  
-      %io:format("[Client will ID] ~p ~n",[RequestedIDFromClient]),
-      %%%%%%%%%io:format("[aktuelle DLQ] ~p ~n",[NewState#status.dlq]),
-
       {TempStatus,RealIDToTransfer,RealMessageToTransfer} = case werkzeug:findneSL(NewNewState#status.dlq,RequestedIDFromClient) of
                                                              {-1,nok} -> % ID nicht vorhanden also dummy sendne
                                                                  T2 = "DUMMY MESSAGE (keine neuen Nachrichten vorhanden)",

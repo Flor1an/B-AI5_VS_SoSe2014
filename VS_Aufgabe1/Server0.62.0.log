@@ -1,0 +1,344 @@
+[17.06 21:40:47,002|] (<0.62.0>) <10517.61.0> << Nummer anfragen
+[17.06 21:40:47,002|] (<0.62.0>) <10517.61.0> >> : Sende Nummer 1
+[17.06 21:40:47,016|] (<0.62.0>) <10517.66.0> << Nummer anfragen
+[17.06 21:40:47,017|] (<0.62.0>) <10517.66.0> >> : Sende Nummer 2
+[17.06 21:40:48,032|] (<0.62.0>) << : Empfange Nachricht 1) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:48,034|
+[17.06 21:40:48,033|] (<0.62.0>) <10517.61.0> << Nummer anfragen
+[17.06 21:40:48,033|] (<0.62.0>) <10517.61.0> >> : Sende Nummer 3
+[17.06 21:40:48,048|] (<0.62.0>) << : Empfange Nachricht 2) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:48,050|
+[17.06 21:40:48,049|] (<0.62.0>) <10517.66.0> << Nummer anfragen
+[17.06 21:40:48,049|] (<0.62.0>) <10517.66.0> >> : Sende Nummer 4
+[17.06 21:40:49,048|] (<0.62.0>) << : Empfange Nachricht 3) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:49,050|
+[17.06 21:40:49,049|] (<0.62.0>) <10517.61.0> << Nummer anfragen
+[17.06 21:40:49,049|] (<0.62.0>) <10517.61.0> >> : Sende Nummer 5
+[17.06 21:40:49,080|] (<0.62.0>) << : Empfange Nachricht 4) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:49,082|
+[17.06 21:40:49,080|] (<0.62.0>) <10517.66.0> << Nummer anfragen
+[17.06 21:40:49,080|] (<0.62.0>) <10517.66.0> >> : Sende Nummer 6
+[17.06 21:40:50,080|] (<0.62.0>) << : Empfange Nachricht 5) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:50,082|
+[17.06 21:40:50,080|] (<0.62.0>) <10517.61.0> << Nummer anfragen
+[17.06 21:40:50,080|] (<0.62.0>) <10517.61.0> >> : Sende Nummer 7
+[17.06 21:40:50,096|] (<0.62.0>) << : Empfange Nachricht 6) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:50,098|
+[17.06 21:40:50,096|] (<0.62.0>) <10517.66.0> << Nummer anfragen
+[17.06 21:40:50,096|] (<0.62.0>) <10517.66.0> >> : Sende Nummer 8
+[17.06 21:40:51,096|] (<0.62.0>) << : Empfange Nachricht 7) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:51,098|
+[17.06 21:40:51,096|] (<0.62.0>) <10517.61.0> << Nummer anfragen
+[17.06 21:40:51,096|] (<0.62.0>) <10517.61.0> >> : Sende Nummer 9
+[17.06 21:40:51,127|] (<0.62.0>) << : Empfange Nachricht 8) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:51,129|
+[17.06 21:40:51,127|] (<0.62.0>) <10517.66.0> << Nummer anfragen
+[17.06 21:40:51,127|] (<0.62.0>) <10517.66.0> >> : Sende Nummer 10
+[17.06 21:40:52,111|] (<0.62.0>) Kopiere ID 1 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:40:52,111|] (<0.62.0>) Kopiere ID 2 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:40:52,111|] (<0.62.0>) Kopiere ID 3 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:40:52,111|] (<0.62.0>) Kopiere ID 4 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:40:52,111|] (<0.62.0>) Kopiere ID 5 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:40:52,111|] (<0.62.0>) Kopiere ID 6 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:40:52,111|] (<0.62.0>) Kopiere ID 7 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:40:52,111|] (<0.62.0>) Kopiere ID 8 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:40:52,111|] (<0.62.0>) <10517.61.0> || Wird als neuer Client gespeichert
+[17.06 21:40:52,111|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:40:52,111|] (<0.62.0>) <10517.61.0> >> bekommt 1) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:48,034| |To HBQ: 17.06 21:40:48,033| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:40:52,111|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:40:52,111|] (<0.62.0>) <10517.61.0> >> bekommt 2) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:48,050| |To HBQ: 17.06 21:40:48,049| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:40:52,127|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:40:52,127|] (<0.62.0>) <10517.61.0> >> bekommt 3) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:49,050| |To HBQ: 17.06 21:40:49,049| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:40:52,127|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:40:52,127|] (<0.62.0>) <10517.61.0> >> bekommt 4) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:49,082| |To HBQ: 17.06 21:40:49,080| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:40:52,127|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:40:52,127|] (<0.62.0>) <10517.61.0> >> bekommt 5) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:50,082| |To HBQ: 17.06 21:40:50,080| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:40:52,142|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:40:52,142|] (<0.62.0>) <10517.61.0> >> bekommt 6) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:50,098| |To HBQ: 17.06 21:40:50,096| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:40:52,142|] (<0.62.0>) <10517.66.0> || Wird als neuer Client gespeichert
+[17.06 21:40:52,142|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:40:52,142|] (<0.62.0>) <10517.66.0> >> bekommt 1) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:48,034| |To HBQ: 17.06 21:40:48,033| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:40:52,142|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:40:52,142|] (<0.62.0>) <10517.61.0> >> bekommt 7) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:51,098| |To HBQ: 17.06 21:40:51,096| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:40:52,142|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:40:52,142|] (<0.62.0>) <10517.66.0> >> bekommt 2) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:48,050| |To HBQ: 17.06 21:40:48,049| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:40:52,142|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:40:52,142|] (<0.62.0>) <10517.61.0> >> bekommt 8) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:51,129| |To HBQ: 17.06 21:40:51,127| |To DLQ: 17.06 21:40:52,111| [true]
+[17.06 21:40:52,158|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:40:52,158|] (<0.62.0>) <10517.66.0> >> bekommt 3) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:49,050| |To HBQ: 17.06 21:40:49,049| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:40:52,158|] (<0.62.0>) <10517.61.0> << Nummer anfragen
+[17.06 21:40:52,158|] (<0.62.0>) <10517.61.0> >> : Sende Nummer 11
+[17.06 21:40:52,158|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:40:52,158|] (<0.62.0>) <10517.66.0> >> bekommt 4) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:49,082| |To HBQ: 17.06 21:40:49,080| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:40:52,174|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:40:52,174|] (<0.62.0>) <10517.66.0> >> bekommt 5) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:50,082| |To HBQ: 17.06 21:40:50,080| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:40:52,174|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:40:52,174|] (<0.62.0>) <10517.66.0> >> bekommt 6) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:50,098| |To HBQ: 17.06 21:40:50,096| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:40:52,174|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:40:52,174|] (<0.62.0>) <10517.66.0> >> bekommt 7) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:51,098| |To HBQ: 17.06 21:40:51,096| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:40:52,189|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:40:52,189|] (<0.62.0>) <10517.66.0> >> bekommt 8) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:51,129| |To HBQ: 17.06 21:40:51,127| |To DLQ: 17.06 21:40:52,111| [true]
+[17.06 21:40:52,189|] (<0.62.0>) <10517.66.0> << Nummer anfragen
+[17.06 21:40:52,205|] (<0.62.0>) <10517.66.0> >> : Sende Nummer 12
+[17.06 21:40:54,189|] (<0.62.0>) << : Empfange Nachricht 11) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:54,191|
+[17.06 21:40:54,189|] (<0.62.0>) <10517.61.0> << Nummer anfragen
+[17.06 21:40:54,189|] (<0.62.0>) <10517.61.0> >> : Sende Nummer 13
+[17.06 21:40:54,221|] (<0.62.0>) << : Empfange Nachricht 12) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:54,223|
+[17.06 21:40:54,221|] (<0.62.0>) <10517.66.0> << Nummer anfragen
+[17.06 21:40:54,221|] (<0.62.0>) <10517.66.0> >> : Sende Nummer 14
+[17.06 21:40:56,205|] (<0.62.0>) << : Empfange Nachricht 13) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:56,207|
+[17.06 21:40:56,221|] (<0.62.0>) <10517.61.0> << Nummer anfragen
+[17.06 21:40:56,221|] (<0.62.0>) <10517.61.0> >> : Sende Nummer 15
+[17.06 21:40:56,236|] (<0.62.0>) << : Empfange Nachricht 14) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:56,238|
+[17.06 21:40:56,236|] (<0.62.0>) <10517.66.0> << Nummer anfragen
+[17.06 21:40:56,236|] (<0.62.0>) <10517.66.0> >> : Sende Nummer 16
+[17.06 21:40:58,236|] (<0.62.0>) << : Empfange Nachricht 15) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:58,238|
+[17.06 21:40:58,252|] (<0.62.0>) <10517.61.0> << Nummer anfragen
+[17.06 21:40:58,252|] (<0.62.0>) <10517.61.0> >> : Sende Nummer 17
+[17.06 21:40:58,266|] (<0.62.0>) << : Empfange Nachricht 16) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:58,269|
+[17.06 21:40:58,267|] (<0.62.0>) <10517.66.0> << Nummer anfragen
+[17.06 21:40:58,267|] (<0.62.0>) <10517.66.0> >> : Sende Nummer 18
+[17.06 21:41:00,266|] (<0.62.0>) << : Empfange Nachricht 17) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:00,269|
+[17.06 21:41:00,267|] (<0.62.0>) <10517.61.0> << Nummer anfragen
+[17.06 21:41:00,267|] (<0.62.0>) <10517.61.0> >> : Sende Nummer 19
+[17.06 21:41:00,282|] (<0.62.0>) << : Empfange Nachricht 18) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:00,284|
+[17.06 21:41:00,283|] (<0.62.0>) <10517.66.0> << Nummer anfragen
+[17.06 21:41:00,283|] (<0.62.0>) <10517.66.0> >> : Sende Nummer 20
+[17.06 21:41:02,282|] (<0.62.0>) Luecke vorhanden von 9 bis 10
+[17.06 21:41:02,283|] (<0.62.0>) Kopiere ID 11 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:41:02,283|] (<0.62.0>) Kopiere ID 12 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:41:02,283|] (<0.62.0>) Kopiere ID 13 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:41:02,283|] (<0.62.0>) Kopiere ID 14 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:41:02,283|] (<0.62.0>) Kopiere ID 15 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:41:02,283|] (<0.62.0>) Kopiere ID 16 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:41:02,283|] (<0.62.0>) Kopiere ID 17 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:41:02,283|] (<0.62.0>) Kopiere ID 18 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:41:02,283|] (<0.62.0>) Kick alte Cliente: []
+[17.06 21:41:02,283|] (<0.62.0>) <10517.61.0> || Wird als neuer Client gespeichert
+[17.06 21:41:02,283|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,283|] (<0.62.0>) <10517.61.0> >> bekommt 1) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:48,034| |To HBQ: 17.06 21:40:48,033| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:02,283|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,283|] (<0.62.0>) <10517.61.0> >> bekommt 2) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:48,050| |To HBQ: 17.06 21:40:48,049| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:02,299|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,299|] (<0.62.0>) <10517.61.0> >> bekommt 3) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:49,050| |To HBQ: 17.06 21:40:49,049| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:02,299|] (<0.62.0>) <10517.66.0> || Wird als neuer Client gespeichert
+[17.06 21:41:02,299|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,299|] (<0.62.0>) <10517.66.0> >> bekommt 1) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:48,034| |To HBQ: 17.06 21:40:48,033| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:02,299|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,299|] (<0.62.0>) <10517.61.0> >> bekommt 4) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:49,082| |To HBQ: 17.06 21:40:49,080| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:02,299|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,299|] (<0.62.0>) <10517.66.0> >> bekommt 2) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:48,050| |To HBQ: 17.06 21:40:48,049| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:02,314|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,314|] (<0.62.0>) <10517.61.0> >> bekommt 5) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:50,082| |To HBQ: 17.06 21:40:50,080| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:02,314|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,314|] (<0.62.0>) <10517.66.0> >> bekommt 3) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:49,050| |To HBQ: 17.06 21:40:49,049| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:02,330|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,330|] (<0.62.0>) <10517.61.0> >> bekommt 6) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:50,098| |To HBQ: 17.06 21:40:50,096| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:02,330|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,330|] (<0.62.0>) <10517.66.0> >> bekommt 4) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:49,082| |To HBQ: 17.06 21:40:49,080| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:02,346|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,346|] (<0.62.0>) <10517.61.0> >> bekommt 7) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:51,098| |To HBQ: 17.06 21:40:51,096| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:02,346|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,346|] (<0.62.0>) <10517.66.0> >> bekommt 5) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:50,082| |To HBQ: 17.06 21:40:50,080| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:02,346|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,346|] (<0.62.0>) <10517.61.0> >> bekommt 8) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:51,129| |To HBQ: 17.06 21:40:51,127| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:02,361|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,361|] (<0.62.0>) <10517.66.0> >> bekommt 6) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:50,098| |To HBQ: 17.06 21:40:50,096| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:02,361|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,361|] (<0.62.0>) <10517.61.0> >> bekommt 9) ****Fehlernachricht (Lueckenfueller) fuer Nachricht 9 bis 10 um  17.06 21:41:02,283| [false]
+[17.06 21:41:02,361|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,361|] (<0.62.0>) <10517.66.0> >> bekommt 7) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:51,098| |To HBQ: 17.06 21:40:51,096| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:02,377|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,377|] (<0.62.0>) <10517.61.0> >> bekommt 11) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:54,191| |To HBQ: 17.06 21:40:54,189| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:02,377|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,377|] (<0.62.0>) <10517.66.0> >> bekommt 8) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:51,129| |To HBQ: 17.06 21:40:51,127| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:02,377|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,377|] (<0.62.0>) <10517.61.0> >> bekommt 12) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:54,223| |To HBQ: 17.06 21:40:54,221| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:02,377|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,377|] (<0.62.0>) <10517.66.0> >> bekommt 9) ****Fehlernachricht (Lueckenfueller) fuer Nachricht 9 bis 10 um  17.06 21:41:02,283| [false]
+[17.06 21:41:02,392|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,392|] (<0.62.0>) <10517.61.0> >> bekommt 13) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:56,207| |To HBQ: 17.06 21:40:56,205| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:02,392|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,392|] (<0.62.0>) <10517.66.0> >> bekommt 11) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:54,191| |To HBQ: 17.06 21:40:54,189| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:02,408|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,408|] (<0.62.0>) <10517.61.0> >> bekommt 14) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:56,238| |To HBQ: 17.06 21:40:56,236| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:02,408|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,408|] (<0.62.0>) <10517.66.0> >> bekommt 12) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:54,223| |To HBQ: 17.06 21:40:54,221| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:02,408|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,408|] (<0.62.0>) <10517.61.0> >> bekommt 15) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:58,238| |To HBQ: 17.06 21:40:58,236| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:02,424|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,424|] (<0.62.0>) <10517.66.0> >> bekommt 13) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:56,207| |To HBQ: 17.06 21:40:56,205| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:02,424|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,424|] (<0.62.0>) <10517.61.0> >> bekommt 16) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:58,269| |To HBQ: 17.06 21:40:58,267| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:02,424|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,424|] (<0.62.0>) <10517.66.0> >> bekommt 14) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:56,238| |To HBQ: 17.06 21:40:56,236| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:02,439|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,439|] (<0.62.0>) <10517.61.0> >> bekommt 17) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:00,269| |To HBQ: 17.06 21:41:00,267| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:02,439|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,439|] (<0.62.0>) <10517.66.0> >> bekommt 15) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:58,238| |To HBQ: 17.06 21:40:58,236| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:02,439|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,439|] (<0.62.0>) <10517.61.0> >> bekommt 18) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:00,284| |To HBQ: 17.06 21:41:00,283| |To DLQ: 17.06 21:41:02,283| [true]
+[17.06 21:41:02,439|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,439|] (<0.62.0>) <10517.66.0> >> bekommt 16) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:58,269| |To HBQ: 17.06 21:40:58,267| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:02,455|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,455|] (<0.62.0>) <10517.66.0> >> bekommt 17) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:00,269| |To HBQ: 17.06 21:41:00,267| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:02,455|] (<0.62.0>) <10517.61.0> << Nummer anfragen
+[17.06 21:41:02,455|] (<0.62.0>) <10517.61.0> >> : Sende Nummer 21
+[17.06 21:41:02,455|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:02,455|] (<0.62.0>) <10517.66.0> >> bekommt 18) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:00,284| |To HBQ: 17.06 21:41:00,283| |To DLQ: 17.06 21:41:02,283| [true]
+[17.06 21:41:02,471|] (<0.62.0>) <10517.66.0> << Nummer anfragen
+[17.06 21:41:02,471|] (<0.62.0>) <10517.66.0> >> : Sende Nummer 22
+[17.06 21:41:05,471|] (<0.62.0>) << : Empfange Nachricht 21) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:05,472|
+[17.06 21:41:05,471|] (<0.62.0>) <10517.61.0> << Nummer anfragen
+[17.06 21:41:05,471|] (<0.62.0>) <10517.61.0> >> : Sende Nummer 23
+[17.06 21:41:05,486|] (<0.62.0>) << : Empfange Nachricht 22) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:05,488|
+[17.06 21:41:05,486|] (<0.62.0>) <10517.66.0> << Nummer anfragen
+[17.06 21:41:05,486|] (<0.62.0>) <10517.66.0> >> : Sende Nummer 24
+[17.06 21:41:08,486|] (<0.62.0>) << : Empfange Nachricht 23) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:08,488|
+[17.06 21:41:08,486|] (<0.62.0>) <10517.61.0> << Nummer anfragen
+[17.06 21:41:08,486|] (<0.62.0>) <10517.61.0> >> : Sende Nummer 25
+[17.06 21:41:08,502|] (<0.62.0>) << : Empfange Nachricht 24) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:08,504|
+[17.06 21:41:08,502|] (<0.62.0>) <10517.66.0> << Nummer anfragen
+[17.06 21:41:08,502|] (<0.62.0>) <10517.66.0> >> : Sende Nummer 26
+[17.06 21:41:11,502|] (<0.62.0>) << : Empfange Nachricht 25) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:11,504|
+[17.06 21:41:11,516|] (<0.62.0>) <10517.61.0> << Nummer anfragen
+[17.06 21:41:11,517|] (<0.62.0>) <10517.61.0> >> : Sende Nummer 27
+[17.06 21:41:11,517|] (<0.62.0>) << : Empfange Nachricht 26) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:11,519|
+[17.06 21:41:11,517|] (<0.62.0>) <10517.66.0> << Nummer anfragen
+[17.06 21:41:11,517|] (<0.62.0>) <10517.66.0> >> : Sende Nummer 28
+[17.06 21:41:14,532|] (<0.62.0>) << : Empfange Nachricht 28) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:14,535|
+[17.06 21:41:14,533|] (<0.62.0>) << : Empfange Nachricht 27) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:14,535|
+[17.06 21:41:14,533|] (<0.62.0>) <10517.66.0> << Nummer anfragen
+[17.06 21:41:14,533|] (<0.62.0>) <10517.66.0> >> : Sende Nummer 29
+[17.06 21:41:14,533|] (<0.62.0>) <10517.61.0> << Nummer anfragen
+[17.06 21:41:14,533|] (<0.62.0>) <10517.61.0> >> : Sende Nummer 30
+[17.06 21:41:17,564|] (<0.62.0>) Luecke vorhanden von 19 bis 20
+[17.06 21:41:17,564|] (<0.62.0>) Kopiere ID 21 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:41:17,564|] (<0.62.0>) Kopiere ID 22 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:41:17,564|] (<0.62.0>) Kopiere ID 23 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:41:17,564|] (<0.62.0>) Kopiere ID 24 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:41:17,564|] (<0.62.0>) Kopiere ID 25 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:41:17,564|] (<0.62.0>) Kopiere ID 26 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:41:17,564|] (<0.62.0>) Kopiere ID 27 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:41:17,564|] (<0.62.0>) Kopiere ID 28 von der Holdbackqueue in die Deleiveryqueue
+[17.06 21:41:17,564|] (<0.62.0>) Kick alte Cliente: []
+[17.06 21:41:17,564|] (<0.62.0>) <10517.61.0> || Wird als neuer Client gespeichert
+[17.06 21:41:17,564|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,564|] (<0.62.0>) <10517.61.0> >> bekommt 1) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:48,034| |To HBQ: 17.06 21:40:48,033| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:17,564|] (<0.62.0>) <10517.66.0> || Wird als neuer Client gespeichert
+[17.06 21:41:17,564|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,564|] (<0.62.0>) <10517.66.0> >> bekommt 1) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:48,034| |To HBQ: 17.06 21:40:48,033| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:17,564|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,564|] (<0.62.0>) <10517.61.0> >> bekommt 2) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:48,050| |To HBQ: 17.06 21:40:48,049| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:17,580|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,580|] (<0.62.0>) <10517.66.0> >> bekommt 2) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:48,050| |To HBQ: 17.06 21:40:48,049| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:17,580|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,580|] (<0.62.0>) <10517.61.0> >> bekommt 3) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:49,050| |To HBQ: 17.06 21:40:49,049| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:17,580|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,580|] (<0.62.0>) <10517.66.0> >> bekommt 3) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:49,050| |To HBQ: 17.06 21:40:49,049| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:17,580|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,580|] (<0.62.0>) <10517.61.0> >> bekommt 4) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:49,082| |To HBQ: 17.06 21:40:49,080| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:17,580|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,580|] (<0.62.0>) <10517.66.0> >> bekommt 4) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:49,082| |To HBQ: 17.06 21:40:49,080| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:17,596|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,596|] (<0.62.0>) <10517.61.0> >> bekommt 5) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:50,082| |To HBQ: 17.06 21:40:50,080| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:17,596|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,596|] (<0.62.0>) <10517.66.0> >> bekommt 5) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:50,082| |To HBQ: 17.06 21:40:50,080| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:17,596|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,596|] (<0.62.0>) <10517.61.0> >> bekommt 6) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:50,098| |To HBQ: 17.06 21:40:50,096| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:17,596|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,596|] (<0.62.0>) <10517.66.0> >> bekommt 6) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:50,098| |To HBQ: 17.06 21:40:50,096| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:17,596|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,596|] (<0.62.0>) <10517.61.0> >> bekommt 7) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:51,098| |To HBQ: 17.06 21:40:51,096| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:17,611|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,611|] (<0.62.0>) <10517.66.0> >> bekommt 7) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:51,098| |To HBQ: 17.06 21:40:51,096| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:17,611|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,611|] (<0.62.0>) <10517.61.0> >> bekommt 8) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:51,129| |To HBQ: 17.06 21:40:51,127| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:17,611|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,611|] (<0.62.0>) <10517.66.0> >> bekommt 8) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:51,129| |To HBQ: 17.06 21:40:51,127| |To DLQ: 17.06 21:40:52,111| [false]
+[17.06 21:41:17,611|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,611|] (<0.62.0>) <10517.61.0> >> bekommt 9) ****Fehlernachricht (Lueckenfueller) fuer Nachricht 9 bis 10 um  17.06 21:41:02,283| [false]
+[17.06 21:41:17,611|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,611|] (<0.62.0>) <10517.66.0> >> bekommt 9) ****Fehlernachricht (Lueckenfueller) fuer Nachricht 9 bis 10 um  17.06 21:41:02,283| [false]
+[17.06 21:41:17,627|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,627|] (<0.62.0>) <10517.61.0> >> bekommt 11) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:54,191| |To HBQ: 17.06 21:40:54,189| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:17,627|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,627|] (<0.62.0>) <10517.66.0> >> bekommt 11) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:54,191| |To HBQ: 17.06 21:40:54,189| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:17,627|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,627|] (<0.62.0>) <10517.61.0> >> bekommt 12) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:54,223| |To HBQ: 17.06 21:40:54,221| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:17,627|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,627|] (<0.62.0>) <10517.66.0> >> bekommt 12) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:54,223| |To HBQ: 17.06 21:40:54,221| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:17,627|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,627|] (<0.62.0>) <10517.61.0> >> bekommt 13) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:56,207| |To HBQ: 17.06 21:40:56,205| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:17,642|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,642|] (<0.62.0>) <10517.66.0> >> bekommt 13) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:56,207| |To HBQ: 17.06 21:40:56,205| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:17,642|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,642|] (<0.62.0>) <10517.61.0> >> bekommt 14) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:56,238| |To HBQ: 17.06 21:40:56,236| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:17,642|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,642|] (<0.62.0>) <10517.66.0> >> bekommt 14) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:56,238| |To HBQ: 17.06 21:40:56,236| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:17,642|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,642|] (<0.62.0>) <10517.61.0> >> bekommt 15) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:58,238| |To HBQ: 17.06 21:40:58,236| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:17,658|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,658|] (<0.62.0>) <10517.66.0> >> bekommt 15) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:58,238| |To HBQ: 17.06 21:40:58,236| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:17,658|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,658|] (<0.62.0>) <10517.61.0> >> bekommt 16) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:58,269| |To HBQ: 17.06 21:40:58,267| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:17,658|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,658|] (<0.62.0>) <10517.66.0> >> bekommt 16) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:40:58,269| |To HBQ: 17.06 21:40:58,267| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:17,658|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,658|] (<0.62.0>) <10517.61.0> >> bekommt 17) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:00,269| |To HBQ: 17.06 21:41:00,267| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:17,658|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,658|] (<0.62.0>) <10517.66.0> >> bekommt 17) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:00,269| |To HBQ: 17.06 21:41:00,267| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:17,658|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,658|] (<0.62.0>) <10517.61.0> >> bekommt 18) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:00,284| |To HBQ: 17.06 21:41:00,283| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:17,674|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,674|] (<0.62.0>) <10517.66.0> >> bekommt 18) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:00,284| |To HBQ: 17.06 21:41:00,283| |To DLQ: 17.06 21:41:02,283| [false]
+[17.06 21:41:17,674|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,674|] (<0.62.0>) <10517.61.0> >> bekommt 19) ****Fehlernachricht (Lueckenfueller) fuer Nachricht 19 bis 20 um  17.06 21:41:17,564| [false]
+[17.06 21:41:17,674|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,674|] (<0.62.0>) <10517.66.0> >> bekommt 19) ****Fehlernachricht (Lueckenfueller) fuer Nachricht 19 bis 20 um  17.06 21:41:17,564| [false]
+[17.06 21:41:17,674|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,674|] (<0.62.0>) <10517.61.0> >> bekommt 21) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:05,472| |To HBQ: 17.06 21:41:05,471| |To DLQ: 17.06 21:41:17,564| [false]
+[17.06 21:41:17,689|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,689|] (<0.62.0>) <10517.66.0> >> bekommt 21) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:05,472| |To HBQ: 17.06 21:41:05,471| |To DLQ: 17.06 21:41:17,564| [false]
+[17.06 21:41:17,689|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,689|] (<0.62.0>) <10517.61.0> >> bekommt 22) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:05,488| |To HBQ: 17.06 21:41:05,486| |To DLQ: 17.06 21:41:17,564| [false]
+[17.06 21:41:17,689|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,689|] (<0.62.0>) <10517.66.0> >> bekommt 22) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:05,488| |To HBQ: 17.06 21:41:05,486| |To DLQ: 17.06 21:41:17,564| [false]
+[17.06 21:41:17,689|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,689|] (<0.62.0>) <10517.61.0> >> bekommt 23) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:08,488| |To HBQ: 17.06 21:41:08,486| |To DLQ: 17.06 21:41:17,564| [false]
+[17.06 21:41:17,705|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,705|] (<0.62.0>) <10517.66.0> >> bekommt 23) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:08,488| |To HBQ: 17.06 21:41:08,486| |To DLQ: 17.06 21:41:17,564| [false]
+[17.06 21:41:17,705|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,705|] (<0.62.0>) <10517.61.0> >> bekommt 24) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:08,504| |To HBQ: 17.06 21:41:08,502| |To DLQ: 17.06 21:41:17,564| [false]
+[17.06 21:41:17,705|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,705|] (<0.62.0>) <10517.66.0> >> bekommt 24) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:08,504| |To HBQ: 17.06 21:41:08,502| |To DLQ: 17.06 21:41:17,564| [false]
+[17.06 21:41:17,705|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,705|] (<0.62.0>) <10517.61.0> >> bekommt 25) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:11,504| |To HBQ: 17.06 21:41:11,502| |To DLQ: 17.06 21:41:17,564| [false]
+[17.06 21:41:17,721|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,721|] (<0.62.0>) <10517.66.0> >> bekommt 25) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:11,504| |To HBQ: 17.06 21:41:11,502| |To DLQ: 17.06 21:41:17,564| [false]
+[17.06 21:41:17,721|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,721|] (<0.62.0>) <10517.61.0> >> bekommt 26) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:11,519| |To HBQ: 17.06 21:41:11,517| |To DLQ: 17.06 21:41:17,564| [false]
+[17.06 21:41:17,721|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,721|] (<0.62.0>) <10517.66.0> >> bekommt 26) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:11,519| |To HBQ: 17.06 21:41:11,517| |To DLQ: 17.06 21:41:17,564| [false]
+[17.06 21:41:17,721|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,721|] (<0.62.0>) <10517.61.0> >> bekommt 27) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:14,535| |To HBQ: 17.06 21:41:14,533| |To DLQ: 17.06 21:41:17,564| [false]
+[17.06 21:41:17,721|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,721|] (<0.62.0>) <10517.66.0> >> bekommt 27) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:14,535| |To HBQ: 17.06 21:41:14,533| |To DLQ: 17.06 21:41:17,564| [false]
+[17.06 21:41:17,721|] (<0.62.0>) <10517.61.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,721|] (<0.62.0>) <10517.61.0> >> bekommt 28) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:14,535| |To HBQ: 17.06 21:41:14,533| |To DLQ: 17.06 21:41:17,564| [true]
+[17.06 21:41:17,736|] (<0.62.0>) <10517.66.0> || Ist als Client bekannt. Nachrichten werden uebertragen
+[17.06 21:41:17,736|] (<0.62.0>) <10517.66.0> >> bekommt 28) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:14,535| |To HBQ: 17.06 21:41:14,533| |To DLQ: 17.06 21:41:17,564| [true]
+[17.06 21:41:17,736|] (<0.62.0>) <10517.61.0> << Nummer anfragen
+[17.06 21:41:17,736|] (<0.62.0>) <10517.61.0> >> : Sende Nummer 31
+[17.06 21:41:17,736|] (<0.62.0>) <10517.66.0> << Nummer anfragen
+[17.06 21:41:17,736|] (<0.62.0>) <10517.66.0> >> : Sende Nummer 32
+[17.06 21:41:22,752|] (<0.62.0>) << : Empfange Nachricht 31) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:22,754|
+[17.06 21:41:22,766|] (<0.62.0>) << : Empfange Nachricht 32) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:22,769|
+[17.06 21:41:22,782|] (<0.62.0>) <10517.61.0> << Nummer anfragen
+[17.06 21:41:22,783|] (<0.62.0>) <10517.61.0> >> : Sende Nummer 33
+[17.06 21:41:22,798|] (<0.62.0>) <10517.66.0> << Nummer anfragen
+[17.06 21:41:22,799|] (<0.62.0>) <10517.66.0> >> : Sende Nummer 34
+[17.06 21:41:27,798|] (<0.62.0>) << : Empfange Nachricht 33) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:27,801|
+[17.06 21:41:27,814|] (<0.62.0>) << : Empfange Nachricht 34) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:27,815|
+[17.06 21:41:27,814|] (<0.62.0>) <10517.61.0> << Nummer anfragen
+[17.06 21:41:27,814|] (<0.62.0>) <10517.61.0> >> : Sende Nummer 35
+[17.06 21:41:27,830|] (<0.62.0>) <10517.66.0> << Nummer anfragen
+[17.06 21:41:27,830|] (<0.62.0>) <10517.66.0> >> : Sende Nummer 36
+[17.06 21:41:32,830|] (<0.62.0>) << : Empfange Nachricht 35) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:32,831|
+[17.06 21:41:32,846|] (<0.62.0>) << : Empfange Nachricht 36) bla-@-FloUB-{wk3,s1@FloUB}-02-03-17.06 21:41:32,847|
+[17.06 21:41:32,861|] (<0.62.0>) <10517.61.0> << Nummer anfragen
+[17.06 21:41:32,861|] (<0.62.0>) <10517.61.0> >> : Sende Nummer 37
+[17.06 21:41:32,861|] (<0.62.0>) <10517.66.0> << Nummer anfragen
+[17.06 21:41:32,861|] (<0.62.0>) <10517.66.0> >> : Sende Nummer 38

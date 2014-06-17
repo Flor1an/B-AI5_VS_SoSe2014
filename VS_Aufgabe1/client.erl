@@ -1,13 +1,4 @@
-%%%-------------------------------------------------------------------
-%%% @author Florian
-%%% @copyright (C) 2014, <COMPANY>
-%%% @doc
-%%%
-%%% @end
-%%% Created : 12. Mai 2014 15:45
-%%%-------------------------------------------------------------------
 -module(client).
--author("Florian").
 
 -record(status, {
   ids =[]
@@ -21,7 +12,7 @@
   sendeintervall
 }).
 
-%% API
+
 -export([start/1]).
 
 load_config() ->
@@ -48,7 +39,7 @@ start(ServerNode) ->
 							ClientPID = spawn_link(fun() -> redakteur(ServerPID,1,Status,Config) end),
 							log("Client","Client Startzeit: ~p mit PID ~p",[werkzeug:timeMilliSecond(), ClientPID]),
 							timer:exit_after(timer:seconds(Config#config.lifetime), ClientPID, "Ende Gelaende")
-						end, lists:seq(1, Config#config.clients)), %TODO:Testing
+						end, lists:seq(1, Config#config.clients)), 
   Clients.
 
 %%REDAKTEUR!######################################################
