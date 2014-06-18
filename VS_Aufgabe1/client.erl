@@ -31,8 +31,8 @@ start(ServerNode) ->
   io:format("~n~n[Status:] ~p~n",[Status]),
   io:format("[Config:] ~p~n~n~n",[Config]),
   Servername = Config#config.servername,
-  ServerPID = {Servername,ServerNode},
-  log("Client","Servername ~s has Pid: ~p", [Servername, ServerPID]),
+  ServerPID = global:whereis_name(Servername),
+  log("Client","###Servername ~s has Pid: ~p", [Servername, ServerPID]),
 
 
   Clients = lists:map(fun(_ClientID) ->
@@ -87,8 +87,8 @@ send(ServerPid,MessageID,MaxNumbers,Status,Config) ->
       AktuelleSystemzeit=werkzeug:timeMilliSecond(),
 
 
-      Nachricht=string:join([EigenenNamen,"@",RechnerName,ProzessNummer,PraktikumsGruppe,TeamNummer,AktuelleSystemzeit],"-"),
-      log("Client","SENDE: ~p ~s", [MessageID, Nachricht]),
+      Nachricht=lists:flatten(lists:concat([EigenenNamen,"@",RechnerName,ProzessNummer,PraktikumsGruppe,TeamNummer,AktuelleSystemzeit])),
+      log("Client","SENDE: ~p ~p", [MessageID, Nachricht]),
 
 
       ServerPid ! {new_message, {Nachricht, MessageID}},

@@ -32,7 +32,7 @@ start() ->
   State = #status{  },
   ServerPID = spawn_link(fun() -> server(State,Config) end),
   io:format("ServerPID=~p~n",[ServerPID]),
-  register(Config#config.servername, ServerPID),
+  global:register_name(Config#config.servername, ServerPID),
   ServerPID.
 
 
@@ -99,19 +99,31 @@ query_messages(State,Config,ClientPID) ->
 
     {-1,nok} -> %Nicht vorhanden? Initial anlegen
       log("Server","~p || Wird als neuer Client gespeichert", [ClientPID]),
-      NewClientTupel = {ClientPID,{1,erlang:now()}}, %Initialisiert mit MessageID 1
+      NewClientTupel = {ClientPID,{werkzeug:minNrSL(State#status.dlq),erlang:now()}}, %Initialisiert mit MessageID 1
       TempStatus= NewState#status{clients = werkzeug:pushSL(NewState#status.clients,NewClientTupel)},
       query_messages(TempStatus,Config,ClientPID);
 
     {_,{RequestedIDFromClient,_}} -> %Client in Liste vorhanden
+	
+	ABSLUTENewState= case RequestedIDFromClient < werkzeug:minNrSL(State#status.dlq) of
+						true ->
+							MinValueOfDLQ=werkzeug:minNrSL(State#status.dlq),
+							NewState2 = changeClientNextMessageIdTo(MinValueOfDLQ,ClientPID,State),
+							NewState2;
+						_ ->
+							NewState
+						end,
+	
 	  log("Server","~p || Ist als Client bekannt. Nachrichten werden uebertragen", [ClientPID]),	  
-	  NewNewState = updateClientRequestTime(NewState,ClientPID),
-	  
-      {TempStatus,RealIDToTransfer,RealMessageToTransfer} = case werkzeug:findneSL(NewNewState#status.dlq,RequestedIDFromClient) of
+	  NewNewState = updateClientRequestTime(ABSLUTENewState,ClientPID),
+
+ 	{_,{NEWRequestedIDFromClient,_}} = werkzeug:findSL(NewNewState#status.clients,ClientPID),
+	
+      {TempStatus,RealIDToTransfer,RealMessageToTransfer} = case werkzeug:findneSL(NewNewState#status.dlq,NEWRequestedIDFromClient) of
                                                              {-1,nok} -> % ID nicht vorhanden also dummy sendne
                                                                  T2 = "DUMMY MESSAGE (keine neuen Nachrichten vorhanden)",
                                                                  T1 = NewState,
-                                                                 {T1,RequestedIDFromClient,T2}; %Return
+                                                                 {T1,NEWRequestedIDFromClient,T2}; %Return
 
                                                              {IDToTransfer, MessageToTransfer} -> %ID vorhanden IDToTransfer ggf. <= RequestedIDFromClient
                                                                  {T1,T2,T3} = case MessageToTransfer of
@@ -186,8 +198,9 @@ moveMessagesFromHbqToDlq(State,Config) ->
       _ -> %Die Holdbackqueue hat (z.Zt.) keine Nachrichten mehr.
         State
       end;
-    _ -> %In der Deliveryeue sind alle Plaetze belegt: d.h. nichts kopieren.
-      State
+    _ -> %In der Deliveryeue sind alle Plaetze belegt: d.h. jetzt: den ersten loeschen.
+	NewState2= State#status{dlq=werkzeug:popSL(State#status.dlq)},
+      	NewState2
   end,
   NewState.
 
