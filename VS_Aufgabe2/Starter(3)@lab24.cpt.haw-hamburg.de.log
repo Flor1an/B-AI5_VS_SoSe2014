@@ -1,0 +1,15 @@
+Starter(3)@lab24.cpt.haw-hamburg.de 18.06 16:45:32,531| NameServiceName = 'nameservice@lab22.cpt.haw-hamburg.de'
+Starter(3)@lab24.cpt.haw-hamburg.de 18.06 16:45:32,531| NameServicePID = <6051.45.0>
+Starter(3)@lab24.cpt.haw-hamburg.de 18.06 16:45:32,531| ###lookup returns: {coordinator,'coordinator@lab22.cpt.haw-hamburg.de'}
+
+Starter(3)@lab24.cpt.haw-hamburg.de 18.06 16:45:32,532| Erstelle GGT-Prozess (TimeToWork: 3 , TimeToTerminate: 3 , ProcessesToStart: 10)
+Starter(3)@lab24.cpt.haw-hamburg.de 18.06 16:45:32,532| GGT-Prozess Nr: 1 wurde gestartet
+Starter(3)@lab24.cpt.haw-hamburg.de 18.06 16:45:32,633| GGT-Prozess Nr: 2 wurde gestartet
+Starter(3)@lab24.cpt.haw-hamburg.de 18.06 16:45:32,734| GGT-Prozess Nr: 3 wurde gestartet
+Starter(3)@lab24.cpt.haw-hamburg.de 18.06 16:45:32,835| GGT-Prozess Nr: 4 wurde gestartet
+Starter(3)@lab24.cpt.haw-hamburg.de 18.06 16:45:32,936| GGT-Prozess Nr: 5 wurde gestartet
+Starter(3)@lab24.cpt.haw-hamburg.de 18.06 16:45:33,037| GGT-Prozess Nr: 6 wurde gestartet
+Starter(3)@lab24.cpt.haw-hamburg.de 18.06 16:45:33,138| GGT-Prozess Nr: 7 wurde gestartet
+Starter(3)@lab24.cpt.haw-hamburg.de 18.06 16:45:33,239| GGT-Prozess Nr: 8 wurde gestartet
+Starter(3)@lab24.cpt.haw-hamburg.de 18.06 16:45:33,340| GGT-Prozess Nr: 9 wurde gestartet
+Starter(3)@lab24.cpt.haw-hamburg.de 18.06 16:45:33,441| GGT-Prozess Nr: 10 wurde gestartet

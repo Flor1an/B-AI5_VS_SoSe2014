@@ -1,0 +1,68 @@
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:08,894| DISPATCHER: Leite Befehl {set_pmi,979628650} an meinen Worker weiter...
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:08,894| DISPATCHER: Leite Befehl {send,195925730} an meinen Worker weiter...
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:08,894| Send erhalten Y:195925730
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:08,894| ALGO: ((14 -1) mod 195925730) +1     --    (TTW: 1 Sekunden)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:09,895| Mi NICHT geaendert! (ist und bleibt: 14)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:13,897| TTT Timer ist abgelaufen. Informiere meine linken Nachbarn ('212_2') ueber vote
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:13,902| DISPATCHER: Leite Befehl {vote,'231_2'} an meinen Worker weiter...
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:13,903| ### vote erhalten! Ich = '232_3'  Initiator = '231_2') ###
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:13,903| Leite Anfrage (vote) an den Linken Nachbarn '212_2' weiter (implizites Zustimmen)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:21,912| DISPATCHER: Leite Befehl {vote,'231_5'} an meinen Worker weiter...
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:21,912| ### vote erhalten! Ich = '232_3'  Initiator = '231_5') ###
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:21,912| Leite Anfrage (vote) an den Linken Nachbarn '212_2' weiter (implizites Zustimmen)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:21,914| DISPATCHER: Leite Befehl {vote,'213_2'} an meinen Worker weiter...
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:21,914| ### vote erhalten! Ich = '232_3'  Initiator = '213_2') ###
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:21,914| Leite Anfrage (vote) an den Linken Nachbarn '212_2' weiter (implizites Zustimmen)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:22,913| DISPATCHER: Leite Befehl {vote,'212_3'} an meinen Worker weiter...
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:22,914| ### vote erhalten! Ich = '232_3'  Initiator = '212_3') ###
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:22,914| Leite Anfrage (vote) an den Linken Nachbarn '212_2' weiter (implizites Zustimmen)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:22,915| DISPATCHER: Leite Befehl {vote,'211_1'} an meinen Worker weiter...
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:22,915| ### vote erhalten! Ich = '232_3'  Initiator = '211_1') ###
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:22,915| Leite Anfrage (vote) an den Linken Nachbarn '212_2' weiter (implizites Zustimmen)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:54,758| DISPATCHER: Leite Befehl {set_pmi,1050} an meinen Worker weiter...
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:56,761| DISPATCHER: Leite Befehl {send,40922} an meinen Worker weiter...
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:56,761| Send erhalten Y:40922
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:56,761| ALGO: ((14 -1) mod 40922) +1     --    (TTW: 1 Sekunden)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:57,762| Mi NICHT geaendert! (ist und bleibt: 14)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:58,772| DISPATCHER: Leite Befehl {vote,'213_2'} an meinen Worker weiter...
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:58,772| ### vote erhalten! Ich = '232_3'  Initiator = '213_2') ###
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:58,772| Leite Anfrage (vote) an den Linken Nachbarn '212_2' weiter (implizites Zustimmen)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:58,773| DISPATCHER: Leite Befehl {vote,'212_3'} an meinen Worker weiter...
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:58,774| ### vote erhalten! Ich = '232_3'  Initiator = '212_3') ###
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:58,774| Leite Anfrage (vote) an den Linken Nachbarn '212_2' weiter (implizites Zustimmen)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:58,775| DISPATCHER: Leite Befehl {vote,'211_1'} an meinen Worker weiter...
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:58,775| ### vote erhalten! Ich = '232_3'  Initiator = '211_1') ###
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:58,775| Leite Anfrage (vote) an den Linken Nachbarn '212_2' weiter (implizites Zustimmen)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:58,775| DISPATCHER: Leite Befehl {vote,'213_1'} an meinen Worker weiter...
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:58,776| ### vote erhalten! Ich = '232_3'  Initiator = '213_1') ###
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:58,776| Leite Anfrage (vote) an den Linken Nachbarn '212_2' weiter (implizites Zustimmen)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:58,776| DISPATCHER: Leite Befehl {vote,'211_3'} an meinen Worker weiter...
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:58,777| ### vote erhalten! Ich = '232_3'  Initiator = '211_3') ###
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:58,777| Leite Anfrage (vote) an den Linken Nachbarn '212_2' weiter (implizites Zustimmen)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:59,763| DISPATCHER: Leite Befehl {send,1036} an meinen Worker weiter...
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:59,763| Send erhalten Y:1036
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:59,763| ALGO: ((14 -1) mod 1036) +1     --    (TTW: 1 Sekunden)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:38:59,773| DISPATCHER: Leite Befehl {vote,'213_3'} an meinen Worker weiter...
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:39:00,764| Mi NICHT geaendert! (ist und bleibt: 14)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:39:00,765| ### vote erhalten! Ich = '232_3'  Initiator = '213_3') ###
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:39:00,765| implizit abgelehnt
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:39:01,765| DISPATCHER: Leite Befehl {send,518} an meinen Worker weiter...
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:39:01,765| Send erhalten Y:518
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:39:01,765| ALGO: ((14 -1) mod 518) +1     --    (TTW: 1 Sekunden)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:39:02,767| Mi NICHT geaendert! (ist und bleibt: 14)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:39:05,786| DISPATCHER: Leite Befehl {vote,'212_1'} an meinen Worker weiter...
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:39:05,786| ### vote erhalten! Ich = '232_3'  Initiator = '212_1') ###
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:39:05,786| Leite Anfrage (vote) an den Linken Nachbarn '212_2' weiter (implizites Zustimmen)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:39:05,787| DISPATCHER: Leite Befehl {vote,'211_2'} an meinen Worker weiter...
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:39:05,788| ### vote erhalten! Ich = '232_3'  Initiator = '211_2') ###
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:39:05,788| Leite Anfrage (vote) an den Linken Nachbarn '212_2' weiter (implizites Zustimmen)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:39:05,788| DISPATCHER: Leite Befehl {vote,'212_2'} an meinen Worker weiter...
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:39:05,789| ### vote erhalten! Ich = '232_3'  Initiator = '212_2') ###
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:39:05,789| Leite Anfrage (vote) an den Linken Nachbarn '212_2' weiter (implizites Zustimmen)
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:39:26,553| <7023.39.0> erfragt aktuellen Mi. Sende Mi = 14
+
+
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:45:32,633| ######################## 232_3 Status: SETUP ########################
+
+
+GGT(232_3)@lab24.cpt.haw-hamburg.de 18.06 16:45:32,633| ######################## 232_3 Status: INITIAL ########################

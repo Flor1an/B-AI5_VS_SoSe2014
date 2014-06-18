@@ -31,11 +31,11 @@ load_config() ->
 	{ok, ConfigFile} = file:consult('coordinator.cfg'),
 	#config{
 			nameservicename = proplists:get_value(nameservicename, ConfigFile),
-			rt 				= proplists:get_value(rt, ConfigFile),	%RegisterTime
-			pts 			= proplists:get_value(pts, ConfigFile), %ProcessesToStart
-			ttw 			= proplists:get_value(ttw, ConfigFile), %TimeToWork
-			ttt 			= proplists:get_value(ttt, ConfigFile), %TimeToTerminate
-			myname 			= proplists:get_value(myname, ConfigFile)
+			rt 		= proplists:get_value(rt, ConfigFile),	%RegisterTime
+			pts 		= proplists:get_value(pts, ConfigFile), %ProcessesToStart
+			ttw 		= proplists:get_value(ttw, ConfigFile), %TimeToWork
+			ttt 		= proplists:get_value(ttt, ConfigFile), %TimeToTerminate
+			myname 		= proplists:get_value(myname, ConfigFile)
 	}.
 	
 	

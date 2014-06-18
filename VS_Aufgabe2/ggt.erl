@@ -47,6 +47,10 @@ initial(Config)->
 	%2.1.2 Der ggT-Prozess registriert sich beim Namensdienst (rebind).
 	Config#config.nameservicePID ! {self(), {?REBIND, Config#config.ggtName, node()}},
 	log(Config,"REBIND"),
+	receive
+		{?REBIND_RES, ok} ->
+			log(Config,"Mit NameService verbunden")
+	end,
 
 	%2.1.1 Der ggT-Prozess meldet sich beim Koordinator mit seinem Namen an (check_in)....
 	lookup(Config,Config#config.koordinatorName) ! {check_in, Config#config.ggtName},
@@ -62,7 +66,10 @@ initial(Config)->
 			NewConfig=Config#config{linkerName=Left, rechterName=Right},
 			%2.2.2 Wechsel in den Zustand pre_process
 			WorkerPID = spawn_link(fun() -> pre_process(NewConfig) end),
-			dispatcherLoop(Config,WorkerPID,initial,0)
+			dispatcherLoop(Config,WorkerPID,initial,0);
+		Any ->
+			log(Config,"°°UNKNOWN COMMAND°° ~p",[Any]),
+			initial(Config)
 	end.
 
 %Syncroner Loop fuer asyncronische Aufrufe in meinem Worker 
@@ -80,7 +87,7 @@ dispatcherLoop(Config,WorkerPID,AktuellerStatus,AktuellerMi) ->
 		% Wird vom Koordinator z.B. genutzt, um auf manuelle Anforderung hin die Lebendigkeit des Rings zu prüfen.
 		{whats_on,From} ->
 			log(Config, "~p erfragt aktuellen Status. Sende ~p",[From,AktuellerStatus]),
-			lookup(Config,Config#config.koordinatorName) ! {i_am, AktuellerStatus},
+			From ! {i_am, AktuellerStatus},
 			dispatcherLoop(Config,WorkerPID,AktuellerStatus,AktuellerMi);
 			
 		% kill der ggT-Prozess wird beendet.
@@ -114,12 +121,16 @@ pre_process(Config) ->
 	receive 
 		% {set_pmi,MiNeu}: die von diesem Prozess zu berabeitenden Zahl für eine neue Berechnung wird gesetzt.
 		{set_pmi,Mi} -> 
-			log(Config,"Initial Mi wurde mitgeteilt. Mi:~p",[Mi]),
+			log(Config,"WORKER: Initial Mi wurde mitgeteilt. Mi:~p",[Mi]),
 			% 5.3.1 
+			timer:cancel(Config#config.tttTimer),
 			{ok, Timer} = timer:send_after(timer:seconds(Config#config.ttt), votehelper),
 			NewConfig = Config#config{tttTimer=Timer, letzterEmpfangEinerZahl=now()},
 			%3.1.2 Wechsel in den Zustand process.
-			processEntryPoint(NewConfig,Mi)
+			processEntryPoint(NewConfig,Mi);
+		Any ->
+			log(Config,"##########UNKNOWN COMMAND in PRE: ~p",[Any]),
+			pre_process(Config)
 	end.
 	
 
@@ -141,22 +152,14 @@ process(Config,Mi)->
 			lookup(Config,Config#config.linkerName) ! {vote,Config#config.ggtName},
 			process(Config,Mi);
 		
-		% 4. Der ggT-Prozess kann zu jeder Zeit zu einer neuen Berechnung aufgefordert werden! (copy n' paste von pre_process)
-		{set_pmi,Mi} -> 
-			log(Config,"Neuer Mi wurde mitgeteilt (Neue berechnung). Mi:~p",[Mi]),
-			lookup(Config,Config#config.ggtName) ! {update_mi, Mi}, %Dispatcher Informieren
-			timer:cancel(Config#config.tttTimer),
-			{ok, Timer} = timer:send_after(timer:seconds(Config#config.ttt), votehelper),
-			NewConfig = Config#config{tttTimer=Timer, letzterEmpfangEinerZahl=now()},
-			process(NewConfig,Mi);
+	
 
 		% 5.1.1 Wenn er eine Zahl erhält (send) führt er den ggT-Algorithmus aus.
 		{send,Y} ->
 			log(Config,"Send erhalten Y:~p",[Y]),
+			timer:cancel(Config#config.tttTimer),
 			Mi2=algo(Mi, Y, Config),
 			lookup(Config,Config#config.ggtName) ! {update_mi, Mi2}, %Dispatcher Informieren
-			%io:format("Mi: ~p Mi2: ~p", [Mi, Mi2]),
-			timer:cancel(Config#config.tttTimer),
 			{ok, Timer} = timer:send_after(timer:seconds(Config#config.ttt), votehelper),
 			NewConfig = Config#config{tttTimer=Timer, letzterEmpfangEinerZahl=now()},	
 				
@@ -212,8 +215,20 @@ process(Config,Mi)->
 					Config
 					
 			end,
+			process(NewConfig,Mi);
 			
-			process(NewConfig,Mi)
+		% 4. Der ggT-Prozess kann zu jeder Zeit zu einer neuen Berechnung aufgefordert werden! (copy n' paste von pre_process)
+		{set_pmi,Mi} -> 
+			log(Config,"WORKER: Neuer Mi wurde mitgeteilt (Neue berechnung). Mi:~p",[Mi]),
+			lookup(Config,Config#config.ggtName) ! {update_mi, Mi}, %Dispatcher Informieren
+			timer:cancel(Config#config.tttTimer),
+			{ok, Timer} = timer:send_after(timer:seconds(Config#config.ttt), votehelper),
+			NewConfig = Config#config{tttTimer=Timer, letzterEmpfangEinerZahl=now()},
+			process(NewConfig,Mi);
+			
+		Any ->
+			log(Config,"WORKER>>>>>>>>>>>: das Komando ~p ist unbekannt!!! ",[Any]),
+			process(Config,Mi)
 	end.
  
 algo(Mi, Y, Config) -> 

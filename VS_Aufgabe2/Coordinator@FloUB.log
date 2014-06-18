@@ -1,226 +1,67 @@
 
 
-Coordinator@FloUB 17.06 21:26:15,595| ######################## Status: SETUP ########################################
-Coordinator@FloUB 17.06 21:26:15,595| NameServiceNode = ns@FloUB
-Coordinator@FloUB 17.06 21:26:15,688| NameServiceName = nameserviceFM
-Coordinator@FloUB 17.06 21:26:15,704| NameServicePID  = undefined
+Coordinator@FloUB 18.06 19:26:52,907| ######################## Status: SETUP ########################################
+Coordinator@FloUB 18.06 19:26:52,907| NameServiceNode = ns@FloUB
+Coordinator@FloUB 18.06 19:26:52,923| NameServiceName = nameservice
+Coordinator@FloUB 18.06 19:26:52,923| NameServicePID  = undefined
 
 
-Coordinator@FloUB 17.06 21:26:17,407| ######################## Status: SETUP ########################################
-Coordinator@FloUB 17.06 21:26:17,423| NameServiceNode = ns@FloUB
-Coordinator@FloUB 17.06 21:26:17,423| NameServiceName = nameserviceFM
-Coordinator@FloUB 17.06 21:26:17,423| NameServicePID  = <10474.46.0>
-Coordinator@FloUB 17.06 21:26:17,423| Mit NameService verbunden
+Coordinator@FloUB 18.06 19:26:54,829| ######################## Status: SETUP ########################################
+Coordinator@FloUB 18.06 19:26:54,829| NameServiceNode = ns@FloUB
+Coordinator@FloUB 18.06 19:26:54,829| NameServiceName = nameservice
+Coordinator@FloUB 18.06 19:26:54,829| NameServicePID  = <10474.46.0>
+Coordinator@FloUB 18.06 19:26:54,845| Mit NameService verbunden
 
 
-Coordinator@FloUB 17.06 21:26:17,423| ######################## Status: REGISTER ########################################
-Coordinator@FloUB 17.06 21:26:17,423| Warte 40 sekunden lang auf Registrierungen
-Coordinator@FloUB 17.06 21:26:21,032| Starter <10634.76.0> erfragt die GGT Startwerte (get_ggt_vals)
-Coordinator@FloUB 17.06 21:26:21,032| ... sende ggt_vals (TTW: 5 TTT: 15 PTS: 10)
-Coordinator@FloUB 17.06 21:26:21,048| Neuer GGT Prozess mit dem Name: '231_1' hat sich angemeldet (check_in)
-Coordinator@FloUB 17.06 21:26:21,157| Neuer GGT Prozess mit dem Name: '232_1' hat sich angemeldet (check_in)
-Coordinator@FloUB 17.06 21:26:21,266| Neuer GGT Prozess mit dem Name: '233_1' hat sich angemeldet (check_in)
-Coordinator@FloUB 17.06 21:26:21,376| Neuer GGT Prozess mit dem Name: '234_1' hat sich angemeldet (check_in)
-Coordinator@FloUB 17.06 21:26:21,485| Neuer GGT Prozess mit dem Name: '235_1' hat sich angemeldet (check_in)
-Coordinator@FloUB 17.06 21:26:21,595| Neuer GGT Prozess mit dem Name: '236_1' hat sich angemeldet (check_in)
-Coordinator@FloUB 17.06 21:26:21,704| Neuer GGT Prozess mit dem Name: '237_1' hat sich angemeldet (check_in)
-Coordinator@FloUB 17.06 21:26:21,813| Neuer GGT Prozess mit dem Name: '238_1' hat sich angemeldet (check_in)
-Coordinator@FloUB 17.06 21:26:21,923| Neuer GGT Prozess mit dem Name: '239_1' hat sich angemeldet (check_in)
-Coordinator@FloUB 17.06 21:26:22,032| Neuer GGT Prozess mit dem Name: '2310_1' hat sich angemeldet (check_in)
-Coordinator@FloUB 17.06 21:26:29,204| Starter <10634.76.0> erfragt die GGT Startwerte (get_ggt_vals)
-Coordinator@FloUB 17.06 21:26:29,204| ... sende ggt_vals (TTW: 5 TTT: 15 PTS: 10)
-Coordinator@FloUB 17.06 21:26:29,204| Neuer GGT Prozess mit dem Name: '231_2' hat sich angemeldet (check_in)
-Coordinator@FloUB 17.06 21:26:29,313| Neuer GGT Prozess mit dem Name: '232_2' hat sich angemeldet (check_in)
-Coordinator@FloUB 17.06 21:26:29,423| Neuer GGT Prozess mit dem Name: '233_2' hat sich angemeldet (check_in)
-Coordinator@FloUB 17.06 21:26:29,532| Neuer GGT Prozess mit dem Name: '234_2' hat sich angemeldet (check_in)
-Coordinator@FloUB 17.06 21:26:29,641| Neuer GGT Prozess mit dem Name: '235_2' hat sich angemeldet (check_in)
-Coordinator@FloUB 17.06 21:26:29,751| Neuer GGT Prozess mit dem Name: '236_2' hat sich angemeldet (check_in)
-Coordinator@FloUB 17.06 21:26:29,860| Neuer GGT Prozess mit dem Name: '237_2' hat sich angemeldet (check_in)
-Coordinator@FloUB 17.06 21:26:29,970| Neuer GGT Prozess mit dem Name: '238_2' hat sich angemeldet (check_in)
-Coordinator@FloUB 17.06 21:26:30,079| Neuer GGT Prozess mit dem Name: '239_2' hat sich angemeldet (check_in)
-Coordinator@FloUB 17.06 21:26:30,188| Neuer GGT Prozess mit dem Name: '2310_2' hat sich angemeldet (check_in)
+Coordinator@FloUB 18.06 19:26:54,845| ######################## Status: REGISTER ########################################
+Coordinator@FloUB 18.06 19:26:54,845| Warte 40 sekunden lang auf Registrierungen
+Coordinator@FloUB 18.06 19:27:03,437| Starter <10633.46.0> erfragt die GGT Startwerte (get_ggt_vals)
+Coordinator@FloUB 18.06 19:27:03,438| ... sende ggt_vals (TTW: 2 TTT: 3 PTS: 3)
+Coordinator@FloUB 18.06 19:27:03,454| Neuer GGT Prozess mit dem Name: '231_1' hat sich angemeldet (check_in)
+Coordinator@FloUB 18.06 19:27:03,548| Neuer GGT Prozess mit dem Name: '232_1' hat sich angemeldet (check_in)
+Coordinator@FloUB 18.06 19:27:03,657| Neuer GGT Prozess mit dem Name: '233_1' hat sich angemeldet (check_in)
 
 
-Coordinator@FloUB 17.06 21:26:57,438| ######################## Status: INIT ########################################
-Coordinator@FloUB 17.06 21:26:57,438| Warte auf dem step Befehl
-Coordinator@FloUB 17.06 21:26:58,829| step erhalten. Erstelle den Ring
-Coordinator@FloUB 17.06 21:26:58,829| Erstelle Ring:
-Coordinator@FloUB 17.06 21:26:58,829| ## Sortierte GGTs: ['2310_1','2310_2','231_1','231_2','232_1','232_2','233_1',
-                    '233_2','234_1','234_2','235_1','235_2','236_1','236_2',
-                    '237_1','237_2','238_1','238_2','239_1','239_2']
-Coordinator@FloUB 17.06 21:26:58,829| ## Gemixte GGTs: ['239_1','2310_1','238_1','233_2','232_2','236_2','231_2',
-                  '237_2','231_1','2310_2','235_1','233_1','236_1','238_2',
-                  '235_2','232_1','234_2','239_2','237_1','234_1']
-Coordinator@FloUB 17.06 21:26:58,829| GGT '234_1' = linker Nachbar: '237_1' | rechter Nachbar: '239_1'
-Coordinator@FloUB 17.06 21:26:58,829| GGT '237_1' = linker Nachbar: '239_2' | rechter Nachbar: '234_1'
-Coordinator@FloUB 17.06 21:26:58,829| GGT '239_2' = linker Nachbar: '234_2' | rechter Nachbar: '237_1'
-Coordinator@FloUB 17.06 21:26:58,829| GGT '234_2' = linker Nachbar: '232_1' | rechter Nachbar: '239_2'
-Coordinator@FloUB 17.06 21:26:58,829| GGT '232_1' = linker Nachbar: '235_2' | rechter Nachbar: '234_2'
-Coordinator@FloUB 17.06 21:26:58,829| GGT '235_2' = linker Nachbar: '238_2' | rechter Nachbar: '232_1'
-Coordinator@FloUB 17.06 21:26:58,829| GGT '238_2' = linker Nachbar: '236_1' | rechter Nachbar: '235_2'
-Coordinator@FloUB 17.06 21:26:58,829| GGT '236_1' = linker Nachbar: '233_1' | rechter Nachbar: '238_2'
-Coordinator@FloUB 17.06 21:26:58,829| GGT '233_1' = linker Nachbar: '235_1' | rechter Nachbar: '236_1'
-Coordinator@FloUB 17.06 21:26:58,829| GGT '235_1' = linker Nachbar: '2310_2' | rechter Nachbar: '233_1'
-Coordinator@FloUB 17.06 21:26:58,845| GGT '2310_2' = linker Nachbar: '231_1' | rechter Nachbar: '235_1'
-Coordinator@FloUB 17.06 21:26:58,845| GGT '231_1' = linker Nachbar: '237_2' | rechter Nachbar: '2310_2'
-Coordinator@FloUB 17.06 21:26:58,845| GGT '237_2' = linker Nachbar: '231_2' | rechter Nachbar: '231_1'
-Coordinator@FloUB 17.06 21:26:58,845| GGT '231_2' = linker Nachbar: '236_2' | rechter Nachbar: '237_2'
-Coordinator@FloUB 17.06 21:26:58,845| GGT '236_2' = linker Nachbar: '232_2' | rechter Nachbar: '231_2'
-Coordinator@FloUB 17.06 21:26:58,845| GGT '232_2' = linker Nachbar: '233_2' | rechter Nachbar: '236_2'
-Coordinator@FloUB 17.06 21:26:58,845| GGT '233_2' = linker Nachbar: '238_1' | rechter Nachbar: '232_2'
-Coordinator@FloUB 17.06 21:26:58,845| GGT '238_1' = linker Nachbar: '2310_1' | rechter Nachbar: '233_2'
-Coordinator@FloUB 17.06 21:26:58,845| GGT '2310_1' = linker Nachbar: '239_1' | rechter Nachbar: '238_1'
-Coordinator@FloUB 17.06 21:26:58,845| GGT '239_1' = linker Nachbar: '234_1' | rechter Nachbar: '2310_1'
-Coordinator@FloUB 17.06 21:26:58,845| GGT Prozesse ueber Nachbarn informieren
-Coordinator@FloUB 17.06 21:26:58,845| Sende '2310_1' seine Nachbarn: R='239_1' | L='238_1'
-Coordinator@FloUB 17.06 21:26:58,845| Sende '2310_2' seine Nachbarn: R='231_1' | L='235_1'
-Coordinator@FloUB 17.06 21:26:58,845| Sende '231_1' seine Nachbarn: R='237_2' | L='2310_2'
-Coordinator@FloUB 17.06 21:26:58,860| Sende '231_2' seine Nachbarn: R='236_2' | L='237_2'
-Coordinator@FloUB 17.06 21:26:58,860| Sende '232_1' seine Nachbarn: R='235_2' | L='234_2'
-Coordinator@FloUB 17.06 21:26:58,860| Sende '232_2' seine Nachbarn: R='233_2' | L='236_2'
-Coordinator@FloUB 17.06 21:26:58,860| Sende '233_1' seine Nachbarn: R='235_1' | L='236_1'
-Coordinator@FloUB 17.06 21:26:58,876| Sende '233_2' seine Nachbarn: R='238_1' | L='232_2'
-Coordinator@FloUB 17.06 21:26:58,876| Sende '234_1' seine Nachbarn: R='237_1' | L='239_1'
-Coordinator@FloUB 17.06 21:26:58,876| Sende '234_2' seine Nachbarn: R='232_1' | L='239_2'
-Coordinator@FloUB 17.06 21:26:58,876| Sende '235_1' seine Nachbarn: R='2310_2' | L='233_1'
-Coordinator@FloUB 17.06 21:26:58,876| Sende '235_2' seine Nachbarn: R='238_2' | L='232_1'
-Coordinator@FloUB 17.06 21:26:58,891| Sende '236_1' seine Nachbarn: R='233_1' | L='238_2'
-Coordinator@FloUB 17.06 21:26:58,891| Sende '236_2' seine Nachbarn: R='232_2' | L='231_2'
-Coordinator@FloUB 17.06 21:26:58,907| Sende '237_1' seine Nachbarn: R='239_2' | L='234_1'
-Coordinator@FloUB 17.06 21:26:58,907| Sende '237_2' seine Nachbarn: R='231_2' | L='231_1'
-Coordinator@FloUB 17.06 21:26:58,907| Sende '238_1' seine Nachbarn: R='2310_1' | L='233_2'
-Coordinator@FloUB 17.06 21:26:58,923| Sende '238_2' seine Nachbarn: R='236_1' | L='235_2'
-Coordinator@FloUB 17.06 21:26:58,923| Sende '239_1' seine Nachbarn: R='234_1' | L='2310_1'
-Coordinator@FloUB 17.06 21:26:58,923| Sende '239_2' seine Nachbarn: R='234_2' | L='237_1'
+Coordinator@FloUB 18.06 19:27:34,860| ######################## Status: INIT ########################################
+Coordinator@FloUB 18.06 19:27:34,860| Warte auf dem step Befehl
+Coordinator@FloUB 18.06 19:27:36,204| step erhalten. Erstelle den Ring
+Coordinator@FloUB 18.06 19:27:36,204| Erstelle Ring:
+Coordinator@FloUB 18.06 19:27:36,204| ## Sortierte GGTs: ['231_1','232_1','233_1']
+Coordinator@FloUB 18.06 19:27:36,204| ## Gemixte GGTs: ['231_1','233_1','232_1']
+Coordinator@FloUB 18.06 19:27:36,204| GGT '232_1' = linker Nachbar: '233_1' | rechter Nachbar: '231_1'
+Coordinator@FloUB 18.06 19:27:36,204| GGT '233_1' = linker Nachbar: '231_1' | rechter Nachbar: '232_1'
+Coordinator@FloUB 18.06 19:27:36,220| GGT '231_1' = linker Nachbar: '232_1' | rechter Nachbar: '233_1'
+Coordinator@FloUB 18.06 19:27:36,220| GGT Prozesse ueber Nachbarn informieren
+Coordinator@FloUB 18.06 19:27:36,220| Sende '231_1' seine Nachbarn: R='232_1' | L='233_1'
+Coordinator@FloUB 18.06 19:27:36,220| Sende '232_1' seine Nachbarn: R='233_1' | L='231_1'
+Coordinator@FloUB 18.06 19:27:36,220| Sende '233_1' seine Nachbarn: R='231_1' | L='232_1'
 
 
-Coordinator@FloUB 17.06 21:26:58,938| ######################## Status: READY ########################################
-Coordinator@FloUB 17.06 21:26:58,938| Warte auf steuer Befehle (z.b. calc)
-Coordinator@FloUB 17.06 21:27:03,845| Schluesselwort calc empfangen mit target=300
-Coordinator@FloUB 17.06 21:27:03,845| Informiere '2310_1': ueber initial Mi = 141691500
-Coordinator@FloUB 17.06 21:27:03,845| Informiere '2310_2': ueber initial Mi = 217260300
-Coordinator@FloUB 17.06 21:27:03,845| Informiere '231_1': ueber initial Mi = 456300
-Coordinator@FloUB 17.06 21:27:03,845| Informiere '231_2': ueber initial Mi = 401586900
-Coordinator@FloUB 17.06 21:27:03,845| Informiere '232_1': ueber initial Mi = 31747072500
-Coordinator@FloUB 17.06 21:27:03,860| Informiere '232_2': ueber initial Mi = 1390108500
-Coordinator@FloUB 17.06 21:27:03,860| Informiere '233_1': ueber initial Mi = 310500
-Coordinator@FloUB 17.06 21:27:03,860| Informiere '233_2': ueber initial Mi = 222007500
-Coordinator@FloUB 17.06 21:27:03,876| Informiere '234_1': ueber initial Mi = 2753774302500
-Coordinator@FloUB 17.06 21:27:03,876| Informiere '234_2': ueber initial Mi = 471900
-Coordinator@FloUB 17.06 21:27:03,876| Informiere '235_1': ueber initial Mi = 992351100
-Coordinator@FloUB 17.06 21:27:03,876| Informiere '235_2': ueber initial Mi = 14121919500
-Coordinator@FloUB 17.06 21:27:03,876| Informiere '236_1': ueber initial Mi = 2242500
-Coordinator@FloUB 17.06 21:27:03,891| Informiere '236_2': ueber initial Mi = 322954500
-Coordinator@FloUB 17.06 21:27:03,891| Informiere '237_1': ueber initial Mi = 66641338120500
-Coordinator@FloUB 17.06 21:27:03,891| Informiere '237_2': ueber initial Mi = 10494900
-Coordinator@FloUB 17.06 21:27:03,907| Informiere '238_1': ueber initial Mi = 12595225500
-Coordinator@FloUB 17.06 21:27:03,907| Informiere '238_2': ueber initial Mi = 3817456500
-Coordinator@FloUB 17.06 21:27:03,907| Informiere '239_1': ueber initial Mi = 183584953500
-Coordinator@FloUB 17.06 21:27:03,907| Informiere '239_2': ueber initial Mi = 1745700
-Coordinator@FloUB 17.06 21:27:03,923| 15% der GGT Prozess ausgewaehlt: ['234_2','237_1','233_1']
-Coordinator@FloUB 17.06 21:27:03,923| Informiere '234_2' mit dem Vielfachen von Target = 1745700
-Coordinator@FloUB 17.06 21:27:03,938| Informiere '237_1' mit dem Vielfachen von Target = 1558606500
-Coordinator@FloUB 17.06 21:27:03,954| Informiere '233_1' mit dem Vielfachen von Target = 13942500
-Coordinator@FloUB 17.06 21:27:08,970| Prozess '237_1' hat einen neuen Mi 1558606500 um "17.06 21:27:08,971|" berechnet
-Coordinator@FloUB 17.06 21:27:13,985| Prozess '234_1' hat einen neuen Mi 1275223500 um "17.06 21:27:13,986|" berechnet
-Coordinator@FloUB 17.06 21:27:19,016| Prozess '237_1' hat einen neuen Mi 283383000 um "17.06 21:27:19,017|" berechnet
-Coordinator@FloUB 17.06 21:27:19,016| Prozess '239_1' hat einen neuen Mi 1227993000 um "17.06 21:27:19,017|" berechnet
-Coordinator@FloUB 17.06 21:27:24,048| Prozess '234_1' hat einen neuen Mi 47230500 um "17.06 21:27:24,049|" berechnet
-Coordinator@FloUB 17.06 21:27:29,063| Prozess '237_1' hat einen neuen Mi 47230500 um "17.06 21:27:29,064|" berechnet
-Coordinator@FloUB 17.06 21:27:29,079| Prozess '239_1' hat einen neuen Mi 47230500 um "17.06 21:27:29,080|" berechnet
-Coordinator@FloUB 17.06 21:27:34,110| Prozess '2310_1' hat einen neuen Mi 47230500 um "17.06 21:27:34,111|" berechnet
-Coordinator@FloUB 17.06 21:27:34,173| GGT wurde berechnent: Mi >> 992351100 << berechnet durch: '235_1' um: "17.06 21:27:34,174|"
-Coordinator@FloUB 17.06 21:27:39,126| Prozess '238_1' hat einen neuen Mi 31912500 um "17.06 21:27:39,127|" berechnet
-Coordinator@FloUB 17.06 21:27:39,204| GGT wurde berechnent: Mi >> 471900 << berechnet durch: '234_2' um: "17.06 21:27:39,189|"
-Coordinator@FloUB 17.06 21:27:44,157| Prozess '233_2' hat einen neuen Mi 30532500 um "17.06 21:27:44,158|" berechnet
-Coordinator@FloUB 17.06 21:27:44,157| Prozess '2310_1' hat einen neuen Mi 15318000 um "17.06 21:27:44,158|" berechnet
-Coordinator@FloUB 17.06 21:27:49,173| Prozess '238_1' hat einen neuen Mi 1380000 um "17.06 21:27:49,174|" berechnet
-Coordinator@FloUB 17.06 21:27:49,188| Prozess '232_2' hat einen neuen Mi 16146000 um "17.06 21:27:49,189|" berechnet
-Coordinator@FloUB 17.06 21:27:49,188| Prozess '239_1' hat einen neuen Mi 1276500 um "17.06 21:27:49,189|" berechnet
-Coordinator@FloUB 17.06 21:27:54,188| Prozess '2310_1' hat einen neuen Mi 138000 um "17.06 21:27:54,189|" berechnet
-Coordinator@FloUB 17.06 21:27:54,204| Prozess '233_2' hat einen neuen Mi 172500 um "17.06 21:27:54,205|" berechnet
-Coordinator@FloUB 17.06 21:27:54,220| Prozess '234_1' hat einen neuen Mi 1276500 um "17.06 21:27:54,221|" berechnet
-Coordinator@FloUB 17.06 21:27:54,220| Prozess '236_2' hat einen neuen Mi 34500 um "17.06 21:27:54,221|" berechnet
-Coordinator@FloUB 17.06 21:27:59,204| Prozess '238_1' hat einen neuen Mi 138000 um "17.06 21:27:59,205|" berechnet
-Coordinator@FloUB 17.06 21:27:59,235| Prozess '239_1' hat einen neuen Mi 34500 um "17.06 21:27:59,236|" berechnet
-Coordinator@FloUB 17.06 21:27:59,235| Prozess '232_2' hat einen neuen Mi 103500 um "17.06 21:27:59,236|" berechnet
-Coordinator@FloUB 17.06 21:27:59,251| Prozess '237_1' hat einen neuen Mi 1276500 um "17.06 21:27:59,252|" berechnet
-Coordinator@FloUB 17.06 21:27:59,266| Prozess '231_2' hat einen neuen Mi 6900 um "17.06 21:27:59,267|" berechnet
-Coordinator@FloUB 17.06 21:28:04,251| Prozess '234_1' hat einen neuen Mi 34500 um "17.06 21:28:04,252|" berechnet
-Coordinator@FloUB 17.06 21:28:04,251| Prozess '233_2' hat einen neuen Mi 34500 um "17.06 21:28:04,252|" berechnet
-Coordinator@FloUB 17.06 21:28:04,282| Prozess '239_2' hat einen neuen Mi 469200 um "17.06 21:28:04,283|" berechnet
-Coordinator@FloUB 17.06 21:28:04,282| Prozess '232_2' hat einen neuen Mi 34500 um "17.06 21:28:04,283|" berechnet
-Coordinator@FloUB 17.06 21:28:04,298| Prozess '237_2' hat einen neuen Mi 6900 um "17.06 21:28:04,299|" berechnet
-Coordinator@FloUB 17.06 21:28:09,235| Prozess '2310_1' hat einen neuen Mi 34500 um "17.06 21:28:09,236|" berechnet
-Coordinator@FloUB 17.06 21:28:09,266| Prozess '237_1' hat einen neuen Mi 34500 um "17.06 21:28:09,267|" berechnet
-Coordinator@FloUB 17.06 21:28:09,282| Prozess '238_1' hat einen neuen Mi 34500 um "17.06 21:28:09,283|" berechnet
-Coordinator@FloUB 17.06 21:28:09,313| Prozess '234_2' hat einen neuen Mi 2700 um "17.06 21:28:09,314|" berechnet
-Coordinator@FloUB 17.06 21:28:09,313| Prozess '236_2' hat einen neuen Mi 6900 um "17.06 21:28:09,314|" berechnet
-Coordinator@FloUB 17.06 21:28:09,329| Prozess '231_1' hat einen neuen Mi 900 um "17.06 21:28:09,314|" berechnet
-Coordinator@FloUB 17.06 21:28:14,282| Prozess '239_2' hat einen neuen Mi 20700 um "17.06 21:28:14,283|" berechnet
-Coordinator@FloUB 17.06 21:28:14,329| Prozess '232_2' hat einen neuen Mi 6900 um "17.06 21:28:14,330|" berechnet
-Coordinator@FloUB 17.06 21:28:14,345| Prozess '232_1' hat einen neuen Mi 2700 um "17.06 21:28:14,346|" berechnet
-Coordinator@FloUB 17.06 21:28:14,360| Prozess '237_2' hat einen neuen Mi 600 um "17.06 21:28:14,346|" berechnet
-Coordinator@FloUB 17.06 21:28:14,360| Prozess '2310_2' hat einen neuen Mi 300 um "17.06 21:28:14,361|" berechnet
-Coordinator@FloUB 17.06 21:28:19,298| Prozess '239_2' hat einen neuen Mi 1800 um "17.06 21:28:19,299|" berechnet
-Coordinator@FloUB 17.06 21:28:19,313| Prozess '237_1' hat einen neuen Mi 13800 um "17.06 21:28:19,314|" berechnet
-Coordinator@FloUB 17.06 21:28:19,376| Prozess '235_1' hat einen neuen Mi 300 um "17.06 21:28:19,377|" berechnet
-Coordinator@FloUB 17.06 21:28:19,391| Prozess '231_2' hat einen neuen Mi 300 um "17.06 21:28:19,377|" berechnet
-Coordinator@FloUB 17.06 21:28:19,391| Prozess '231_1' hat einen neuen Mi 300 um "17.06 21:28:19,377|" berechnet
-Coordinator@FloUB 17.06 21:28:19,391| Prozess '235_2' hat einen neuen Mi 1500 um "17.06 21:28:19,392|" berechnet
-Coordinator@FloUB 17.06 21:28:24,329| Prozess '233_2' hat einen neuen Mi 6900 um "17.06 21:28:24,330|" berechnet
-Coordinator@FloUB 17.06 21:28:24,345| Prozess '234_1' hat einen neuen Mi 6900 um "17.06 21:28:24,346|" berechnet
-Coordinator@FloUB 17.06 21:28:24,360| Prozess '237_1' hat einen neuen Mi 1200 um "17.06 21:28:24,346|" berechnet
-Coordinator@FloUB 17.06 21:28:24,407| Prozess '233_1' hat einen neuen Mi 300 um "17.06 21:28:24,408|" berechnet
-Coordinator@FloUB 17.06 21:28:24,407| Prozess '238_2' hat einen neuen Mi 1500 um "17.06 21:28:24,408|" berechnet
-Coordinator@FloUB 17.06 21:28:24,407| Prozess '232_1' hat einen neuen Mi 1200 um "17.06 21:28:24,408|" berechnet
-Coordinator@FloUB 17.06 21:28:24,407| Prozess '236_2' hat einen neuen Mi 300 um "17.06 21:28:24,408|" berechnet
-Coordinator@FloUB 17.06 21:28:24,423| Prozess '237_2' hat einen neuen Mi 300 um "17.06 21:28:24,408|" berechnet
-Coordinator@FloUB 17.06 21:28:29,345| Prozess '234_2' hat einen neuen Mi 900 um "17.06 21:28:29,346|" berechnet
-Coordinator@FloUB 17.06 21:28:29,360| Prozess '238_1' hat einen neuen Mi 6900 um "17.06 21:28:29,346|" berechnet
-Coordinator@FloUB 17.06 21:28:29,360| Prozess '239_2' hat einen neuen Mi 600 um "17.06 21:28:29,361|" berechnet
-Coordinator@FloUB 17.06 21:28:29,391| Prozess '239_1' hat einen neuen Mi 6900 um "17.06 21:28:29,377|" berechnet
-Coordinator@FloUB 17.06 21:28:29,391| Prozess '234_1' hat einen neuen Mi 900 um "17.06 21:28:29,392|" berechnet
-Coordinator@FloUB 17.06 21:28:29,438| Prozess '235_2' hat einen neuen Mi 300 um "17.06 21:28:29,439|" berechnet
-Coordinator@FloUB 17.06 21:28:29,438| Prozess '236_1' hat einen neuen Mi 1500 um "17.06 21:28:29,439|" berechnet
-Coordinator@FloUB 17.06 21:28:34,360| Prozess '232_2' hat einen neuen Mi 300 um "17.06 21:28:34,361|" berechnet
-Coordinator@FloUB 17.06 21:28:34,391| Prozess '2310_1' hat einen neuen Mi 6900 um "17.06 21:28:34,377|" berechnet
-Coordinator@FloUB 17.06 21:28:34,391| Prozess '232_1' hat einen neuen Mi 300 um "17.06 21:28:34,377|" berechnet
-Coordinator@FloUB 17.06 21:28:34,407| Prozess '237_1' hat einen neuen Mi 600 um "17.06 21:28:34,392|" berechnet
-Coordinator@FloUB 17.06 21:28:34,423| Prozess '239_1' hat einen neuen Mi 600 um "17.06 21:28:34,424|" berechnet
-Coordinator@FloUB 17.06 21:28:34,454| Prozess '238_2' hat einen neuen Mi 300 um "17.06 21:28:34,455|" berechnet
-Coordinator@FloUB 17.06 21:28:34,470| Prozess '236_1' hat einen neuen Mi 300 um "17.06 21:28:34,471|" berechnet
-Coordinator@FloUB 17.06 21:28:39,376| Prozess '234_2' hat einen neuen Mi 300 um "17.06 21:28:39,377|" berechnet
-Coordinator@FloUB 17.06 21:28:39,391| Prozess '233_2' hat einen neuen Mi 300 um "17.06 21:28:39,392|" berechnet
-Coordinator@FloUB 17.06 21:28:39,438| Prozess '234_1' hat einen neuen Mi 300 um "17.06 21:28:39,439|" berechnet
-Coordinator@FloUB 17.06 21:28:44,423| Prozess '2310_1' hat einen neuen Mi 300 um "17.06 21:28:44,424|" berechnet
-Coordinator@FloUB 17.06 21:28:44,423| Prozess '238_1' hat einen neuen Mi 300 um "17.06 21:28:44,424|" berechnet
-Coordinator@FloUB 17.06 21:28:44,454| Prozess '239_2' hat einen neuen Mi 300 um "17.06 21:28:44,439|" berechnet
-Coordinator@FloUB 17.06 21:28:44,454| Prozess '239_1' hat einen neuen Mi 300 um "17.06 21:28:44,455|" berechnet
-Coordinator@FloUB 17.06 21:28:44,470| Prozess '237_1' hat einen neuen Mi 300 um "17.06 21:28:44,455|" berechnet
-Coordinator@FloUB 17.06 21:28:54,610| GGT wurde berechnent: Mi >> 300 << berechnet durch: '236_1' um: "17.06 21:28:54,611|"
-Coordinator@FloUB 17.06 21:28:54,610| GGT wurde berechnent: Mi >> 300 << berechnet durch: '233_1' um: "17.06 21:28:54,611|"
-
-
-Coordinator@FloUB 17.06 21:31:45,048| ######################## Status: KILL ########################################
-Coordinator@FloUB 17.06 21:31:45,048| Leite kill an '2310_1' weiter
-Coordinator@FloUB 17.06 21:31:45,048| Leite kill an '2310_2' weiter
-Coordinator@FloUB 17.06 21:31:45,048| Leite kill an '231_1' weiter
-Coordinator@FloUB 17.06 21:31:45,048| Leite kill an '231_2' weiter
-Coordinator@FloUB 17.06 21:31:45,063| Leite kill an '232_1' weiter
-Coordinator@FloUB 17.06 21:31:45,063| Leite kill an '232_2' weiter
-Coordinator@FloUB 17.06 21:31:45,063| Leite kill an '233_1' weiter
-Coordinator@FloUB 17.06 21:31:45,063| Leite kill an '233_2' weiter
-Coordinator@FloUB 17.06 21:31:45,063| Leite kill an '234_1' weiter
-Coordinator@FloUB 17.06 21:31:45,063| Leite kill an '234_2' weiter
-Coordinator@FloUB 17.06 21:31:45,079| Leite kill an '235_1' weiter
-Coordinator@FloUB 17.06 21:31:45,079| Leite kill an '235_2' weiter
-Coordinator@FloUB 17.06 21:31:45,079| Leite kill an '236_1' weiter
-Coordinator@FloUB 17.06 21:31:45,079| Leite kill an '236_2' weiter
-Coordinator@FloUB 17.06 21:31:45,079| Leite kill an '237_1' weiter
-Coordinator@FloUB 17.06 21:31:45,079| Leite kill an '237_2' weiter
-Coordinator@FloUB 17.06 21:31:45,079| Leite kill an '238_1' weiter
-Coordinator@FloUB 17.06 21:31:45,079| Leite kill an '238_2' weiter
-Coordinator@FloUB 17.06 21:31:45,095| Leite kill an '239_1' weiter
-Coordinator@FloUB 17.06 21:31:45,095| Leite kill an '239_2' weiter
-Coordinator@FloUB 17.06 21:31:45,095| Unbind vom Namensdienst
+Coordinator@FloUB 18.06 19:27:36,220| ######################## Status: READY ########################################
+Coordinator@FloUB 18.06 19:27:36,220| Warte auf steuer Befehle (z.b. calc)
+Coordinator@FloUB 18.06 19:27:41,375| Schluesselwort calc empfangen mit target=100
+Coordinator@FloUB 18.06 19:27:41,376| Informiere '231_1': ueber initial Mi = 10915862100
+Coordinator@FloUB 18.06 19:27:41,376| Informiere '232_1': ueber initial Mi = 1875900
+Coordinator@FloUB 18.06 19:27:41,376| Informiere '233_1': ueber initial Mi = 4680500
+Coordinator@FloUB 18.06 19:27:41,376| 15% der GGT Prozess ausgewaehlt: ['231_1','233_1']
+Coordinator@FloUB 18.06 19:27:41,376| Informiere '231_1' mit dem Vielfachen von Target = 7500
+Coordinator@FloUB 18.06 19:27:41,376| Informiere '233_1' mit dem Vielfachen von Target = 3727102500
+Coordinator@FloUB 18.06 19:27:43,407| Prozess '231_1' hat einen neuen Mi 2100 um "18.06 19:27:43,410|" berechnet
+Coordinator@FloUB 18.06 19:27:45,423| Prozess '233_1' hat einen neuen Mi 1700 um "18.06 19:27:45,426|" berechnet
+Coordinator@FloUB 18.06 19:27:45,423| Prozess '232_1' hat einen neuen Mi 600 um "18.06 19:27:45,426|" berechnet
+Coordinator@FloUB 18.06 19:27:47,437| Prozess '231_1' hat einen neuen Mi 400 um "18.06 19:27:47,441|" berechnet
+Coordinator@FloUB 18.06 19:27:47,454| Prozess '233_1' hat einen neuen Mi 500 um "18.06 19:27:47,457|" berechnet
+Coordinator@FloUB 18.06 19:27:49,470| Prozess '233_1' hat einen neuen Mi 100 um "18.06 19:27:49,473|" berechnet
+Coordinator@FloUB 18.06 19:27:49,470| Prozess '232_1' hat einen neuen Mi 200 um "18.06 19:27:49,473|" berechnet
+Coordinator@FloUB 18.06 19:27:53,484| Prozess '231_1' hat einen neuen Mi 100 um "18.06 19:27:53,488|" berechnet
+Coordinator@FloUB 18.06 19:27:53,516| Prozess '232_1' hat einen neuen Mi 100 um "18.06 19:27:53,519|" berechnet
+Coordinator@FloUB 18.06 19:27:58,548| GGT wurde berechnent: Mi >> 100 << berechnet durch: '232_1' um: "18.06 19:27:58,551|"
+Coordinator@FloUB 18.06 19:28:12,750| Schluesselwort calc empfangen mit target=17
+Coordinator@FloUB 18.06 19:28:12,751| Informiere '231_1': ueber initial Mi = 332741
+Coordinator@FloUB 18.06 19:28:12,751| Informiere '232_1': ueber initial Mi = 3776342493495
+Coordinator@FloUB 18.06 19:28:12,751| Informiere '233_1': ueber initial Mi = 42437967
+Coordinator@FloUB 18.06 19:28:12,751| 15% der GGT Prozess ausgewaehlt: ['233_1','231_1']
+Coordinator@FloUB 18.06 19:28:12,766| Informiere '233_1' mit dem Vielfachen von Target = 907647
+Coordinator@FloUB 18.06 19:28:12,766| Informiere '231_1' mit dem Vielfachen von Target = 4047615
+Coordinator@FloUB 18.06 19:28:17,812| GGT wurde berechnent: Mi >> 100 << berechnet durch: '231_1' um: "18.06 19:28:17,816|"
+Coordinator@FloUB 18.06 19:28:17,829| GGT wurde berechnent: Mi >> 100 << berechnet durch: '233_1' um: "18.06 19:28:17,816|"

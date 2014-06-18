@@ -1,17 +1,8 @@
-Starter(1)@FloUB 17.06 21:26:19,330| NameServiceName = ns@FloUB
-Starter(1)@FloUB 17.06 21:26:19,330| NameServicePID = undefined
-Starter(1)@FloUB 17.06 21:26:21,032| NameServiceName = ns@FloUB
-Starter(1)@FloUB 17.06 21:26:21,033| NameServicePID = <11843.46.0>
-Starter(1)@FloUB 17.06 21:26:21,033| ###lookup returns: {coordinatorFM,c@FloUB}
+Starter(1)@FloUB 18.06 19:27:03,441| NameServiceName = ns@FloUB
+Starter(1)@FloUB 18.06 19:27:03,441| NameServicePID = <11912.46.0>
+Starter(1)@FloUB 18.06 19:27:03,441| ###lookup returns: {coordinator,c@FloUB}
 
-Starter(1)@FloUB 17.06 21:26:21,048| Erstelle GGT-Prozess (TimeToWork: 5 , TimeToTerminate: 15 , ProcessesToStart: 10)
-Starter(1)@FloUB 17.06 21:26:21,049| GGT-Prozess Nr: 1 wurde gestartet
-Starter(1)@FloUB 17.06 21:26:21,158| GGT-Prozess Nr: 2 wurde gestartet
-Starter(1)@FloUB 17.06 21:26:21,267| GGT-Prozess Nr: 3 wurde gestartet
-Starter(1)@FloUB 17.06 21:26:21,377| GGT-Prozess Nr: 4 wurde gestartet
-Starter(1)@FloUB 17.06 21:26:21,486| GGT-Prozess Nr: 5 wurde gestartet
-Starter(1)@FloUB 17.06 21:26:21,596| GGT-Prozess Nr: 6 wurde gestartet
-Starter(1)@FloUB 17.06 21:26:21,705| GGT-Prozess Nr: 7 wurde gestartet
-Starter(1)@FloUB 17.06 21:26:21,814| GGT-Prozess Nr: 8 wurde gestartet
-Starter(1)@FloUB 17.06 21:26:21,924| GGT-Prozess Nr: 9 wurde gestartet
-Starter(1)@FloUB 17.06 21:26:22,033| GGT-Prozess Nr: 10 wurde gestartet
+Starter(1)@FloUB 18.06 19:27:03,441| Erstelle GGT-Prozess (TimeToWork: 2 , TimeToTerminate: 3 , ProcessesToStart: 3)
+Starter(1)@FloUB 18.06 19:27:03,441| GGT-Prozess Nr: 1 wurde gestartet
+Starter(1)@FloUB 18.06 19:27:03,551| GGT-Prozess Nr: 2 wurde gestartet
+Starter(1)@FloUB 18.06 19:27:03,660| GGT-Prozess Nr: 3 wurde gestartet
