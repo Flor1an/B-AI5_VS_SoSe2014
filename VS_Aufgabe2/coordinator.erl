@@ -154,27 +154,18 @@ readyEntryPoint(State,Config) ->
 ready(State,Config) ->
 	receive
   
-	% 5.0
-    calc ->
-		Target = random:uniform(100), %Beliebige Zahl zwischen 1 und 100
-		log("Schluesselwort ~p empfangen (generiertes target=~p)",[calc,Target]),
-		% 5.1 Der Koordinator informiert alle ggT-Prozesse über ihre Startwerte (set_pmi)
-		set_pmi(State, Config, Target),
-		% 5.3 Er startet die Berechnung und sendet 15% der ggT Prozesse (mindestens 2 und zufällig gewählt) eine Zahl (Vielfaches von target) über send
-		send(State,Config, Target),
-		% loop
-		ready(State,Config);
 	  
 	% 5.0 (Für per Hand) Starten einer Berechnung über die Nachricht {calc target}.
 	%					 target ist der gewünschte ggt (dieser ist zur manuellen Überprüfung der Berechnung gedacht).
     {calc, Target} when is_integer(Target) andalso Target > 0 ->
 		log("Schluesselwort ~p empfangen mit target=~p",[calc,Target]),
+		NewState = State#state{smallesMi=null},
 		% 5.1 Der Koordinator informiert alle ggT-Prozesse über ihre Startwerte (set_pmi)
-		set_pmi(State, Config, Target),
+		set_pmi(NewState, Config, Target),
 		% 5.3 Er startet die Berechnung und sendet 15% der ggT Prozesse (mindestens 2 und zufällig gewählt) eine Zahl (Vielfaches von target) über send
-		send(State,Config, Target),
+		send(NewState,Config, Target),
 		% loop
-		ready(State,Config);
+		ready(NewState,Config);
 	
 	%Ein ggT-Prozess mit Namen ggtName informiert über sein neues Mi ggTMi um ggTZeit Uhr.
     {brief_mi, {GGTName, GGTMi, GGTZeit}} ->

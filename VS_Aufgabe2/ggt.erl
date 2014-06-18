@@ -103,6 +103,11 @@ dispatcherLoop(Config,WorkerPID,AktuellerStatus,AktuellerMi) ->
 			
 		{update_state, State} ->
 			dispatcherLoop(Config,WorkerPID,State,AktuellerMi);
+			
+		{set_pmi,Mi} -> 
+			log(Config, "°°°°°°°° CATCHED set_pmi mit ~p ",[Mi]),
+			WorkerPID ! {set_pmi,Mi},
+			dispatcherLoop(Config,WorkerPID,AktuellerStatus,AktuellerMi);
 		
 		% Rest an den eigentlichen Worker weiterleiten
 		Other -> 
@@ -218,13 +223,13 @@ process(Config,Mi)->
 			process(NewConfig,Mi);
 			
 		% 4. Der ggT-Prozess kann zu jeder Zeit zu einer neuen Berechnung aufgefordert werden! (copy n' paste von pre_process)
-		{set_pmi,Mi} -> 
-			log(Config,"WORKER: Neuer Mi wurde mitgeteilt (Neue berechnung). Mi:~p",[Mi]),
-			lookup(Config,Config#config.ggtName) ! {update_mi, Mi}, %Dispatcher Informieren
+		{set_pmi,MiNeu} -> 
+			log(Config,"WORKER: Neuer Mi wurde mitgeteilt (Neue berechnung). Mi:~p",[MiNeu]),
+			lookup(Config,Config#config.ggtName) ! {update_mi, MiNeu}, %Dispatcher Informieren
 			timer:cancel(Config#config.tttTimer),
 			{ok, Timer} = timer:send_after(timer:seconds(Config#config.ttt), votehelper),
 			NewConfig = Config#config{tttTimer=Timer, letzterEmpfangEinerZahl=now()},
-			process(NewConfig,Mi);
+			process(NewConfig,MiNeu);
 			
 		Any ->
 			log(Config,"WORKER>>>>>>>>>>>: das Komando ~p ist unbekannt!!! ",[Any]),
