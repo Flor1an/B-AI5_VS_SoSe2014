@@ -1,0 +1,221 @@
+
+
+Coordinator@workstation 18.06 22:44:13,175| ######################## Status: SETUP ########################################
+Coordinator@workstation 18.06 22:44:13,176| NameServiceNode = ns@workstation
+Coordinator@workstation 18.06 22:44:13,176| NameServiceName = nameservice
+Coordinator@workstation 18.06 22:44:13,176| NameServicePID  = <10634.46.0>
+Coordinator@workstation 18.06 22:44:13,176| Mit NameService verbunden
+
+
+Coordinator@workstation 18.06 22:44:13,176| ######################## Status: REGISTER ########################################
+Coordinator@workstation 18.06 22:44:13,176| Warte 20 sekunden lang auf Registrierungen
+Coordinator@workstation 18.06 22:44:15,018| Starter <10635.78.0> erfragt die GGT Startwerte (get_ggt_vals)
+Coordinator@workstation 18.06 22:44:15,019| ... sende ggt_vals (TTW: 2 TTT: 10 PTS: 3)
+Coordinator@workstation 18.06 22:44:15,034| Neuer GGT Prozess mit dem Name: '231_1' hat sich angemeldet (check_in)
+Coordinator@workstation 18.06 22:44:15,143| Neuer GGT Prozess mit dem Name: '232_1' hat sich angemeldet (check_in)
+Coordinator@workstation 18.06 22:44:15,254| Neuer GGT Prozess mit dem Name: '233_1' hat sich angemeldet (check_in)
+Coordinator@workstation 18.06 22:44:16,425| Starter <10635.78.0> erfragt die GGT Startwerte (get_ggt_vals)
+Coordinator@workstation 18.06 22:44:16,426| ... sende ggt_vals (TTW: 2 TTT: 10 PTS: 3)
+Coordinator@workstation 18.06 22:44:16,441| Neuer GGT Prozess mit dem Name: '231_2' hat sich angemeldet (check_in)
+Coordinator@workstation 18.06 22:44:16,535| Neuer GGT Prozess mit dem Name: '232_2' hat sich angemeldet (check_in)
+Coordinator@workstation 18.06 22:44:16,644| Neuer GGT Prozess mit dem Name: '233_2' hat sich angemeldet (check_in)
+Coordinator@workstation 18.06 22:44:18,004| Starter <10635.78.0> erfragt die GGT Startwerte (get_ggt_vals)
+Coordinator@workstation 18.06 22:44:18,004| ... sende ggt_vals (TTW: 2 TTT: 10 PTS: 3)
+Coordinator@workstation 18.06 22:44:18,018| Neuer GGT Prozess mit dem Name: '231_3' hat sich angemeldet (check_in)
+Coordinator@workstation 18.06 22:44:18,113| Neuer GGT Prozess mit dem Name: '232_3' hat sich angemeldet (check_in)
+Coordinator@workstation 18.06 22:44:18,223| Neuer GGT Prozess mit dem Name: '233_3' hat sich angemeldet (check_in)
+
+
+Coordinator@workstation 18.06 22:44:33,191| ######################## Status: INIT ########################################
+Coordinator@workstation 18.06 22:44:33,191| Warte auf dem step Befehl
+Coordinator@workstation 18.06 22:44:38,660| step erhalten. Erstelle den Ring
+Coordinator@workstation 18.06 22:44:38,660| Erstelle Ring:
+Coordinator@workstation 18.06 22:44:38,660| ## Sortierte GGTs: ['231_1','231_2','231_3','232_1','232_2','232_3','233_1','233_2','233_3']
+Coordinator@workstation 18.06 22:44:38,660| ## Gemixte GGTs: ['231_1','231_3','233_2','232_3','231_2','232_2','233_3','233_1','232_1']
+Coordinator@workstation 18.06 22:44:38,660| GGT '232_1' = linker Nachbar: '233_1' | rechter Nachbar: '231_1'
+Coordinator@workstation 18.06 22:44:38,660| GGT '233_1' = linker Nachbar: '233_3' | rechter Nachbar: '232_1'
+Coordinator@workstation 18.06 22:44:38,660| GGT '233_3' = linker Nachbar: '232_2' | rechter Nachbar: '233_1'
+Coordinator@workstation 18.06 22:44:38,660| GGT '232_2' = linker Nachbar: '231_2' | rechter Nachbar: '233_3'
+Coordinator@workstation 18.06 22:44:38,660| GGT '231_2' = linker Nachbar: '232_3' | rechter Nachbar: '232_2'
+Coordinator@workstation 18.06 22:44:38,660| GGT '232_3' = linker Nachbar: '233_2' | rechter Nachbar: '231_2'
+Coordinator@workstation 18.06 22:44:38,660| GGT '233_2' = linker Nachbar: '231_3' | rechter Nachbar: '232_3'
+Coordinator@workstation 18.06 22:44:38,660| GGT '231_3' = linker Nachbar: '231_1' | rechter Nachbar: '233_2'
+Coordinator@workstation 18.06 22:44:38,660| GGT '231_1' = linker Nachbar: '232_1' | rechter Nachbar: '231_3'
+Coordinator@workstation 18.06 22:44:38,676| GGT Prozesse ueber Nachbarn informieren
+Coordinator@workstation 18.06 22:44:38,676| Sende '231_1' seine Nachbarn: R='232_1' | L='231_3'
+Coordinator@workstation 18.06 22:44:38,676| Sende '231_2' seine Nachbarn: R='232_3' | L='232_2'
+Coordinator@workstation 18.06 22:44:38,676| Sende '231_3' seine Nachbarn: R='231_1' | L='233_2'
+Coordinator@workstation 18.06 22:44:38,690| Sende '232_1' seine Nachbarn: R='233_1' | L='231_1'
+Coordinator@workstation 18.06 22:44:38,691| Sende '232_2' seine Nachbarn: R='231_2' | L='233_3'
+Coordinator@workstation 18.06 22:44:38,691| Sende '232_3' seine Nachbarn: R='233_2' | L='231_2'
+Coordinator@workstation 18.06 22:44:38,691| Sende '233_1' seine Nachbarn: R='233_3' | L='232_1'
+Coordinator@workstation 18.06 22:44:38,691| Sende '233_2' seine Nachbarn: R='231_3' | L='232_3'
+Coordinator@workstation 18.06 22:44:38,706| Sende '233_3' seine Nachbarn: R='232_2' | L='233_1'
+
+
+Coordinator@workstation 18.06 22:44:38,707| ######################## Status: READY ########################################
+Coordinator@workstation 18.06 22:44:38,707| Warte auf steuer Befehle (z.b. calc)
+Coordinator@workstation 18.06 22:44:52,535| Schluesselwort calc empfangen mit target=100
+Coordinator@workstation 18.06 22:44:52,535| Informiere '231_1': ueber initial Mi = 1875900
+Coordinator@workstation 18.06 22:44:52,535| Informiere '231_2': ueber initial Mi = 4680500
+Coordinator@workstation 18.06 22:44:52,551| Informiere '231_3': ueber initial Mi = 2063100
+Coordinator@workstation 18.06 22:44:52,551| Informiere '232_1': ueber initial Mi = 12238996900
+Coordinator@workstation 18.06 22:44:52,551| Informiere '232_2': ueber initial Mi = 12100
+Coordinator@workstation 18.06 22:44:52,565| Informiere '232_3': ueber initial Mi = 11256602500
+Coordinator@workstation 18.06 22:44:52,566| Informiere '233_1': ueber initial Mi = 48452332500
+Coordinator@workstation 18.06 22:44:52,566| Informiere '233_2': ueber initial Mi = 3069982500
+Coordinator@workstation 18.06 22:44:52,566| Informiere '233_3': ueber initial Mi = 5339100
+Coordinator@workstation 18.06 22:44:52,581| 15% der GGT Prozess ausgewaehlt: ['231_2','232_2']
+Coordinator@workstation 18.06 22:44:52,582| Informiere '231_2' mit dem Vielfachen von Target = 440392500
+Coordinator@workstation 18.06 22:44:52,582| Informiere '232_2' mit dem Vielfachen von Target = 136900
+Coordinator@workstation 18.06 22:45:02,660| GGT wurde berechnent: Mi >> 1875900 << berechnet durch: '231_1' um: "18.06 22:45:02,658|"
+Coordinator@workstation 18.06 22:45:02,676| #### FEHLER !! Kleinster Mi = 1875900 neuer Mi von '231_3' = 2063100 ; gesendet von <10635.6372.0>
+Coordinator@workstation 18.06 22:45:02,676| #### FEHLER !! Kleinster Mi = 1875900 neuer Mi von '232_3' = 11256602500 ; gesendet von <10635.6375.0>
+Coordinator@workstation 18.06 22:45:04,706| Prozess '232_3' hat einen neuen Mi 1202500 um "18.06 22:45:04,705|" berechnet
+Coordinator@workstation 18.06 22:45:04,707| Prozess '231_3' hat einen neuen Mi 187200 um "18.06 22:45:04,705|" berechnet
+Coordinator@workstation 18.06 22:45:06,722| Prozess '231_2' hat einen neuen Mi 1073000 um "18.06 22:45:06,721|" berechnet
+Coordinator@workstation 18.06 22:45:06,723| Prozess '233_2' hat einen neuen Mi 1202500 um "18.06 22:45:06,721|" berechnet
+Coordinator@workstation 18.06 22:45:06,738| Prozess '231_1' hat einen neuen Mi 3900 um "18.06 22:45:06,721|" berechnet
+Coordinator@workstation 18.06 22:45:08,738| Prozess '232_3' hat einen neuen Mi 129500 um "18.06 22:45:08,736|" berechnet
+Coordinator@workstation 18.06 22:45:08,769| Prozess '232_1' hat einen neuen Mi 1300 um "18.06 22:45:08,767|" berechnet
+Coordinator@workstation 18.06 22:45:08,769| Prozess '233_2' hat einen neuen Mi 79300 um "18.06 22:45:08,767|" berechnet
+Coordinator@workstation 18.06 22:45:10,785| Prozess '231_2' hat einen neuen Mi 37000 um "18.06 22:45:10,783|" berechnet
+Coordinator@workstation 18.06 22:45:10,785| Prozess '233_1' hat einen neuen Mi 1300 um "18.06 22:45:10,783|" berechnet
+Coordinator@workstation 18.06 22:45:10,801| Prozess '231_3' hat einen neuen Mi 3900 um "18.06 22:45:10,799|" berechnet
+Coordinator@workstation 18.06 22:45:10,801| Prozess '231_1' hat einen neuen Mi 1300 um "18.06 22:45:10,799|" berechnet
+Coordinator@workstation 18.06 22:45:12,801| Prozess '232_3' hat einen neuen Mi 50200 um "18.06 22:45:12,799|" berechnet
+Coordinator@workstation 18.06 22:45:12,831| Prozess '233_2' hat einen neuen Mi 1300 um "18.06 22:45:12,830|" berechnet
+Coordinator@workstation 18.06 22:45:12,832| Prozess '233_3' hat einen neuen Mi 1300 um "18.06 22:45:12,830|" berechnet
+Coordinator@workstation 18.06 22:45:14,815| Prozess '232_3' hat einen neuen Mi 13200 um "18.06 22:45:14,814|" berechnet
+Coordinator@workstation 18.06 22:45:14,831| Prozess '231_3' hat einen neuen Mi 1300 um "18.06 22:45:14,830|" berechnet
+Coordinator@workstation 18.06 22:45:14,863| Prozess '232_2' hat einen neuen Mi 400 um "18.06 22:45:14,846|" berechnet
+Coordinator@workstation 18.06 22:45:16,831| Prozess '231_2' hat einen neuen Mi 10600 um "18.06 22:45:16,830|" berechnet
+Coordinator@workstation 18.06 22:45:16,832| Prozess '232_3' hat einen neuen Mi 200 um "18.06 22:45:16,830|" berechnet
+Coordinator@workstation 18.06 22:45:16,879| Prozess '233_3' hat einen neuen Mi 100 um "18.06 22:45:16,877|" berechnet
+Coordinator@workstation 18.06 22:45:18,847| Prozess '231_2' hat einen neuen Mi 200 um "18.06 22:45:18,846|" berechnet
+Coordinator@workstation 18.06 22:45:18,894| Prozess '233_1' hat einen neuen Mi 100 um "18.06 22:45:18,892|" berechnet
+Coordinator@workstation 18.06 22:45:20,863| Prozess '232_2' hat einen neuen Mi 100 um "18.06 22:45:20,861|" berechnet
+Coordinator@workstation 18.06 22:45:20,894| Prozess '233_2' hat einen neuen Mi 100 um "18.06 22:45:20,892|" berechnet
+Coordinator@workstation 18.06 22:45:20,910| Prozess '232_1' hat einen neuen Mi 100 um "18.06 22:45:20,908|" berechnet
+Coordinator@workstation 18.06 22:45:22,894| Prozess '231_2' hat einen neuen Mi 100 um "18.06 22:45:22,892|" berechnet
+Coordinator@workstation 18.06 22:45:22,910| Prozess '231_3' hat einen neuen Mi 100 um "18.06 22:45:22,908|" berechnet
+Coordinator@workstation 18.06 22:45:22,926| Prozess '232_3' hat einen neuen Mi 100 um "18.06 22:45:22,924|" berechnet
+Coordinator@workstation 18.06 22:45:22,940| Prozess '231_1' hat einen neuen Mi 100 um "18.06 22:45:22,939|" berechnet
+Coordinator@workstation 18.06 22:45:33,034| GGT wurde berechnent: Mi >> 100 << berechnet durch: '233_1' um: "18.06 22:45:33,017|"
+Coordinator@workstation 18.06 22:45:33,035| GGT wurde berechnent: Mi >> 100 << berechnet durch: '233_3' um: "18.06 22:45:33,033|"
+Coordinator@workstation 18.06 22:45:35,940| Schluesselwort calc empfangen mit target=21
+Coordinator@workstation 18.06 22:45:35,941| Informiere '231_1': ueber initial Mi = 454545
+Coordinator@workstation 18.06 22:45:35,941| Informiere '231_2': ueber initial Mi = 29545425
+Coordinator@workstation 18.06 22:45:35,941| Informiere '231_3': ueber initial Mi = 18837
+Coordinator@workstation 18.06 22:45:35,941| Informiere '232_1': ueber initial Mi = 97864902135
+Coordinator@workstation 18.06 22:45:35,941| Informiere '232_2': ueber initial Mi = 782691525
+Coordinator@workstation 18.06 22:45:35,956| Informiere '232_3': ueber initial Mi = 7666659
+Coordinator@workstation 18.06 22:45:35,957| Informiere '233_1': ueber initial Mi = 386817795
+Coordinator@workstation 18.06 22:45:35,957| Informiere '233_2': ueber initial Mi = 9343425
+Coordinator@workstation 18.06 22:45:35,957| Informiere '233_3': ueber initial Mi = 108675
+Coordinator@workstation 18.06 22:45:35,957| 15% der GGT Prozess ausgewaehlt: ['232_2','231_3']
+Coordinator@workstation 18.06 22:45:35,957| Informiere '232_2' mit dem Vielfachen von Target = 108675
+Coordinator@workstation 18.06 22:45:35,957| Informiere '231_3' mit dem Vielfachen von Target = 63888825
+Coordinator@workstation 18.06 22:45:37,988| Prozess '232_2' hat einen neuen Mi 14175 um "18.06 22:45:37,986|" berechnet
+Coordinator@workstation 18.06 22:45:40,004| Prozess '233_3' hat einen neuen Mi 9450 um "18.06 22:45:40,002|" berechnet
+Coordinator@workstation 18.06 22:45:40,004| Prozess '231_2' hat einen neuen Mi 4725 um "18.06 22:45:40,002|" berechnet
+Coordinator@workstation 18.06 22:45:42,018| Prozess '232_2' hat einen neuen Mi 4725 um "18.06 22:45:42,017|" berechnet
+Coordinator@workstation 18.06 22:45:42,050| Prozess '233_1' hat einen neuen Mi 945 um "18.06 22:45:42,049|" berechnet
+Coordinator@workstation 18.06 22:45:42,051| Prozess '232_3' hat einen neuen Mi 2709 um "18.06 22:45:42,049|" berechnet
+Coordinator@workstation 18.06 22:45:44,034| Prozess '233_3' hat einen neuen Mi 4725 um "18.06 22:45:44,033|" berechnet
+Coordinator@workstation 18.06 22:45:44,066| Prozess '232_1' hat einen neuen Mi 945 um "18.06 22:45:44,064|" berechnet
+Coordinator@workstation 18.06 22:45:44,082| Prozess '233_2' hat einen neuen Mi 84 um "18.06 22:45:44,080|" berechnet
+Coordinator@workstation 18.06 22:45:46,050| Prozess '231_2' hat einen neuen Mi 2016 um "18.06 22:45:46,049|" berechnet
+Coordinator@workstation 18.06 22:45:46,082| Prozess '233_3' hat einen neuen Mi 945 um "18.06 22:45:46,080|" berechnet
+Coordinator@workstation 18.06 22:45:46,082| Prozess '231_1' hat einen neuen Mi 945 um "18.06 22:45:46,080|" berechnet
+Coordinator@workstation 18.06 22:45:46,098| Prozess '231_3' hat einen neuen Mi 21 um "18.06 22:45:46,096|" berechnet
+Coordinator@workstation 18.06 22:45:46,098| Prozess '232_3' hat einen neuen Mi 21 um "18.06 22:45:46,096|" berechnet
+Coordinator@workstation 18.06 22:45:48,066| Prozess '232_2' hat einen neuen Mi 693 um "18.06 22:45:48,064|" berechnet
+Coordinator@workstation 18.06 22:45:48,113| Prozess '231_1' hat einen neuen Mi 21 um "18.06 22:45:48,111|" berechnet
+Coordinator@workstation 18.06 22:45:48,159| Prozess '233_2' hat einen neuen Mi 21 um "18.06 22:45:48,158|" berechnet
+Coordinator@workstation 18.06 22:45:48,191| Prozess '231_2' hat einen neuen Mi 21 um "18.06 22:45:48,189|" berechnet
+Coordinator@workstation 18.06 22:45:50,082| Prozess '233_3' hat einen neuen Mi 252 um "18.06 22:45:50,080|" berechnet
+Coordinator@workstation 18.06 22:45:50,129| Prozess '232_1' hat einen neuen Mi 21 um "18.06 22:45:50,127|" berechnet
+Coordinator@workstation 18.06 22:45:52,098| Prozess '232_2' hat einen neuen Mi 21 um "18.06 22:45:52,096|" berechnet
+Coordinator@workstation 18.06 22:45:52,129| Prozess '233_1' hat einen neuen Mi 189 um "18.06 22:45:52,127|" berechnet
+Coordinator@workstation 18.06 22:45:54,113| Prozess '233_3' hat einen neuen Mi 21 um "18.06 22:45:54,111|" berechnet
+Coordinator@workstation 18.06 22:45:54,159| Prozess '233_1' hat einen neuen Mi 21 um "18.06 22:45:54,158|" berechnet
+Coordinator@workstation 18.06 22:46:00,269| GGT wurde berechnent: Mi >> 21 << berechnet durch: '233_2' um: "18.06 22:46:00,252|"
+Coordinator@workstation 18.06 22:46:17,972| whats_on empfangen; Liste die aktuelle Status aller GGT Prozesse:
+Coordinator@workstation 18.06 22:46:17,988|   '231_1' = vote
+Coordinator@workstation 18.06 22:46:17,988|   '231_2' = vote
+Coordinator@workstation 18.06 22:46:17,988|   '231_3' = vote
+Coordinator@workstation 18.06 22:46:17,988|   '232_1' = vote
+Coordinator@workstation 18.06 22:46:17,004|   '232_2' = vote
+Coordinator@workstation 18.06 22:46:18,004|   '232_3' = vote
+Coordinator@workstation 18.06 22:46:18,004|   '233_1' = vote
+Coordinator@workstation 18.06 22:46:18,004|   '233_2' = voted
+Coordinator@workstation 18.06 22:46:18,018|   '233_3' = vote
+Coordinator@workstation 18.06 22:46:30,504| prompt empfangen; Liste die aktuelle Mi's aller GGT Prozesse:
+Coordinator@workstation 18.06 22:46:30,504|   '231_1' = 21
+Coordinator@workstation 18.06 22:46:30,504|   '231_2' = 21
+Coordinator@workstation 18.06 22:46:30,504|   '231_3' = 21
+Coordinator@workstation 18.06 22:46:30,504|   '232_1' = 21
+Coordinator@workstation 18.06 22:46:30,519|   '232_2' = 21
+Coordinator@workstation 18.06 22:46:30,519|   '232_3' = 21
+Coordinator@workstation 18.06 22:46:30,519|   '233_1' = 21
+Coordinator@workstation 18.06 22:46:30,519|   '233_2' = 21
+Coordinator@workstation 18.06 22:46:30,519|   '233_3' = 21
+Coordinator@workstation 18.06 22:49:14,363| Schluesselwort calc empfangen mit target=7
+Coordinator@workstation 18.06 22:49:14,363| Informiere '231_1': ueber initial Mi = 373737
+Coordinator@workstation 18.06 22:49:14,363| Informiere '231_2': ueber initial Mi = 185185
+Coordinator@workstation 18.06 22:49:14,363| Informiere '231_3': ueber initial Mi = 52423371
+Coordinator@workstation 18.06 22:49:14,363| Informiere '232_1': ueber initial Mi = 1203475
+Coordinator@workstation 18.06 22:49:14,363| Informiere '232_2': ueber initial Mi = 975975
+Coordinator@workstation 18.06 22:49:14,379| Informiere '232_3': ueber initial Mi = 5775
+Coordinator@workstation 18.06 22:49:14,379| Informiere '233_1': ueber initial Mi = 4408328925
+Coordinator@workstation 18.06 22:49:14,379| Informiere '233_2': ueber initial Mi = 2048701655
+Coordinator@workstation 18.06 22:49:14,379| Informiere '233_3': ueber initial Mi = 4095
+Coordinator@workstation 18.06 22:49:14,379| 15% der GGT Prozess ausgewaehlt: ['233_2','231_3']
+Coordinator@workstation 18.06 22:49:14,379| Informiere '233_2' mit dem Vielfachen von Target = 60612475
+Coordinator@workstation 18.06 22:49:14,379| Informiere '231_3' mit dem Vielfachen von Target = 518321518715
+Coordinator@workstation 18.06 22:49:16,409| Prozess '233_2' hat einen neuen Mi 48489980 um "18.06 22:49:16,408|" berechnet
+Coordinator@workstation 18.06 22:49:18,425| Prozess '231_3' hat einen neuen Mi 3933391 um "18.06 22:49:18,424|" berechnet
+Coordinator@workstation 18.06 22:49:20,441| Prozess '233_2' hat einen neuen Mi 1289288 um "18.06 22:49:20,439|" berechnet
+Coordinator@workstation 18.06 22:49:22,457| Prozess '231_3' hat einen neuen Mi 65527 um "18.06 22:49:22,455|" berechnet
+Coordinator@workstation 18.06 22:49:24,488| Prozess '233_2' hat einen neuen Mi 44275 um "18.06 22:49:24,486|" berechnet
+Coordinator@workstation 18.06 22:49:24,504| Prozess '231_1' hat einen neuen Mi 46102 um "18.06 22:49:24,486|" berechnet
+Coordinator@workstation 18.06 22:49:26,519| Prozess '232_1' hat einen neuen Mi 4823 um "18.06 22:49:26,517|" berechnet
+Coordinator@workstation 18.06 22:49:26,519| Prozess '231_3' hat einen neuen Mi 21252 um "18.06 22:49:26,517|" berechnet
+Coordinator@workstation 18.06 22:49:28,535| Prozess '233_1' hat einen neuen Mi 819 um "18.06 22:49:28,533|" berechnet
+Coordinator@workstation 18.06 22:49:28,565| Prozess '233_2' hat einen neuen Mi 1771 um "18.06 22:49:28,564|" berechnet
+Coordinator@workstation 18.06 22:49:28,566| Prozess '231_1' hat einen neuen Mi 3598 um "18.06 22:49:28,564|" berechnet
+Coordinator@workstation 18.06 22:49:30,551| Prozess '233_3' hat einen neuen Mi 819 um "18.06 22:49:30,549|" berechnet
+Coordinator@workstation 18.06 22:49:30,581| Prozess '232_1' hat einen neuen Mi 728 um "18.06 22:49:30,580|" berechnet
+Coordinator@workstation 18.06 22:49:30,597| Prozess '232_3' hat einen neuen Mi 462 um "18.06 22:49:30,596|" berechnet
+Coordinator@workstation 18.06 22:49:30,629| Prozess '231_3' hat einen neuen Mi 1771 um "18.06 22:49:30,627|" berechnet
+Coordinator@workstation 18.06 22:49:32,565| Prozess '232_2' hat einen neuen Mi 546 um "18.06 22:49:32,564|" berechnet
+Coordinator@workstation 18.06 22:49:32,597| GGT wurde berechnent: Mi >> 728 << berechnet durch: '232_1' um: "18.06 22:49:32,596|"
+Coordinator@workstation 18.06 22:49:32,613| Prozess '233_2' hat einen neuen Mi 385 um "18.06 22:49:32,611|" berechnet
+Coordinator@workstation 18.06 22:49:32,629| Prozess '231_2' hat einen neuen Mi 385 um "18.06 22:49:32,627|" berechnet
+Coordinator@workstation 18.06 22:49:32,629| Prozess '231_1' hat einen neuen Mi 686 um "18.06 22:49:32,627|" berechnet
+Coordinator@workstation 18.06 22:49:34,581| Prozess '233_3' hat einen neuen Mi 273 um "18.06 22:49:34,580|" berechnet
+Coordinator@workstation 18.06 22:49:34,582| Prozess '233_1' hat einen neuen Mi 91 um "18.06 22:49:34,580|" berechnet
+Coordinator@workstation 18.06 22:49:34,629| Prozess '232_3' hat einen neuen Mi 77 um "18.06 22:49:34,627|" berechnet
+Coordinator@workstation 18.06 22:49:34,660| Prozess '232_2' hat einen neuen Mi 161 um "18.06 22:49:34,658|" berechnet
+Coordinator@workstation 18.06 22:49:34,676| Prozess '232_1' hat einen neuen Mi 42 um "18.06 22:49:34,658|" berechnet
+Coordinator@workstation 18.06 22:49:34,690| Prozess '231_3' hat einen neuen Mi 231 um "18.06 22:49:34,689|" berechnet
+Coordinator@workstation 18.06 22:49:36,597| Prozess '233_3' hat einen neuen Mi 91 um "18.06 22:49:36,596|" berechnet
+Coordinator@workstation 18.06 22:49:36,722| Prozess '233_2' hat einen neuen Mi 77 um "18.06 22:49:36,689|" berechnet
+Coordinator@workstation 18.06 22:49:36,723| Prozess '231_2' hat einen neuen Mi 77 um "18.06 22:49:36,689|" berechnet
+Coordinator@workstation 18.06 22:49:36,723| Prozess '231_1' hat einen neuen Mi 14 um "18.06 22:49:36,705|" berechnet
+Coordinator@workstation 18.06 22:49:38,644| Prozess '233_1' hat einen neuen Mi 7 um "18.06 22:49:38,642|" berechnet
+Coordinator@workstation 18.06 22:49:38,722| Prozess '232_1' hat einen neuen Mi 14 um "18.06 22:49:38,721|" berechnet
+Coordinator@workstation 18.06 22:49:38,723| Prozess '232_2' hat einen neuen Mi 70 um "18.06 22:49:38,721|" berechnet
+Coordinator@workstation 18.06 22:49:38,738| Prozess '231_3' hat einen neuen Mi 77 um "18.06 22:49:38,721|" berechnet
+Coordinator@workstation 18.06 22:49:40,660| Prozess '233_3' hat einen neuen Mi 7 um "18.06 22:49:40,658|" berechnet
+Coordinator@workstation 18.06 22:49:40,769| Prozess '231_2' hat einen neuen Mi 7 um "18.06 22:49:40,752|" berechnet
+Coordinator@workstation 18.06 22:49:40,769| Prozess '232_1' hat einen neuen Mi 7 um "18.06 22:49:40,767|" berechnet
+Coordinator@workstation 18.06 22:49:40,785| Prozess '231_3' hat einen neuen Mi 7 um "18.06 22:49:40,767|" berechnet
+Coordinator@workstation 18.06 22:49:42,785| Prozess '232_2' hat einen neuen Mi 7 um "18.06 22:49:42,783|" berechnet
+Coordinator@workstation 18.06 22:49:42,785| Prozess '232_3' hat einen neuen Mi 7 um "18.06 22:49:42,783|" berechnet
+Coordinator@workstation 18.06 22:49:42,815| Prozess '233_2' hat einen neuen Mi 7 um "18.06 22:49:42,814|" berechnet
+Coordinator@workstation 18.06 22:49:44,785| Prozess '231_1' hat einen neuen Mi 7 um "18.06 22:49:44,783|" berechnet
+Coordinator@workstation 18.06 22:49:54,940| GGT wurde berechnent: Mi >> 7 << berechnet durch: '233_3' um: "18.06 22:49:54,939|"
+Coordinator@workstation 18.06 22:49:54,972| GGT wurde berechnent: Mi >> 7 << berechnet durch: '232_2' um: "18.06 22:49:54,971|"
+Coordinator@workstation 18.06 22:49:54,988| GGT wurde berechnent: Mi >> 7 << berechnet durch: '233_2' um: "18.06 22:49:54,986|"

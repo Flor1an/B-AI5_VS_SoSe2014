@@ -1,8 +1,0 @@
-Starter(3)@FloUB 18.06 22:44:17,002| NameServiceName = ns@FloUB
-Starter(3)@FloUB 18.06 22:44:17,002| NameServicePID = <11874.46.0>
-Starter(3)@FloUB 18.06 22:44:17,002| ###lookup returns: {coordinator,c@FloUB}
-
-Starter(3)@FloUB 18.06 22:44:18,002| Erstelle GGT-Prozess (TimeToWork: 2 , TimeToTerminate: 10 , ProcessesToStart: 3)
-Starter(3)@FloUB 18.06 22:44:18,002| GGT-Prozess Nr: 1 wurde gestartet
-Starter(3)@FloUB 18.06 22:44:18,111| GGT-Prozess Nr: 2 wurde gestartet
-Starter(3)@FloUB 18.06 22:44:18,221| GGT-Prozess Nr: 3 wurde gestartet

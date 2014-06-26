@@ -1,0 +1,8 @@
+Starter(2)@workstation 18.06 22:44:16,424| NameServiceName = ns@workstation
+Starter(2)@workstation 18.06 22:44:16,424| NameServicePID = <11874.46.0>
+Starter(2)@workstation 18.06 22:44:16,424| ###lookup returns: {coordinator,c@workstation}
+
+Starter(2)@workstation 18.06 22:44:16,424| Erstelle GGT-Prozess (TimeToWork: 2 , TimeToTerminate: 10 , ProcessesToStart: 3)
+Starter(2)@workstation 18.06 22:44:16,424| GGT-Prozess Nr: 1 wurde gestartet
+Starter(2)@workstation 18.06 22:44:16,533| GGT-Prozess Nr: 2 wurde gestartet
+Starter(2)@workstation 18.06 22:44:16,642| GGT-Prozess Nr: 3 wurde gestartet
