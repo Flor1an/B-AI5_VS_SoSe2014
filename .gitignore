@@ -4,3 +4,5 @@ deps
 *.beam
 *.plt
 erl_crash.dump
+/VS_Aufgabe3NB/VS_Aufgabe3/nbproject/private/
+/VS_Aufgabe3NB/VS_Aufgabe3/build/
