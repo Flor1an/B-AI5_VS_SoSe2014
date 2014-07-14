@@ -1,5 +1,7 @@
 package station;
 
+import manager.SlotManager;
+
 import java.io.IOException;
 import java.net.*;
 
@@ -11,12 +13,14 @@ public class Sender {
     private InetAddress host;
     private Integer port;
     private NetworkInterface face;
+    private SlotManager slotManager;
     private MulticastSocket multicastSocket;
 
     /**
      * Konstruktor
      */
     public Sender(String face, String host, Integer port){
+        this.slotManager = SlotManager.getInstance();
         try {
             this.face = NetworkInterface.getByName(face);
             this.host = InetAddress.getByName(host);
@@ -40,12 +44,14 @@ public class Sender {
     /**
      * @param message Zu sendene Nachricht
      */
-    public void send(Message message){
+    public void send(Message message, Integer nextSlot){
 
         byte[] buffer = message.getBytes();
         DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length, this.host, this.port);
 
-        try { this.multicastSocket.send(datagramPacket); }
-        catch (IOException e) { e.printStackTrace(); }
+        if(!this.slotManager.isLocked(nextSlot)){
+            try { this.multicastSocket.send(datagramPacket); }
+            catch (IOException e) { e.printStackTrace(); }
+        }
     }
 }

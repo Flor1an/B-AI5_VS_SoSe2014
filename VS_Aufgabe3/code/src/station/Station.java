@@ -33,6 +33,8 @@ public class Station extends Thread {
      */
     public Station(String iface, String host, Integer port, String type, Long utcOffset) {
 
+        System.out.println("Team3 Station start");
+
         this.type = type;
 
         this.source = new Source(new BufferedReader(new InputStreamReader(System.in)));
@@ -70,67 +72,75 @@ public class Station extends Thread {
         slotManager = SlotManager.getInstance();
         messageManager = MessageManager.getInstance();
 
-        // Berechnung für besseren Einstieg
-        try { Thread.sleep(Station.frameDuration / 100 * 95);}
-        catch (InterruptedException e) { e.printStackTrace(); }
-
-        /* Random Slot */
-        nextSlot = slotManager.getFreeSlot();
-
         /* Wait for Datenquelle */
         while (messageManager.getNextMessage() == null) {
             try { Thread.sleep(100);}
             catch (InterruptedException e) { e.printStackTrace(); }
         }
 
+        // Berechnung für besseren Einstieg
+        try {
+            Thread.sleep(clockManager.now() % Station.frameDuration);
+            Thread.sleep(Station.frameDuration / 100 * 95);
+        }catch (InterruptedException e) { e.printStackTrace(); }
+
+        /* Random Slot */
+        while((nextSlot = slotManager.getFreeSlot()) == null){
+            System.out.println("Kein freier Slot (Initial) " + (new Date()));
+            try { Thread.sleep(500); }
+            catch (InterruptedException e){ e.printStackTrace(); }
+        }
+
+        /* Loop */
         this.execution = true;
         while (this.execution) {
 
-            // Synchronen Versatz berechnen
-            clockManager.resetClockToSync();
+            // Warten bis neuer Frame beginnt
+            try { Thread.sleep(Station.frameDuration - (System.currentTimeMillis() % Station.frameDuration)); }
+            catch (InterruptedException e) {e.printStackTrace(); }
 
-            // Slots freigeben
-            slotManager.resetSlots();
+            // Berechne neue Zeit
+            clockManager.setSyncOffset((long) Math.floor(clockManager.accTime / clockManager.accCount));
 
             // Framestart setzen
             clockManager.setframeStart(clockManager.now());
             clockManager.accCount = 1;
             clockManager.accTime = clockManager.getSyncOffset();
+            Receiver.lastSlot = 0;
+
+            // Slots freigeben
+            slotManager.resetSlots();
 
             // Slot Verzögerung berechnen
-            slotDelay = (long) (((nextSlot - 1) * Station.slotDuration) + (Station.slotDuration / 2));
+            slotDelay = (long) Math.round((nextSlot * Station.slotDuration) - (Station.slotDuration / 2));
 
             // Warten bis Slotfenster erreicht
-            try { Thread.sleep(slotDelay);}
+            try { Thread.sleep(Math.max((slotDelay + clockManager.getSyncOffset()) % Station.frameDuration, 0));}
             catch (InterruptedException e) { e.printStackTrace(); }
 
             // Nachricht erstellen
-            nextSlot = slotManager.getFreeSlot();
-            nextMessage = messageManager.getNextMessage();
-            nextMessage.setType(this.type);
-            nextMessage.setSlot(nextSlot);
-            clockManager.setSyncOffset(Math.round(clockManager.accTime / (double)clockManager.accCount));
-            nextMessage.setDate(new Date(clockManager.now()));
-            this.sender.send(nextMessage);
+            if((nextSlot = slotManager.getFreeSlot()) != null){
+                nextMessage = messageManager.getNextMessage();
+                nextMessage.setType(this.type);
+                nextMessage.setSlot(nextSlot);
+                nextMessage.setDate(new Date(clockManager.now()));
+                this.sender.send(nextMessage, nextSlot);
+            }else{
+                while((nextSlot = slotManager.getFreeSlot()) == null){
+                    System.out.println("Kein freier Slot (runtime) " + (new Date()));
+                    try { Thread.sleep(500); }
+                    catch (InterruptedException e){ e.printStackTrace(); }
+                }
+            }
 
-            //*
-
+            /*
             System.out.println(
-                    "SYS " + new Date(System.currentTimeMillis()) +
+                    "" + nextMessage.getName() +
+                    " | SYS " + new Date(System.currentTimeMillis()) +
                     " | NOW " + new Date(clockManager.now()) +
                     " | OFF " + clockManager.getSyncOffset()
             );
-
-            //*/
-            
-
-            // Warten bis neuer Frame beginnt
-            remaining = Station.frameDuration - (System.currentTimeMillis() % Station.frameDuration);
-            try { Thread.sleep(remaining); }
-            catch (InterruptedException e) {e.printStackTrace(); }
-
-            // Log
-            //System.out.println("\t~~" + (slotDelay + remaining));
+            */
         }
     }
 

@@ -25,7 +25,7 @@ public class ClockManager {
         this.syncOffset = 0L;
         this.frameStart = 0L;
         this.accTime = 0L;
-        this.accCount = 0;
+        this.accCount = 1;
         this.clocksToSync = new ArrayList<Date>();
     }
 

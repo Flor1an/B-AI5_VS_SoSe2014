@@ -1,7 +1,7 @@
 package manager;
 
+import java.security.SecureRandom;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 /**
@@ -33,7 +33,7 @@ public class SlotManager {
     /**
      * @return Freien Slot berechnen (random)
      * */
-    public Integer getFreeSlot(){
+    public synchronized Integer getFreeSlot(){
         Set<Integer> set = new HashSet<Integer>();
 
         for(Integer i=1; i<26; i++){
@@ -42,7 +42,11 @@ public class SlotManager {
         
         set.removeAll(slotSet);
 
-        Integer index = new Random().nextInt(set.size());
+        if(set.size() <= 0){
+            return null;
+        }
+
+        Integer index = new SecureRandom().nextInt(set.size());
 
         return (Integer) set.toArray()[index];
     }
@@ -50,14 +54,21 @@ public class SlotManager {
     /**
      * @param index Slot reservieren
      * */
-    public void lockSlot(Integer index){
-    	slotSet.add(index);
+    public synchronized void lockSlot(Integer index){
+        slotSet.add(index);
+    }
+
+    /**
+     * @param index Slot prüfen
+     * */
+    public Boolean isLocked(Integer index){
+        return this.slotSet.contains(index);
     }
 
     /**
      * Alle Slots freigeben
      * */
-    public void resetSlots(){
+    public synchronized void resetSlots(){
         this.slotSet.clear();
     }
 }

@@ -29,14 +29,13 @@ firstIndex=$4
 lastIndex=$5
 stationClass=$6
 UTCoffsetMs=$7
-team=$8
 
 ########################################################################################################
 # TODO: Enter your team number here
 #
 # Example: teamNo="2"
 ########################################################################################################
-teamNo=$team
+teamNo="3"
 
 ########################################################################################################
 # TODO: Enter data source programme with full path, but WITHOUT parameters 
@@ -52,7 +51,7 @@ dataSource="java -cp . datasource.DataSource"
 #
 # Example: stationCmd="java aufgabe4.MyStation $interfaceName $mcastAddress $receivePort $stationClass"
 ########################################################################################################
-stationCmd="java -jar jar/Team$teamNo.jar $interfaceName $mcastAddress $receivePort $stationClass $UTCoffsetMs"
+stationCmd="java -jar jar/Team3.jar $interfaceName $mcastAddress $receivePort $stationClass $UTCoffsetMs"
 
 
 printUsage() {
